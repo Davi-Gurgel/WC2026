@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useCallback, useContext, useMemo } from "react";
 import { getAllTeams } from "@/lib/teams";
 import {
   createEmptyTournamentState,
@@ -10,11 +10,11 @@ import {
   simulateCurrentKnockoutRound
 } from "@/lib/tournament";
 import type { Match, Player, Scorer, Team, TeamGroupStats, TournamentState, WorldCupGroup } from "@/lib/types/tournament";
+import { usePersistState, STORAGE_KEY, STORAGE_VERSION } from "@/lib/hooks/usePersistState";
 
-export const STORAGE_KEY = "wc26-tournament-state-v1";
-const STORAGE_VERSION = 1;
+export { STORAGE_KEY };
 
-type StoredTournamentState = {
+export type StoredTournamentState = {
   version: typeof STORAGE_VERSION;
   state: TournamentState;
 };
@@ -32,52 +32,16 @@ type TournamentContextValue = {
 const TournamentContext = createContext<TournamentContextValue | null>(null);
 
 export function TournamentProvider({ children }: { children: React.ReactNode }) {
-  const [state, setState] = useState<TournamentState>(() => createEmptyTournamentState());
-  const [hydrated, setHydrated] = useState(false);
+  const { state, setState, hydrated } = usePersistState(
+    () => createEmptyTournamentState(),
+    isStoredTournamentState
+  );
 
-  useEffect(() => {
-    // Avoid hydrating in the same tick as render to prevent cascading update warnings.
-    const hydrateTimeout = window.setTimeout(() => {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        if (stored) {
-          const parsed: unknown = JSON.parse(stored);
-          if (isStoredTournamentState(parsed)) {
-            setState(parsed.state);
-          } else {
-            localStorage.removeItem(STORAGE_KEY);
-          }
-        }
-      } catch (error) {
-        localStorage.removeItem(STORAGE_KEY);
-        console.error("Failed to load tournament state:", error);
-      } finally {
-        setHydrated(true);
-      }
-    }, 0);
-    return () => window.clearTimeout(hydrateTimeout);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-
-    const payload: StoredTournamentState = { version: STORAGE_VERSION, state };
-    const persist = () => localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-
-    if (typeof window.requestIdleCallback === "function") {
-      const idleId = window.requestIdleCallback(persist, { timeout: 1000 });
-      return () => window.cancelIdleCallback(idleId);
-    }
-
-    const timeoutId = globalThis.setTimeout(persist, 0);
-    return () => globalThis.clearTimeout(timeoutId);
-  }, [state, hydrated]);
-
-  const startTournament = useCallback(() => setState(initializeTournament(getAllTeams())), []);
-  const resetTournament = useCallback(() => setState(createEmptyTournamentState()), []);
-  const simulateGroupDay = useCallback(() => setState((current) => simulateCurrentGroupMatchDay(current)), []);
-  const simulateAllGroups = useCallback(() => setState((current) => simulateAllGroupMatchDays(current)), []);
-  const simulateKnockoutRound = useCallback(() => setState((current) => simulateCurrentKnockoutRound(current)), []);
+  const startTournament = useCallback(() => setState(initializeTournament(getAllTeams())), [setState]);
+  const resetTournament = useCallback(() => setState(createEmptyTournamentState()), [setState]);
+  const simulateGroupDay = useCallback(() => setState((current) => simulateCurrentGroupMatchDay(current)), [setState]);
+  const simulateAllGroups = useCallback(() => setState((current) => simulateAllGroupMatchDays(current)), [setState]);
+  const simulateKnockoutRound = useCallback(() => setState((current) => simulateCurrentKnockoutRound(current)), [setState]);
 
   const value = useMemo<TournamentContextValue>(
     () => ({

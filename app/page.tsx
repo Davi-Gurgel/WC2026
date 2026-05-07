@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTournament } from "@/components/TournamentProvider";
 import { Play, Activity, LayoutGrid, Network, RotateCcw, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { FactCycler } from "@/components/ui/FactCycler";
+import { AmbientBackground } from "@/components/ui/AmbientBackground";
 
 const facts = [
   "Final match set for July 19, 2026 at MetLife Stadium, NJ.",
@@ -16,7 +18,6 @@ const facts = [
 
 export default function HomePage() {
   const { state, hydrated, startTournament, resetTournament } = useTournament();
-  const [factIndex, setFactIndex] = useState(0);
   const [showRestartConfirm, setShowRestartConfirm] = useState(false);
 
   const confirmRestartTournament = () => {
@@ -24,17 +25,9 @@ export default function HomePage() {
     setShowRestartConfirm(false);
   };
 
-  useEffect(() => {
-    const timer = window.setInterval(() => setFactIndex((current) => (current + 1) % facts.length), 6000);
-    return () => window.clearInterval(timer);
-  }, []);
-
   return (
     <main className="relative flex-1 grid place-items-center overflow-hidden px-6 py-20 text-center min-h-[calc(100vh-58px)] bg-navy">
-      {/* Vibrant Ambient Background Colors */}
-      <div className="fixed -top-[20%] -left-[10%] w-[70vw] h-[70vh] rounded-full bg-wc-blue/25 blur-[140px] pointer-events-none mix-blend-screen" />
-      <div className="fixed top-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-wc-red/20 blur-[140px] pointer-events-none mix-blend-screen" />
-      <div className="fixed -bottom-[20%] left-[10%] w-[80vw] h-[60vh] rounded-full bg-wc-green/20 blur-[140px] pointer-events-none mix-blend-screen" />
+      <AmbientBackground />
 
       <section className="relative z-10 mx-auto flex max-w-4xl flex-col items-center">
         <h1 className="font-outfit text-[clamp(3rem,8vw,6.5rem)] font-black leading-[0.9] tracking-tighter text-white">
@@ -44,13 +37,7 @@ export default function HomePage() {
           </span>
         </h1>
 
-        <div className="mt-8 flex max-w-lg items-start gap-3 text-left">
-          <span className="font-mono text-gold-light mt-[2px] opacity-70">[</span>
-          <p className="text-sm text-white/70 leading-relaxed font-mono">
-            {facts[factIndex]}
-          </p>
-          <span className="font-mono text-gold-light mt-[2px] opacity-70">]</span>
-        </div>
+        <FactCycler facts={facts} />
 
         <div className="mt-12 flex items-center gap-8 text-white/30 font-mono text-xs tracking-widest">
           <div className="flex flex-col items-center gap-2">
