@@ -14,14 +14,15 @@ This is a Next.js 16, React 19, TypeScript app for a World Cup 2026 simulator. R
 
 ## Build, Test, and Development Commands
 
-- `npm install`: install dependencies from `package-lock.json`.
-- `npm run dev`: start the local Next.js development server at `http://localhost:3000`.
-- `npm run build`: create a production Next.js build.
-- `npm run lint`: run ESLint with Next core web vitals rules.
-- `npm run typecheck`: run strict TypeScript checks without emitting files.
-- `npm test`: run the Vitest suite once.
+- `corepack enable pnpm`: enable the pinned pnpm version from `package.json`.
+- `pnpm install`: install dependencies from `pnpm-lock.yaml`.
+- `pnpm dev`: start the local Next.js development server at `http://localhost:3000`.
+- `pnpm build`: create a production Next.js build.
+- `pnpm lint`: run ESLint with Next core web vitals rules.
+- `pnpm typecheck`: run strict TypeScript checks without emitting files.
+- `pnpm test`: run the Vitest suite once.
 
-Run `npm run lint`, `npm run typecheck`, and `npm test` before opening a PR.
+Run `pnpm lint`, `pnpm typecheck`, and `pnpm test` before opening a PR.
 
 ## Coding Style & Naming Conventions
 

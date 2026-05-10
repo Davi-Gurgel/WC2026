@@ -5,17 +5,20 @@ Simulador da Copa do Mundo 2026 reescrito em Next.js.
 ## Como rodar
 
 ```bash
-npm install
-npm run dev
+corepack enable pnpm
+pnpm install
+pnpm dev
 ```
 
 Abra `http://localhost:3000`.
 
 ## Scripts
 
-- `npm run dev`: servidor local de desenvolvimento.
-- `npm run build`: build de producao do Next.js.
-- `npm run typecheck`: checagem TypeScript.
+- `pnpm dev`: servidor local de desenvolvimento.
+- `pnpm build`: build de producao do Next.js.
+- `pnpm lint`: lint com ESLint.
+- `pnpm typecheck`: checagem TypeScript.
+- `pnpm test`: suite Vitest.
 
 ## Funcionalidades
 
