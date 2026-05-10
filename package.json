@@ -7,9 +7,6 @@
     "node": ">=22.12.0",
     "pnpm": ">=11 <12"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": ["sharp", "unrs-resolver"]
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
