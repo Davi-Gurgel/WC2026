@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { STORAGE_KEY, TournamentProvider, useTournament } from "@/components/TournamentProvider";
 import { getAllTeams } from "@/lib/teams";
-import { initializeTournament } from "@/lib/tournament";
+import { initializeTournament } from "@/lib/tournament/state";
 
 describe("TournamentProvider flow", () => {
   beforeEach(() => {
@@ -62,7 +62,20 @@ describe("TournamentProvider flow", () => {
     expect(screen.getByTestId("phase").textContent).toBe("NOT_STARTED");
 
     await user.click(screen.getByRole("button", { name: "start" }));
-    expect(screen.getByTestId("phase").textContent).toBe("GROUP_STAGE");
+    await waitFor(() => expect(screen.getByTestId("phase").textContent).toBe("GROUP_STAGE"));
+    await waitFor(() => {
+      const stored = window.localStorage.getItem(STORAGE_KEY);
+      expect(stored).not.toBeNull();
+      const parsed = JSON.parse(stored ?? "{}") as {
+        version?: number;
+        state?: { allTeams?: unknown; groups?: Array<{ matches: Array<{ h: string; a: string }> }> };
+      };
+
+      expect(parsed.version).toBe(2);
+      expect(parsed.state?.allTeams).toBeUndefined();
+      expect(parsed.state?.groups?.[0]?.matches[0]).toMatchObject({ h: "MEX", a: "KOR" });
+      expect(stored?.length ?? Number.POSITIVE_INFINITY).toBeLessThan(50_000);
+    });
 
     await user.click(screen.getByRole("button", { name: "groups" }));
     expect(screen.getByTestId("phase").textContent).toBe("ROUND_OF_32");
