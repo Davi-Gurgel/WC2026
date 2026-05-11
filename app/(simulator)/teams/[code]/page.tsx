@@ -31,5 +31,5 @@ export default async function TeamDetailPage({ params }: TeamDetailPageProps) {
   const team = getTeamByCodeOrName(code);
   if (!team) notFound();
 
-  return <TeamDetailClient code={code} fallbackTeamName={team.name} />;
+  return <TeamDetailClient code={code} fallbackTeam={team} />;
 }

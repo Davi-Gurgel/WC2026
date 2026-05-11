@@ -60,14 +60,14 @@ export function Flag({ countryCode, label, className }: { countryCode?: string; 
   const flagIconCode = getFlagIconCode(countryCode);
 
   if (!flagIconCode) {
-    return <span aria-hidden="true" className={cn("inline-block aspect-[4/3] bg-white/10", className)} />;
+    return <span aria-hidden="true" className={cn("inline-block aspect-4/3 bg-white/10", className)} />;
   }
 
   return (
     <span
       aria-label={label ? `${label} flag` : undefined}
       role={label ? "img" : undefined}
-      className={cn("fi rounded-[2px] shadow-sm", `fi-${flagIconCode}`, className)}
+      className={cn("fi rounded-xs shadow-sm", `fi-${flagIconCode}`, className)}
     />
   );
 }

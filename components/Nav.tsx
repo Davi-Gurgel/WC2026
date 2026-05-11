@@ -41,7 +41,7 @@ export function Nav() {
         </button>
 
         <div className={cn(
-          "absolute inset-x-0 top-[57px] flex flex-col border-b border-glass-border bg-navy px-6 py-4 lg:static lg:flex lg:flex-row lg:items-center lg:gap-8 lg:border-none lg:bg-transparent lg:p-0",
+          "absolute inset-x-0 top-14.25 flex flex-col border-b border-glass-border bg-navy px-6 py-4 lg:static lg:flex lg:flex-row lg:items-center lg:gap-8 lg:border-none lg:bg-transparent lg:p-0",
           open ? "flex" : "hidden"
         )}>
           {links.map((link) => {
