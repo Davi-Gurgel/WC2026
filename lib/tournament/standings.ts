@@ -8,7 +8,6 @@ export function computeStandings(teams: Team[], matches: Match[]): TeamGroupStat
     stats.set(team.name, {
       teamName: team.name,
       countryCode: team.countryCode,
-      flagEmoji: team.flagEmoji,
       played: 0,
       wins: 0,
       draws: 0,

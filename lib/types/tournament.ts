@@ -17,7 +17,6 @@ export type Team = {
   countryCode: string;
   confederation: string;
   group: string;
-  flagEmoji: string;
   fifaRanking: number;
 };
 
@@ -62,7 +61,6 @@ export type Match = {
 export type TeamGroupStats = {
   teamName: string;
   countryCode?: string;
-  flagEmoji: string;
   played: number;
   wins: number;
   draws: number;

@@ -93,7 +93,6 @@ function isTeam(value: unknown): value is Team {
     isString(value.countryCode) &&
     isString(value.confederation) &&
     isString(value.group) &&
-    isString(value.flagEmoji) &&
     isFiniteNumber(value.fifaRanking)
   );
 }
@@ -103,7 +102,6 @@ function isTeamGroupStats(value: unknown): value is TeamGroupStats {
   return (
     isString(value.teamName) &&
     (value.countryCode === undefined || isString(value.countryCode)) &&
-    isString(value.flagEmoji) &&
     isFiniteNumber(value.played) &&
     isFiniteNumber(value.wins) &&
     isFiniteNumber(value.draws) &&

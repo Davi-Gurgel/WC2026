@@ -10,6 +10,11 @@ coverage/
 .vercel/
 next-env.d.ts
 
+# generated data
+data/*.sqlite
+data/*.sqlite-shm
+data/*.sqlite-wal
+
 # environment files
 .env
 .env.*

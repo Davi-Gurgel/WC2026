@@ -1,6 +1,6 @@
 import { expandCompactTournamentState, toStoredTournamentState } from "@/lib/tournament/storage-codec";
 import { isStoredTournamentState } from "@/lib/tournament/storage-guards";
-import { LEGACY_STORAGE_VERSION, STORAGE_KEY } from "@/lib/tournament/storage-schema";
+import { STORAGE_KEY } from "@/lib/tournament/storage-schema";
 import type { TournamentState } from "@/lib/types/tournament";
 
 export { STORAGE_KEY };
@@ -20,10 +20,6 @@ export async function loadStoredTournamentState(storage: Storage = localStorage)
   if (!isStoredTournamentState(parsed)) {
     storage.removeItem(STORAGE_KEY);
     return null;
-  }
-
-  if (parsed.version === LEGACY_STORAGE_VERSION) {
-    return parsed.state;
   }
 
   const { getAllTeams } = await import("@/lib/teams");

@@ -1,15 +1,9 @@
-import type { KnockoutRound, Scorer, TournamentPhase, TournamentState } from "@/lib/types/tournament";
+import type { KnockoutRound, Scorer, TournamentPhase } from "@/lib/types/tournament";
 
 export const STORAGE_KEY = "wc26-tournament-state-v1";
 export const STORAGE_VERSION = 2;
-export const LEGACY_STORAGE_VERSION = 1;
 
-export type StoredTournamentState = StoredCompactTournamentState | LegacyStoredTournamentState;
-
-export type LegacyStoredTournamentState = {
-  version: typeof LEGACY_STORAGE_VERSION;
-  state: TournamentState;
-};
+export type StoredTournamentState = StoredCompactTournamentState;
 
 export type StoredCompactTournamentState = {
   version: typeof STORAGE_VERSION;
