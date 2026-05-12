@@ -5,6 +5,8 @@ import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 
 export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
+  const roundLabel = match.knockoutRound ? formatKnockoutRound(match.knockoutRound) : `GROUP ${match.homeTeam.group}`;
+
   return (
     <div
       className={cn(
@@ -18,9 +20,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
       </div>
 
       <div className="mx-6 flex min-w-[100px] flex-col items-center justify-center gap-1">
-        <div className="font-mono text-xs uppercase tracking-widest text-white/30">
-          {match.knockoutRound ? match.knockoutRound.replace("ROUND_OF_", "R") : `GROUP ${match.homeTeam.group}`}
-        </div>
+        <div className="font-mono text-xs uppercase tracking-widest text-white/30">{roundLabel}</div>
         <div className={cn("w-full text-center font-mono text-xl font-black sm:text-2xl", match.played ? "text-wc-red" : "text-white/20")}>
           {match.played ? scoreDisplay(match) : "VS"}
         </div>
@@ -38,3 +38,8 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
     </div>
   );
 });
+
+function formatKnockoutRound(round: NonNullable<Match["knockoutRound"]>): string {
+  if (round.startsWith("ROUND_OF_")) return round.replace("ROUND_OF_", "R");
+  return round.replaceAll("_", " ");
+}
