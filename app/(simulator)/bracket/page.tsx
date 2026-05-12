@@ -173,20 +173,23 @@ export default function BracketPage() {
 
     schedule();
 
-    const observer = new ResizeObserver(() => {
-      schedule();
-    });
+    const observer =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver(() => {
+            schedule();
+          });
 
-    observer.observe(container);
+    observer?.observe(container);
     for (const node of matchRefs.current.values()) {
-      observer.observe(node);
+      observer?.observe(node);
     }
 
     window.addEventListener("resize", schedule);
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      observer.disconnect();
+      observer?.disconnect();
       window.removeEventListener("resize", schedule);
     };
   }, [groupStageComplete, updateConnectorGeometry]);
