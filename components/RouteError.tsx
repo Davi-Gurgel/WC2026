@@ -12,7 +12,7 @@ export function RouteError({ error, reset }: { error: Error & { digest?: string 
           Something went wrong
         </h1>
         <p className="mt-4 font-mono text-xs leading-relaxed text-white/55">
-          {error.message || "An unexpected error occurred while rendering this view."}
+          {process.env.NODE_ENV === "development" ? error.message : "An unexpected error occurred while rendering this view."}
         </p>
         <button
           type="button"

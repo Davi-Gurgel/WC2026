@@ -6,10 +6,10 @@ import "./globals.css";
 
 export default function GlobalError({
   error,
-  unstable_retry
+  reset
 }: {
   error: Error & { digest?: string };
-  unstable_retry: () => void;
+  reset: () => void;
 }) {
   useEffect(() => {
     console.error("Unhandled application error:", error);
@@ -30,7 +30,7 @@ export default function GlobalError({
             </p>
             <button
               type="button"
-              onClick={() => unstable_retry()}
+              onClick={() => reset()}
               className="mt-8 border border-glass-border bg-white/5 px-5 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy"
             >
               Retry
