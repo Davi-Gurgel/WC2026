@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { memo, useMemo } from "react";
+import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
 import { phaseLabel } from "@/lib/tournament/constants";
@@ -12,8 +12,32 @@ import { cn } from "@/lib/utils";
 
 import { Network, Lock, Trophy } from "lucide-react";
 
+type BracketSide = "left" | "right";
+
+type MatchRect = {
+  left: number;
+  right: number;
+  centerY: number;
+  winnerY: number;
+};
+
+type ConnectorPath = {
+  id: string;
+  path: string;
+  side: BracketSide;
+};
+
+type ConnectorRoundSets = {
+  left: Match[][];
+  right: Match[][];
+};
+
 export default function BracketPage() {
   const { state, simulateKnockoutRound } = useTournament();
+  const bracketContainerRef = useRef<HTMLDivElement>(null);
+  const matchRefs = useRef<Map<string, HTMLElement>>(new Map());
+  const [connectorPaths, setConnectorPaths] = useState<ConnectorPath[]>([]);
+  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
   const bracketSides = useMemo(
     () => ({
       left: [
@@ -31,8 +55,122 @@ export default function BracketPage() {
     }),
     [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]
   );
+  const connectorRounds = useMemo<ConnectorRoundSets>(() => {
+    const r32 = splitMatches(state.r32Matches);
+    const r16 = splitMatches(state.r16Matches);
+    const quarterFinals = splitMatches(state.quarterFinals);
+    const semiFinals = splitMatches(state.semiFinals);
+
+    return {
+      left: [r32.left, r16.left, quarterFinals.left, semiFinals.left],
+      right: [r32.right, r16.right, quarterFinals.right, semiFinals.right]
+    };
+  }, [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]);
   const groupStageComplete = state.phase !== "GROUP_STAGE" && state.phase !== "NOT_STARTED";
   const nextRoundLabel = phaseLabel(state.phase);
+  const registerMatchRef = useCallback((matchId: string, node: HTMLElement | null) => {
+    if (node) {
+      matchRefs.current.set(matchId, node);
+      return;
+    }
+
+    matchRefs.current.delete(matchId);
+  }, []);
+
+  const updateConnectorGeometry = useCallback(() => {
+    if (!groupStageComplete) {
+      setConnectorPaths([]);
+      return;
+    }
+
+    const container = bracketContainerRef.current;
+    if (!container) return;
+
+    const containerRect = container.getBoundingClientRect();
+    const nextSize = {
+      width: containerRect.width,
+      height: containerRect.height
+    };
+    const rectByMatchId = new Map<string, MatchRect>();
+
+    for (const [matchId, node] of matchRefs.current) {
+      const rect = node.getBoundingClientRect();
+      const centerY = rect.top - containerRect.top + rect.height / 2;
+      const winnerNode = node.querySelector<HTMLElement>('[data-winner="true"]');
+      const winnerRect = winnerNode?.getBoundingClientRect();
+      rectByMatchId.set(matchId, {
+        left: rect.left - containerRect.left,
+        right: rect.right - containerRect.left,
+        centerY,
+        winnerY: winnerRect ? winnerRect.top - containerRect.top + winnerRect.height / 2 : centerY
+      });
+    }
+
+    const nextPaths: ConnectorPath[] = [];
+
+    const addRoundConnectorPaths = (rounds: Match[][], side: BracketSide) => {
+      for (let level = 0; level < rounds.length - 1; level += 1) {
+        const childRound = rounds[level];
+        const parentRound = rounds[level + 1];
+
+        for (let parentIndex = 0; parentIndex < parentRound.length; parentIndex += 1) {
+          const parentMatch = parentRound[parentIndex];
+          const childAMatch = childRound[parentIndex * 2];
+          const childBMatch = childRound[parentIndex * 2 + 1];
+          if (!parentMatch || !childAMatch || !childBMatch) continue;
+
+          const parentRect = rectByMatchId.get(parentMatch.id);
+          const childARect = rectByMatchId.get(childAMatch.id);
+          const childBRect = rectByMatchId.get(childBMatch.id);
+          if (!parentRect || !childARect || !childBRect) continue;
+
+          nextPaths.push({
+            id: `${side}-${parentMatch.id}-${childAMatch.id}-${childBMatch.id}`,
+            side,
+            path: getConnectorPath(parentRect, childARect, childBRect, side)
+          });
+        }
+      }
+    };
+
+    addRoundConnectorPaths(connectorRounds.left, "left");
+    addRoundConnectorPaths(connectorRounds.right, "right");
+
+    setSvgSize((previous) =>
+      previous.width === nextSize.width && previous.height === nextSize.height ? previous : nextSize
+    );
+    setConnectorPaths(nextPaths);
+  }, [connectorRounds.left, connectorRounds.right, groupStageComplete]);
+
+  useLayoutEffect(() => {
+    const container = bracketContainerRef.current;
+    if (!container || !groupStageComplete) return;
+
+    let animationFrame = 0;
+    const schedule = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(updateConnectorGeometry);
+    };
+
+    schedule();
+
+    const observer = new ResizeObserver(() => {
+      schedule();
+    });
+
+    observer.observe(container);
+    for (const node of matchRefs.current.values()) {
+      observer.observe(node);
+    }
+
+    window.addEventListener("resize", schedule);
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      observer.disconnect();
+      window.removeEventListener("resize", schedule);
+    };
+  }, [groupStageComplete, updateConnectorGeometry]);
 
   return (
     <main className="flex-1 pb-20">
@@ -79,33 +217,70 @@ export default function BracketPage() {
             )}
 
             <section className="overflow-x-auto pb-24">
-              <div className="grid min-w-[1120px] grid-cols-[repeat(4,minmax(104px,1fr))_minmax(190px,0.85fr)_repeat(4,minmax(104px,1fr))] items-stretch gap-3 xl:min-w-0">
-                {bracketSides.left.map(([title, matches], index) => (
-                  <BracketRoundColumn key={`left-${title}`} title={title} matches={matches} density={index} side="left" />
-                ))}
+              <div ref={bracketContainerRef} className="relative min-w-[1120px] xl:min-w-0">
+                <svg
+                  aria-hidden="true"
+                  className="pointer-events-none absolute inset-0 z-0"
+                  width={svgSize.width}
+                  height={svgSize.height}
+                  viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
+                >
+                  {connectorPaths.map((connector) => (
+                    <path
+                      key={connector.id}
+                      d={connector.path}
+                      fill="none"
+                      stroke={connector.side === "left" ? "var(--color-wc-blue)" : "var(--color-wc-green)"}
+                      strokeOpacity={0.75}
+                      strokeWidth={1.75}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  ))}
+                </svg>
 
-                <div className="flex min-h-[620px] flex-col justify-center gap-6 py-10">
-                  <div className="border-b border-wc-red/60 pb-2 text-center font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-wc-red drop-shadow-sm">
-                    [Final]
-                  </div>
-                  {state.finalMatch ? (
-                    <BracketMatch match={state.finalMatch} final />
-                  ) : (
-                    <EmptyMatchSlot />
-                  )}
-                  {state.thirdPlaceMatch && (
-                    <div className="pt-4">
-                      <div className="mb-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
-                        Third Place
-                      </div>
-                      <BracketMatch match={state.thirdPlaceMatch} compact />
+                <div className="relative z-10 grid grid-cols-[repeat(4,minmax(104px,1fr))_minmax(190px,0.85fr)_repeat(4,minmax(104px,1fr))] items-stretch gap-3">
+                  {bracketSides.left.map(([title, matches], index) => (
+                    <BracketRoundColumn
+                      key={`left-${title}`}
+                      title={title}
+                      matches={matches}
+                      density={index}
+                      side="left"
+                      onMatchRef={registerMatchRef}
+                    />
+                  ))}
+
+                  <div className="relative z-10 flex min-h-[620px] flex-col justify-center gap-6 py-10">
+                    <div className="border-b border-wc-red/60 pb-2 text-center font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-wc-red drop-shadow-sm">
+                      [Final]
                     </div>
-                  )}
-                </div>
+                    {state.finalMatch ? (
+                      <BracketMatch match={state.finalMatch} final onMatchRef={registerMatchRef} />
+                    ) : (
+                      <EmptyMatchSlot />
+                    )}
+                    {state.thirdPlaceMatch && (
+                      <div className="pt-4">
+                        <div className="mb-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
+                          Third Place
+                        </div>
+                        <BracketMatch match={state.thirdPlaceMatch} compact onMatchRef={registerMatchRef} />
+                      </div>
+                    )}
+                  </div>
 
-                {bracketSides.right.map(([title, matches], index) => (
-                  <BracketRoundColumn key={`right-${title}`} title={title} matches={matches} density={3 - index} side="right" />
-                ))}
+                  {bracketSides.right.map(([title, matches], index) => (
+                    <BracketRoundColumn
+                      key={`right-${title}`}
+                      title={title}
+                      matches={matches}
+                      density={3 - index}
+                      side="right"
+                      onMatchRef={registerMatchRef}
+                    />
+                  ))}
+                </div>
               </div>
             </section>
 
@@ -144,12 +319,14 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
   title,
   matches,
   density,
-  side
+  side,
+  onMatchRef
 }: {
   title: string;
   matches: Match[];
   density: number;
-  side: "left" | "right";
+  side: BracketSide;
+  onMatchRef: (matchId: string, node: HTMLElement | null) => void;
 }) {
   const rowSpan = 2 ** (density + 1);
   const slotCount = 16 / rowSpan;
@@ -176,46 +353,10 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
               gridRow: `${index * rowSpan + 1} / span ${rowSpan}`
             }}
           >
-            {match ? <BracketMatch match={match} side={side} /> : <EmptyMatchSlot />}
+            {match ? <BracketMatch match={match} onMatchRef={onMatchRef} /> : <EmptyMatchSlot />}
           </div>
         );
       })}
-
-      {density < 3 &&
-        Array.from({ length: slotCount / 2 }, (_, index) => (
-          <BracketConnector key={`${title}-connector-${index}`} density={density} index={index} side={side} />
-        ))}
-    </div>
-  );
-});
-
-const BracketConnector = memo(function BracketConnector({
-  density,
-  index,
-  side
-}: {
-  density: number;
-  index: number;
-  side: "left" | "right";
-}) {
-  const rowSpan = 2 ** (density + 2);
-  const rowStart = index * rowSpan + 1;
-  const lineColor = side === "left" ? "border-wc-blue/30" : "border-wc-green/30";
-  const edgeClass = side === "left" ? "right-[-0.75rem]" : "left-[-0.75rem]";
-  const middleClass = side === "left" ? "right-[-1.5rem]" : "left-[-1.5rem]";
-
-  return (
-    <div
-      aria-hidden="true"
-      className="pointer-events-none relative z-0"
-      style={{
-        gridRow: `${rowStart} / span ${rowSpan}`
-      }}
-    >
-      <span className={cn("absolute top-1/4 h-1/2 border-r", edgeClass, lineColor)} />
-      <span className={cn("absolute top-1/4 w-3 border-t", edgeClass, lineColor)} />
-      <span className={cn("absolute bottom-1/4 w-3 border-t", edgeClass, lineColor)} />
-      <span className={cn("absolute top-1/2 w-3 border-t", middleClass, lineColor)} />
     </div>
   );
 });
@@ -228,24 +369,24 @@ const BracketMatch = memo(function BracketMatch({
   match,
   final = false,
   compact = false,
-  side
+  onMatchRef
 }: {
   match: Match;
   final?: boolean;
   compact?: boolean;
-  side?: "left" | "right";
+  onMatchRef?: (matchId: string, node: HTMLElement | null) => void;
 }) {
   const winner = getWinner(match);
 
   return (
     <article
+      data-match-id={match.id}
+      ref={(node) => {
+        onMatchRef?.(match.id, node);
+      }}
       className={cn(
-        "relative my-2 w-full overflow-visible rounded-sm border bg-navy-panel/80 backdrop-blur-sm transition-all hover:scale-[1.02] hover:border-white/20 hover:bg-navy-panel",
+        "relative z-10 my-2 w-full overflow-visible rounded-sm border bg-navy-panel/80 backdrop-blur-sm transition-all hover:scale-[1.02] hover:border-white/20 hover:bg-navy-panel",
         final ? "border-wc-red" : "border-glass-border/40",
-        side === "left" &&
-          "after:absolute after:right-[-1rem] after:top-1/2 after:h-px after:w-4 after:bg-glass-border/40 after:content-['']",
-        side === "right" &&
-          "before:absolute before:left-[-1rem] before:top-1/2 before:h-px before:w-4 before:bg-glass-border/40 before:content-['']",
         compact && "opacity-80"
       )}
     >
@@ -259,6 +400,25 @@ const BracketMatch = memo(function BracketMatch({
     </article>
   );
 });
+
+function getConnectorPath(parentRect: MatchRect, childARect: MatchRect, childBRect: MatchRect, side: BracketSide): string {
+  const dir = side === "left" ? 1 : -1;
+  const childAEdgeX = side === "left" ? childARect.right : childARect.left;
+  const childBEdgeX = side === "left" ? childBRect.right : childBRect.left;
+  const parentEdgeX = side === "left" ? parentRect.left : parentRect.right;
+  const joinX = childAEdgeX + dir * Math.abs(parentEdgeX - childAEdgeX) * 0.5;
+
+  const topChildY = Math.min(childARect.winnerY, childBRect.winnerY);
+  const bottomChildY = Math.max(childARect.winnerY, childBRect.winnerY);
+  const parentCenterY = parentRect.centerY;
+
+  return [
+    `M ${childAEdgeX} ${childARect.winnerY} H ${joinX}`,
+    `M ${childBEdgeX} ${childBRect.winnerY} H ${joinX}`,
+    `M ${joinX} ${topChildY} V ${bottomChildY}`,
+    `M ${joinX} ${parentCenterY} H ${parentEdgeX}`
+  ].join(" ");
+}
 
 function roundAbbreviation(round: Match["knockoutRound"]): string {
   switch (round) {
@@ -295,7 +455,10 @@ const BracketTeam = memo(function BracketTeam({
   final?: boolean;
 }) {
   return (
-    <div className={`flex items-center gap-2 px-3 py-2 transition-opacity ${loser ? "opacity-30 grayscale" : "opacity-100"}`}>
+    <div
+      data-winner={winner ? "true" : "false"}
+      className={`flex items-center gap-2 px-3 py-2 transition-opacity ${loser ? "opacity-30 grayscale" : "opacity-100"}`}
+    >
       <Flag countryCode={team.countryCode} label={team.name} className="text-lg" />
       <span className={`flex-1 font-mono text-sm font-black tracking-widest ${winner ? "text-white" : "text-white/60"}`}>{team.countryCode}</span>
       <span className={`min-w-6 text-right font-mono text-sm font-bold ${winner ? (final ? "text-wc-red" : "text-white") : "text-white/40"}`}>
