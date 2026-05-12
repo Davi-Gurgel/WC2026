@@ -101,6 +101,11 @@ export function getTournamentStats(
   };
 }
 
+export function getMatchActivityTime(match: Pick<Match, "date" | "matchNumber" | "round">): number {
+  if (match.date) return new Date(match.date).getTime();
+  return match.matchNumber ? Date.UTC(2026, 6, match.matchNumber) : match.round;
+}
+
 function collectTeamMatches(source: Match[], teamName: string, target: Match[]) {
   for (const match of source) {
     if (match.homeTeam.name === teamName || match.awayTeam.name === teamName) {

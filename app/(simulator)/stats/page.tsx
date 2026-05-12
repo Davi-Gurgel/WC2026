@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
 import { scoreDisplay } from "@/lib/tournament/matches";
-import { collectTournamentMatches, getTournamentStats } from "@/lib/tournament/selectors";
+import { collectTournamentMatches, getMatchActivityTime, getTournamentStats } from "@/lib/tournament/selectors";
 
 import { BarChart3, Trophy } from "lucide-react";
 import { StatBox } from "@/components/ui/StatBox";
@@ -132,11 +132,6 @@ export default function StatsPage() {
       </div>
     </main>
   );
-}
-
-function getMatchActivityTime(match: { date: string | null; matchNumber?: number; round: number }) {
-  if (match.date) return new Date(match.date).getTime();
-  return match.matchNumber ? Date.UTC(2026, 6, match.matchNumber) : match.round;
 }
 
 
