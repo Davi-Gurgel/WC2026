@@ -68,6 +68,6 @@ function generateGroupMatches(group: WorldCupGroup): Match[] {
 
 function addDays(date: Date, days: number): Date {
   const next = new Date(date);
-  next.setDate(next.getDate() + days);
+  next.setUTCDate(next.getUTCDate() + days);
   return next;
 }
