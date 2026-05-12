@@ -103,6 +103,6 @@ function compareHeadToHead(a: TeamGroupStats, b: TeamGroupStats, matches: Match[
     const bPts = bGoals > aGoals ? 3 : bGoals === aGoals ? 1 : 0;
     return bPts - aPts;
   }
-  if (criterion === "gd") return bGoals - aGoals - (aGoals - bGoals);
+  if (criterion === "gd") return bGoals - aGoals;
   return bGoals - aGoals;
 }

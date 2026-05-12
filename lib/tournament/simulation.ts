@@ -166,7 +166,7 @@ function countGoals(chance: number, events: number): number {
   for (let index = 0; index < events; index += 1) {
     if (Math.random() < chance) goals += 1;
   }
-  return Math.min(goals, 5);
+  return Math.min(goals, 5); // Cap at 5 goals per team to keep scorelines realistic
 }
 
 function randomLuck(): number {
