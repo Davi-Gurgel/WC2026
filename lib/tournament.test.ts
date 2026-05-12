@@ -1,16 +1,10 @@
 import { describe, expect, it, vi } from "vitest";
 import { getAllTeams } from "@/lib/teams";
-import {
-  calculateQualifiedThirds,
-  getAllGroupMatches,
-  getLoser,
-  getWinner,
-  initializeTournament,
-  simulateAllGroupMatchDays,
-  simulateCurrentGroupMatchDay,
-  simulateCurrentKnockoutRound,
-  simulatePenalties
-} from "@/lib/tournament";
+import { getLoser, getWinner } from "@/lib/tournament/matches";
+import { getAllGroupMatches } from "@/lib/tournament/selectors";
+import { simulateAllGroupMatchDays, simulateCurrentGroupMatchDay, simulateCurrentKnockoutRound, simulatePenalties } from "@/lib/tournament/simulation";
+import { calculateQualifiedThirds } from "@/lib/tournament/standings";
+import { initializeTournament } from "@/lib/tournament/state";
 import type { Match } from "@/lib/types/tournament";
 
 describe("tournament rules", () => {

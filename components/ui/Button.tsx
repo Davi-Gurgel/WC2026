@@ -13,8 +13,8 @@ type LinkButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 };
 
 const buttonVariants = {
-  gold: "border-transparent bg-gradient-to-r from-gold to-gold-light text-navy shadow-[0_6px_20px_rgba(201,162,39,0.3)] hover:-translate-y-0.5",
-  green: "border-transparent bg-gradient-to-r from-success-green to-[#3daf66] text-white shadow-[0_8px_30px_rgba(45,138,78,0.35)] hover:-translate-y-0.5",
+  gold: "border-transparent bg-linear-to-r from-gold to-gold-light text-navy shadow-[0_6px_20px_rgba(201,162,39,0.3)] hover:-translate-y-0.5",
+  green: "border-transparent bg-linear-to-r from-success-green to-[#3daf66] text-white shadow-[0_8px_30px_rgba(45,138,78,0.35)] hover:-translate-y-0.5",
   outline: "border-gold/70 bg-gold/10 text-gold hover:bg-gold hover:text-navy",
   danger: "border-danger-red/60 bg-danger-red/10 text-red-200 hover:bg-danger-red/20"
 };

@@ -67,7 +67,7 @@ export function Flag({ countryCode, label, className }: { countryCode?: string; 
     <span
       aria-label={label ? `${label} flag` : undefined}
       role={label ? "img" : undefined}
-      className={cn("fi rounded-[2px] shadow-sm", `fi-${flagIconCode}`, className)}
+      className={cn("fi rounded-sm shadow-sm", `fi-${flagIconCode}`, className)}
     />
   );
 }
