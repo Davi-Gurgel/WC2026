@@ -9,7 +9,14 @@ export async function loadStoredTournamentState(storage: Storage = localStorage)
   const stored = storage.getItem(STORAGE_KEY);
   if (!stored) return null;
 
-  const parsed: unknown = JSON.parse(stored);
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(stored);
+  } catch {
+    storage.removeItem(STORAGE_KEY);
+    return null;
+  }
+
   if (!isStoredTournamentState(parsed)) {
     storage.removeItem(STORAGE_KEY);
     return null;

@@ -54,7 +54,7 @@ export function initializeTournament(teams: Team[]): TournamentState {
 function generateGroupMatches(group: WorldCupGroup): Match[] {
   const [t0, t1, t2, t3] = group.teams;
   if (!t0 || !t1 || !t2 || !t3) return [];
-  const base = new Date("2026-06-11T00:00:00");
+  const base = new Date("2026-06-11T00:00:00Z");
 
   return [
     buildGroupMatch(t0, t1, base, group.letter, 1, 1),
