@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { memo } from "react";
 import { Flag } from "@/components/Flag";
 import { scoreDisplay } from "@/lib/tournament/matches";
@@ -39,11 +38,3 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
     </div>
   );
 });
-
-export function MatchRowWithLink({ match }: { match: Match }) {
-  return (
-    <Link href={`/teams/${match.homeTeam.countryCode}`} className="block">
-      <MatchRow match={match} />
-    </Link>
-  );
-}
