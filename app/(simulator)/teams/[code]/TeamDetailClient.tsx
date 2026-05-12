@@ -8,11 +8,9 @@ import type { Team } from "@/lib/types/tournament";
 
 export function TeamDetailClient({ code, fallbackTeam }: { code: string; fallbackTeam: Team }) {
   const { state } = useTournament();
-  const decodedCode = decodeURIComponent(code);
-
   const activeTeam = useMemo(
-    () => findTeamByCodeOrName(state, decodedCode) ?? findTeamByCodeOrName(state, code),
-    [code, decodedCode, state]
+    () => findTeamByCodeOrName(state, code),
+    [code, state]
   );
 
   const team = activeTeam ?? fallbackTeam;
