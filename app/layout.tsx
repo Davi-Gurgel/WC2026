@@ -23,7 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="pt-BR" className={`${geist.variable} ${outfit.variable} dark`}>
       <body className="antialiased font-geist min-h-dvh flex flex-col relative">
-        <div className="fixed inset-0 pointer-events-none -z-1 bg-[url('/noise.svg')] opacity-20 contrast-150 grayscale" />
+        <div className="fixed inset-0 pointer-events-none z-[-1] bg-[url('/noise.svg')] opacity-20 contrast-150 grayscale" />
         <Nav />
         <div className="flex-1 flex flex-col">
           {children}

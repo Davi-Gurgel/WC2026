@@ -18,7 +18,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
         <Flag countryCode={match.homeTeam.countryCode} label={match.homeTeam.name} className="text-xl sm:text-2xl" />
       </div>
 
-      <div className="mx-6 flex min-w-25 flex-col items-center justify-center gap-1">
+      <div className="mx-6 flex min-w-[100px] flex-col items-center justify-center gap-1">
         <div className="font-mono text-xs uppercase tracking-widest text-white/30">
           {match.knockoutRound ? match.knockoutRound.replace("ROUND_OF_", "R") : `GROUP ${match.homeTeam.group}`}
         </div>

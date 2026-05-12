@@ -101,13 +101,13 @@ function MatchLog({ group }: { group: WorldCupGroup }) {
           >
             <span className="flex min-w-0 items-center gap-1">
               <Flag countryCode={match.homeTeam.countryCode} label={match.homeTeam.name} className="h-2.5 w-3.5 shrink-0" />
-              <span className="wrap-break-word leading-tight">{displayTeamName(match.homeTeam.name)}</span>
+              <span className="break-words leading-tight">{displayTeamName(match.homeTeam.name)}</span>
             </span>
             <span className={cn("font-bold", match.played ? "text-white" : "")}>
               {match.played ? `${match.homeScore}-${match.awayScore}` : "vs"}
             </span>
             <span className="flex min-w-0 items-center justify-end gap-1 text-right">
-              <span className="wrap-break-word leading-tight">{displayTeamName(match.awayTeam.name)}</span>
+              <span className="break-words leading-tight">{displayTeamName(match.awayTeam.name)}</span>
               <Flag countryCode={match.awayTeam.countryCode} label={match.awayTeam.name} className="h-2.5 w-3.5 shrink-0" />
             </span>
           </div>

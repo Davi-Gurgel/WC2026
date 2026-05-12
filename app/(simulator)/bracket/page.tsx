@@ -71,7 +71,7 @@ export default function BracketPage() {
 
             <section className="flex items-start gap-8 overflow-x-auto pb-24 snap-x">
               {columns.map(([title, matches]) => (
-                <div className="flex flex-col min-w-60 snap-center shrink-0 min-h-150 justify-between py-10 relative group" key={title}>
+                <div className="flex flex-col min-w-60 snap-center shrink-0 min-h-[600px] justify-between py-10 relative group" key={title}>
                   {/* Subtle connection line for alignment visualization behind cards */}
                   <div className="absolute top-10 bottom-10 left-1/2 w-px bg-glass-border/30 -z-10" />
 
@@ -117,7 +117,7 @@ const BracketMatch = memo(function BracketMatch({ match, final = false }: { matc
   const winner = getWinner(match);
 
   return (
-    <article className={`my-3 overflow-hidden rounded-sm border ${final ? "border-wc-red" : "border-glass-border/40"} bg-navy-panel/80 backdrop-blur-sm transition-all hover:scale-102 hover:border-white/20 hover:bg-navy-panel`}>
+    <article className={`my-3 overflow-hidden rounded-sm border ${final ? "border-wc-red" : "border-glass-border/40"} bg-navy-panel/80 backdrop-blur-sm transition-all hover:scale-[1.02] hover:border-white/20 hover:bg-navy-panel`}>
       <div className={`flex justify-between border-b px-3 py-1.5 label-micro tracking-widest ${final ? "border-wc-red/30 bg-wc-red/10 text-wc-red" : "border-glass-border/30 bg-black/40 text-white/30"}`}>
         <span>{match.matchNumber ? `M#${match.matchNumber}` : "M#"}</span>
         <span>{final ? "FINAL MATCH" : match.knockoutRound ?? ""}</span>

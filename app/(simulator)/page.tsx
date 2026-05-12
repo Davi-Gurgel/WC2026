@@ -32,9 +32,9 @@ export default function HomePage() {
   return (
     <main className="relative flex-1 grid place-items-center overflow-hidden px-6 py-20 text-center min-h-[calc(100vh-58px)] bg-navy">
       {/* Vibrant Ambient Background Colors */}
-      <div className="fixed -top-1/5 -left-1/10 w-[70vw] h-[70vh] rounded-full bg-wc-blue/25 blur-[140px] pointer-events-none mix-blend-screen" />
-      <div className="fixed top-1/10 -right-1/10 w-[60vw] h-[60vh] rounded-full bg-wc-red/20 blur-[140px] pointer-events-none mix-blend-screen" />
-      <div className="fixed -bottom-1/5 left-1/10 w-[80vw] h-[60vh] rounded-full bg-wc-green/20 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="fixed -top-[20%] -left-[10%] w-[70vw] h-[70vh] rounded-full bg-wc-blue/25 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="fixed top-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-wc-red/20 blur-[140px] pointer-events-none mix-blend-screen" />
+      <div className="fixed -bottom-[20%] left-[10%] w-[80vw] h-[60vh] rounded-full bg-wc-green/20 blur-[140px] pointer-events-none mix-blend-screen" />
 
       <section className="relative z-10 mx-auto flex max-w-4xl flex-col items-center">
         <h1 className="font-outfit text-[clamp(3rem,8vw,6.5rem)] font-black leading-[0.9] tracking-tighter text-white">
