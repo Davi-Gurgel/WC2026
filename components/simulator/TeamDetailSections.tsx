@@ -9,7 +9,7 @@ import { Activity, ArrowLeft, Shield, Swords, UsersRound } from "lucide-react";
 export function TeamHero({ team }: { team: Team }) {
   return (
     <header className="relative overflow-hidden border-b border-glass-border bg-navy-panel/30 px-6 pb-4 pt-0 backdrop-blur-md">
-      <Flag countryCode={team.countryCode} className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 text-[18rem] opacity-3.5 grayscale" />
+      <Flag countryCode={team.countryCode} className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 text-[18rem] opacity-[0.035] grayscale" />
       <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div className="relative">
           <Link href="/teams" className="inline-flex items-center gap-2 label-micro text-white/40 transition-colors hover:text-white">
@@ -23,7 +23,7 @@ export function TeamHero({ team }: { team: Team }) {
           <h1 className="font-outfit text-5xl font-black uppercase tracking-tighter text-white md:text-7xl">{team.name}</h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-px border border-glass-border bg-glass-border sm:grid-cols-4 md:min-w-130">
+        <div className="grid grid-cols-2 gap-px border border-glass-border bg-glass-border sm:grid-cols-4 md:min-w-[32.5rem]">
           <DetailStat value={team.fifaRanking} label="FIFA Rank" />
           <DetailStat value={team.strength} label="Power" />
           <DetailStat value={team.attackStrength} label="Attack" />

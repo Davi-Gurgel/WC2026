@@ -30,7 +30,7 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main className="relative flex-1 grid place-items-center overflow-hidden px-6 py-20 text-center min-h-[calc(100vh-58px)] bg-navy">
+    <main className="relative flex-1 grid place-items-center overflow-hidden px-6 py-20 text-center min-h-[calc(100vh-57px)] bg-navy">
       {/* Vibrant Ambient Background Colors */}
       <div className="fixed -top-[20%] -left-[10%] w-[70vw] h-[70vh] rounded-full bg-wc-blue/25 blur-[140px] pointer-events-none mix-blend-screen" />
       <div className="fixed top-[10%] -right-[10%] w-[60vw] h-[60vh] rounded-full bg-wc-red/20 blur-[140px] pointer-events-none mix-blend-screen" />

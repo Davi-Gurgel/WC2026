@@ -3,7 +3,7 @@ import { AlertTriangle } from "lucide-react";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-[calc(100dvh-58px)] flex-1 items-center justify-center px-6 py-20 text-center">
+    <main className="flex min-h-[calc(100dvh-57px)] flex-1 items-center justify-center px-6 py-20 text-center">
       <section className="w-full max-w-lg border border-glass-border bg-navy-panel/40 p-8 backdrop-blur-md">
         <AlertTriangle className="mx-auto mb-5 size-8 text-wc-red" aria-hidden="true" />
         <p className="label-micro tracking-[0.3em] text-wc-red">404</p>
