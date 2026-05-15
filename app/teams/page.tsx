@@ -1,68 +1,231 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { Flag as CountryFlag } from "@/components/Flag";
+import { Flag } from "@/components/Flag";
 import { getAllTeams } from "@/lib/teams";
-import { Flag, Activity } from "lucide-react";
+import type { Team } from "@/lib/types/tournament";
 
 export const metadata: Metadata = {
   title: "Teams | WC26 Simulator",
-  description: "Roster of 48 nations in the 2026 World Cup."
+  description: "All 48 qualified nations in the 2026 World Cup.",
 };
 
+const EYEBROW: React.CSSProperties = {
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: "10px",
+  letterSpacing: "0.24em",
+  color: "#0d0d10",
+  opacity: 0.55,
+};
+
+const GROUP_LETTERS = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"] as const;
+
 export default function TeamsPage() {
-  const teams = getAllTeams();
-  const grouped = new Map<string, typeof teams>();
-  for (const team of teams) {
-    grouped.set(team.group, [...(grouped.get(team.group) ?? []), team]);
+  const all = getAllTeams();
+  const byGroup = new Map<string, Team[]>();
+  for (const team of all) {
+    const list = byGroup.get(team.group) ?? [];
+    list.push(team);
+    byGroup.set(team.group, list);
   }
 
   return (
-    <main className="flex-1 pb-20">
-      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+      <header
+        className="px-4 py-7 sm:px-6 sm:py-8"
+        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 label-micro text-white/50">
-              <Flag className="size-3" />
-              <span>Database Access</span>
-            </div>
-            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Nations Database</h1>
+            <div style={EYEBROW}>DATABASE</div>
+            <h1
+              className="mt-2"
+              style={{
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "clamp(36px, 5vw, 56px)",
+                lineHeight: 1,
+                letterSpacing: "-0.03em",
+                color: "#0d0d10",
+              }}
+            >
+              TEAMS
+            </h1>
           </div>
-          
-          <div className="flex font-mono text-xs">
-            <span className="border border-glass-border bg-white/5 px-4 py-2 uppercase tracking-widest text-[10px] text-white/50">
-              Total Count: {teams.length}
-            </span>
-          </div>
+          <span
+            className="self-start md:self-auto"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.22em",
+              padding: "5px 10px",
+              border: "1px solid #0d0d10",
+              background: "#fefaf0",
+              color: "#0d0d10",
+            }}
+          >
+            {all.length} NATIONS · 12 GROUPS
+          </span>
         </div>
       </header>
-      <div className="mx-auto max-w-7xl px-6 py-12 grid gap-16">
-        {[...grouped.entries()].map(([group, groupTeams]) => (
-          <section key={group} className="content-auto">
-            <div className="mb-6 flex items-center gap-4">
-              <h2 className="font-outfit text-xl font-black uppercase tracking-widest text-white">Group {group}</h2>
-              <div className="h-px flex-1 bg-glass-border" />
-            </div>
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-              {groupTeams.map((team) => (
-                <Link 
-                  key={team.countryCode} 
-                  href={`/teams/${team.countryCode}`} 
-                  className="group relative flex flex-col items-center justify-center border border-glass-border bg-navy-panel/40 p-8 text-center transition-all hover:-translate-y-1 hover:border-white/30 hover:bg-navy-panel"
-                >
-                  <CountryFlag countryCode={team.countryCode} label={team.name} className="mb-4 text-5xl transition-transform group-hover:scale-110" />
-                  <span className="mb-2 font-outfit text-xl font-bold uppercase tracking-tight text-white">{team.name}</span>
-                  <span className="label-micro tracking-widest text-white/40">FIFA Rank: {team.fifaRanking}</span>
-                  <div className="mt-4 flex items-center gap-2 border border-glass-border bg-black/20 px-3 py-1 label-micro tracking-widest text-white/50">
-                    <Activity className="size-3" />
-                    PWR: {team.strength}
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-        ))}
+
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div className="grid gap-8">
+          {GROUP_LETTERS.map((letter) => {
+            const teams = byGroup.get(letter) ?? [];
+            if (teams.length === 0) return null;
+
+            return (
+              <section key={letter}>
+                <div className="mb-4 flex items-center gap-3">
+                  <span
+                    aria-hidden="true"
+                    style={{ height: 4, flex: 1, background: "#0d0d10" }}
+                  />
+                  <h2
+                    style={{
+                      fontFamily: "var(--font-archivo-black)",
+                      fontSize: "16px",
+                      letterSpacing: "0.22em",
+                      color: "#0d0d10",
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    GROUP {letter}
+                  </h2>
+                  <span
+                    aria-hidden="true"
+                    style={{ height: 4, flex: 1, background: "#0d0d10" }}
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+                  {teams.map((team) => (
+                    <Link
+                      key={team.countryCode}
+                      href={`/teams/${team.countryCode}`}
+                      className="group flex flex-col bg-white transition-transform hover:-translate-y-0.5"
+                      style={{
+                        border: "2px solid #0d0d10",
+                        transitionDuration: "120ms",
+                      }}
+                    >
+                      <div
+                        className="flex items-center justify-between gap-3"
+                        style={{
+                          background: "#0d0d10",
+                          color: "#fff",
+                          padding: "8px 12px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "var(--font-jetbrains-mono)",
+                            fontSize: "10px",
+                            letterSpacing: "0.22em",
+                          }}
+                        >
+                          {team.countryCode}
+                        </span>
+                        <span
+                          style={{
+                            fontFamily: "var(--font-jetbrains-mono)",
+                            fontSize: "10px",
+                            letterSpacing: "0.18em",
+                            opacity: 0.6,
+                          }}
+                        >
+                          #{team.fifaRanking}
+                        </span>
+                      </div>
+
+                      <div className="flex flex-1 flex-col items-center justify-center gap-3 px-4 py-6 text-center">
+                        <Flag
+                          countryCode={team.countryCode}
+                          label={team.name}
+                          className="text-4xl transition-transform group-hover:scale-110"
+                        />
+                        <div
+                          className="break-words"
+                          style={{
+                            fontFamily: "var(--font-archivo-black)",
+                            fontSize: "16px",
+                            letterSpacing: "-0.01em",
+                            color: "#0d0d10",
+                            lineHeight: 1.1,
+                          }}
+                        >
+                          {team.name.toUpperCase()}
+                        </div>
+                      </div>
+
+                      <div
+                        className="grid grid-cols-2"
+                        style={{ borderTop: "1px solid rgba(13,13,16,0.12)" }}
+                      >
+                        <div
+                          className="text-center"
+                          style={{
+                            padding: "8px 6px",
+                            borderRight: "1px solid rgba(13,13,16,0.12)",
+                          }}
+                        >
+                          <div
+                            style={{
+                              fontFamily: "var(--font-jetbrains-mono)",
+                              fontSize: "9px",
+                              letterSpacing: "0.22em",
+                              color: "#0d0d10",
+                              opacity: 0.5,
+                            }}
+                          >
+                            POWER
+                          </div>
+                          <div
+                            style={{
+                              fontFamily: "var(--font-archivo-black)",
+                              fontSize: "18px",
+                              letterSpacing: "-0.02em",
+                              color: "#0d0d10",
+                              lineHeight: 1,
+                            }}
+                          >
+                            {team.strength}
+                          </div>
+                        </div>
+                        <div className="text-center" style={{ padding: "8px 6px" }}>
+                          <div
+                            style={{
+                              fontFamily: "var(--font-jetbrains-mono)",
+                              fontSize: "9px",
+                              letterSpacing: "0.22em",
+                              color: "#0d0d10",
+                              opacity: 0.5,
+                            }}
+                          >
+                            CONF
+                          </div>
+                          <div
+                            style={{
+                              fontFamily: "var(--font-archivo-black)",
+                              fontSize: "13px",
+                              letterSpacing: "0.04em",
+                              color: "#D52B1E",
+                              lineHeight: 1.15,
+                            }}
+                          >
+                            {team.confederation}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            );
+          })}
+        </div>
       </div>
     </main>
-
   );
 }

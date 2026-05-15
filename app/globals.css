@@ -33,9 +33,9 @@
 
 @layer base {
   body {
-    background-color: var(--color-navy);
-    color: #e2e8f0;
-    font-family: var(--font-geist), sans-serif;
+    background-color: var(--color-wc-cream);
+    color: var(--color-wc-ink);
+    font-family: var(--font-space-grotesk), sans-serif;
     letter-spacing: -0.01em;
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
