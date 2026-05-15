@@ -4,93 +4,233 @@ import { useMemo } from "react";
 import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
 import { scoreDisplay } from "@/lib/tournament/matches";
-import { collectTournamentMatches, getMatchActivityTime, getTournamentStats } from "@/lib/tournament/selectors";
-
-import { BarChart3, Trophy } from "lucide-react";
+import {
+  collectTournamentMatches,
+  getMatchActivityTime,
+  getTournamentStats,
+} from "@/lib/tournament/selectors";
 import { StatBox } from "@/components/ui/StatBox";
+
+const EYEBROW: React.CSSProperties = {
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: "10px",
+  letterSpacing: "0.24em",
+  color: "#0d0d10",
+  opacity: 0.55,
+};
+
+const SECTION_TITLE: React.CSSProperties = {
+  fontFamily: "var(--font-archivo-black)",
+  fontSize: "18px",
+  letterSpacing: "0.04em",
+  color: "#0d0d10",
+};
 
 export default function StatsPage() {
   const { state } = useTournament();
   const { stats, latestMatches } = useMemo(() => {
     const matchCollections = collectTournamentMatches(state);
 
-    const latestMatches = [...matchCollections.playedKnockoutMatches, ...matchCollections.playedGroupMatches]
+    const latestMatches = [
+      ...matchCollections.playedKnockoutMatches,
+      ...matchCollections.playedGroupMatches,
+    ]
       .sort((a, b) => getMatchActivityTime(b) - getMatchActivityTime(a))
       .slice(0, 8);
 
     return {
       stats: getTournamentStats(state, matchCollections),
-      latestMatches
+      latestMatches,
     };
   }, [state]);
 
   return (
-    <main className="flex-1 pb-20">
-      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+      <header
+        className="px-4 py-7 sm:px-6 sm:py-8"
+        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 label-micro text-white/50">
-              <BarChart3 className="size-3" />
-              <span>Metrics System</span>
-            </div>
-            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Global Analytics</h1>
+            <div style={EYEBROW}>ANALYTICS</div>
+            <h1
+              className="mt-2"
+              style={{
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "clamp(36px, 5vw, 56px)",
+                lineHeight: 1,
+                letterSpacing: "-0.03em",
+                color: "#0d0d10",
+              }}
+            >
+              STATISTICS
+            </h1>
           </div>
-          <div className="flex font-mono text-xs">
-            <span className="border border-glass-border bg-white/5 px-4 py-2 uppercase tracking-widest text-[10px] text-white/50">
-              {stats.phase}
-            </span>
-          </div>
+          <span
+            className="self-start md:self-auto"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.22em",
+              padding: "5px 10px",
+              border: "1px solid #0d0d10",
+              background: "#fefaf0",
+              color: "#0d0d10",
+            }}
+          >
+            {stats.phase.toUpperCase()}
+          </span>
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-12">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {state.champion && (
-          <section className="mb-8 border border-wc-red bg-wc-red/5 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <section
+            className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"
+            style={{
+              background: "#fff",
+              border: "3px solid #0d0d10",
+              boxShadow: "8px 8px 0 0 #D52B1E",
+              padding: "22px 24px",
+            }}
+          >
             <div className="flex items-center gap-4">
-              <Trophy className="size-8 text-wc-red" />
-              <div>
-                <div className="label-micro tracking-widest text-wc-red">World Champion</div>
-                <h2 className="font-outfit text-2xl font-black uppercase text-white">{state.champion.name}</h2>
+              <Flag
+                countryCode={state.champion.countryCode}
+                label={state.champion.name}
+                className="text-5xl shrink-0"
+              />
+              <div className="min-w-0">
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono)",
+                    fontSize: "10px",
+                    letterSpacing: "0.24em",
+                    color: "#D52B1E",
+                    marginBottom: "4px",
+                  }}
+                >
+                  WORLD CHAMPION
+                </div>
+                <h2
+                  className="break-words"
+                  style={{
+                    fontFamily: "var(--font-archivo-black)",
+                    fontSize: "clamp(28px, 4vw, 40px)",
+                    lineHeight: 0.95,
+                    letterSpacing: "-0.02em",
+                    color: "#0d0d10",
+                  }}
+                >
+                  {state.champion.name.toUpperCase()}
+                </h2>
               </div>
             </div>
-            <Flag countryCode={state.champion.countryCode} label={state.champion.name} className="text-5xl" />
           </section>
         )}
 
-        <section className="mb-12 grid grid-cols-1 gap-px bg-glass-border border border-glass-border md:grid-cols-3">
-          <StatBox value={stats.totalMatches} label="Matches Resolved" className="p-8" />
-          <StatBox value={stats.totalGoals} label="Total Goals" className="p-8" />
-          <StatBox value={stats.averageGoals.toFixed(1)} label="Avg Goals/Match" className="p-8" />
+        <section className="mb-10 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          <StatBox value={stats.totalMatches} label="Matches Resolved" />
+          <StatBox value={stats.totalGoals} label="Total Goals" />
+          <StatBox value={stats.averageGoals.toFixed(1)} label="Avg Goals / Match" />
         </section>
 
-        <section className="grid gap-12 lg:grid-cols-2 lg:gap-8">
+        <section className="grid gap-8 lg:grid-cols-2">
+          {/* Top Scorers */}
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <h2 className="font-outfit text-xl font-bold uppercase tracking-widest text-white">Top Scorers</h2>
-              <div className="h-px flex-1 bg-glass-border" />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <h2 style={SECTION_TITLE}>TOP SCORERS</h2>
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
             </div>
-            <div className="border border-glass-border bg-navy-panel/40">
-              <table className="w-full text-left font-mono text-[10px] uppercase">
-                <thead className="border-b border-glass-border bg-white/5 text-white/40">
-                  <tr>
-                    <th className="px-3 py-2 font-normal text-left">#</th>
-                    <th className="px-3 py-2 font-normal text-left">Player</th>
-                    <th className="px-3 py-2 font-normal text-left">Team</th>
-                    <th className="px-3 py-2 font-normal text-right">Goals</th>
+            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid #0d0d10" }}>
+              <table className="w-full text-left">
+                <thead style={{ background: "#0d0d10", color: "#fff" }}>
+                  <tr
+                    style={{
+                      fontFamily: "var(--font-jetbrains-mono)",
+                      fontSize: "10px",
+                      letterSpacing: "0.22em",
+                    }}
+                  >
+                    <th className="px-3 py-2 font-normal opacity-60">#</th>
+                    <th className="px-3 py-2 font-normal">PLAYER</th>
+                    <th className="px-3 py-2 font-normal">TEAM</th>
+                    <th className="px-3 py-2 text-right font-normal">GOALS</th>
                   </tr>
                 </thead>
                 <tbody>
                   {state.topScorers.slice(0, 20).map((scorer, index) => (
-                    <tr key={`${scorer.playerName}-${scorer.teamName}`} className="border-b border-glass-border/50 hover:bg-white/5">
-                      <td className="px-3 py-3 text-white/40">{index + 1}</td>
-                      <td className="px-3 py-3 font-bold text-white">{scorer.playerName}</td>
-                      <td className="px-3 py-3 text-white/60">{scorer.teamName}</td>
-                      <td className="px-3 py-3 text-right text-lg font-black text-white">{scorer.goals}</td>
+                    <tr
+                      key={`${scorer.playerName}-${scorer.teamName}`}
+                      style={{
+                        background: index % 2 === 0 ? "#fff" : "#fefaf0",
+                        borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
+                      }}
+                    >
+                      <td
+                        className="px-3 py-3"
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono)",
+                          fontSize: "11px",
+                          color: "#0d0d10",
+                          opacity: 0.55,
+                        }}
+                      >
+                        {(index + 1).toString().padStart(2, "0")}
+                      </td>
+                      <td
+                        className="px-3 py-3"
+                        style={{
+                          fontFamily: "var(--font-space-grotesk)",
+                          fontSize: "13px",
+                          fontWeight: 600,
+                          color: "#0d0d10",
+                        }}
+                      >
+                        {scorer.playerName}
+                      </td>
+                      <td
+                        className="px-3 py-3"
+                        style={{
+                          fontFamily: "var(--font-space-grotesk)",
+                          fontSize: "12px",
+                          color: "#0d0d10",
+                          opacity: 0.7,
+                        }}
+                      >
+                        {scorer.teamName}
+                      </td>
+                      <td
+                        className="px-3 py-3 text-right"
+                        style={{
+                          fontFamily: "var(--font-archivo-black)",
+                          fontSize: "16px",
+                          color: "#D52B1E",
+                          letterSpacing: "-0.02em",
+                        }}
+                      >
+                        {scorer.goals}
+                      </td>
                     </tr>
                   ))}
                   {!state.topScorers.length && (
                     <tr>
-                      <td colSpan={4} className="px-3 py-12 text-center text-white/30 border-b border-glass-border/50">AWAITING DATA</td>
+                      <td
+                        colSpan={4}
+                        className="px-3 py-12 text-center"
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono)",
+                          fontSize: "10px",
+                          letterSpacing: "0.24em",
+                          color: "#0d0d10",
+                          opacity: 0.45,
+                        }}
+                      >
+                        AWAITING DATA
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -98,30 +238,88 @@ export default function StatsPage() {
             </div>
           </div>
 
+          {/* Recent Activity */}
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <h2 className="font-outfit text-xl font-bold uppercase tracking-widest text-white">Recent Activity</h2>
-              <div className="h-px flex-1 bg-glass-border" />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <h2 style={SECTION_TITLE}>RECENT ACTIVITY</h2>
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
             </div>
-            <div className="border border-glass-border bg-navy-panel/40">
-              <table className="w-full text-left font-mono text-[10px] uppercase">
-                <thead className="border-b border-glass-border bg-white/5 text-white/40">
-                  <tr>
-                    <th className="px-3 py-2 font-normal text-right">Home</th>
-                    <th className="px-3 py-2 font-normal text-center w-20">Score</th>
-                    <th className="px-3 py-2 font-normal">Away</th>
+            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid #0d0d10" }}>
+              <table className="w-full text-left">
+                <thead style={{ background: "#0d0d10", color: "#fff" }}>
+                  <tr
+                    style={{
+                      fontFamily: "var(--font-jetbrains-mono)",
+                      fontSize: "10px",
+                      letterSpacing: "0.22em",
+                    }}
+                  >
+                    <th className="px-3 py-2 text-right font-normal">HOME</th>
+                    <th className="w-20 px-3 py-2 text-center font-normal">SCORE</th>
+                    <th className="px-3 py-2 font-normal">AWAY</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {latestMatches.length ? latestMatches.map((match) => (
-                    <tr key={match.id} className="border-b border-glass-border/50 hover:bg-white/5">
-                      <td className="px-3 py-3 text-right text-white/80">{match.homeTeam.name}</td>
-                      <td className="px-3 py-3 text-center font-bold text-wc-red">{scoreDisplay(match)}</td>
-                      <td className="px-3 py-3 text-white/80">{match.awayTeam.name}</td>
-                    </tr>
-                  )) : (
+                  {latestMatches.length ? (
+                    latestMatches.map((match, index) => (
+                      <tr
+                        key={match.id}
+                        style={{
+                          background: index % 2 === 0 ? "#fff" : "#fefaf0",
+                          borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
+                        }}
+                      >
+                        <td
+                          className="px-3 py-3 text-right"
+                          style={{
+                            fontFamily: "var(--font-space-grotesk)",
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            color: "#0d0d10",
+                          }}
+                        >
+                          {match.homeTeam.name}
+                        </td>
+                        <td
+                          className="px-3 py-3 text-center"
+                          style={{
+                            fontFamily: "var(--font-archivo-black)",
+                            fontSize: "15px",
+                            color: "#D52B1E",
+                            letterSpacing: "-0.02em",
+                          }}
+                        >
+                          {scoreDisplay(match)}
+                        </td>
+                        <td
+                          className="px-3 py-3"
+                          style={{
+                            fontFamily: "var(--font-space-grotesk)",
+                            fontSize: "13px",
+                            fontWeight: 600,
+                            color: "#0d0d10",
+                          }}
+                        >
+                          {match.awayTeam.name}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
                     <tr>
-                      <td className="px-3 py-12 text-center text-white/30 border-b border-glass-border/50" colSpan={3}>AWAITING DATA</td>
+                      <td
+                        colSpan={3}
+                        className="px-3 py-12 text-center"
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono)",
+                          fontSize: "10px",
+                          letterSpacing: "0.24em",
+                          color: "#0d0d10",
+                          opacity: 0.45,
+                        }}
+                      >
+                        AWAITING DATA
+                      </td>
                     </tr>
                   )}
                 </tbody>
@@ -133,5 +331,3 @@ export default function StatsPage() {
     </main>
   );
 }
-
-
