@@ -3,29 +3,88 @@ import type { AnchorHTMLAttributes, ButtonHTMLAttributes } from "react";
 import type { UrlObject } from "url";
 import { cn } from "@/lib/utils";
 
+export type ButtonVariant = "primary" | "secondary" | "danger" | "ghost";
+
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "gold" | "green" | "outline" | "danger";
+  variant?: ButtonVariant;
 };
 
 type LinkButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
   href: string | UrlObject;
-  variant?: ButtonProps["variant"];
+  variant?: ButtonVariant;
 };
 
-const buttonVariants = {
-  gold: "border-transparent bg-linear-to-r from-gold to-gold-light text-navy shadow-[0_6px_20px_rgba(201,162,39,0.3)] hover:-translate-y-0.5",
-  green: "border-transparent bg-linear-to-r from-success-green to-[#3daf66] text-white shadow-[0_8px_30px_rgba(45,138,78,0.35)] hover:-translate-y-0.5",
-  outline: "border-gold/70 bg-gold/10 text-gold hover:bg-gold hover:text-navy",
-  danger: "border-danger-red/60 bg-danger-red/10 text-red-200 hover:bg-danger-red/20"
+const VARIANT_STYLE: Record<ButtonVariant, React.CSSProperties> = {
+  primary: {
+    background: "#0d0d10",
+    color: "#fff",
+    border: "none",
+    boxShadow: "6px 6px 0 0 #D52B1E",
+  },
+  secondary: {
+    background: "#fff",
+    color: "#0d0d10",
+    border: "2px solid #0d0d10",
+  },
+  danger: {
+    background: "#fff",
+    color: "#D52B1E",
+    border: "2px solid #0d0d10",
+    boxShadow: "4px 4px 0 0 #D52B1E",
+  },
+  ghost: {
+    background: "transparent",
+    color: "#0d0d10",
+    border: "2px solid #0d0d10",
+  },
+};
+
+const baseStyle: React.CSSProperties = {
+  fontFamily: "var(--font-archivo-black)",
+  fontSize: "14px",
+  letterSpacing: "0.04em",
+  padding: "12px 22px",
+  cursor: "pointer",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: "8px",
+  textTransform: "uppercase",
+  transition: "transform 120ms ease-out, opacity 120ms ease-out",
+  whiteSpace: "nowrap",
 };
 
 const buttonBase =
-  "inline-flex min-h-10 items-center justify-center rounded-lg border px-4 py-2 text-sm font-bold transition disabled:pointer-events-none disabled:opacity-45";
+  "hover:-translate-y-0.5 disabled:pointer-events-none disabled:opacity-45";
 
-export function Button({ className = "", variant = "outline", ...props }: ButtonProps) {
-  return <button className={cn(buttonBase, buttonVariants[variant], className)} {...props} />;
+export function Button({
+  className = "",
+  variant = "secondary",
+  style,
+  ...props
+}: ButtonProps) {
+  return (
+    <button
+      className={cn(buttonBase, className)}
+      style={{ ...baseStyle, ...VARIANT_STYLE[variant], ...style }}
+      {...props}
+    />
+  );
 }
 
-export function LinkButton({ className = "", variant = "outline", href, ...props }: LinkButtonProps) {
-  return <Link href={href} className={cn(buttonBase, buttonVariants[variant], className)} {...props} />;
+export function LinkButton({
+  className = "",
+  variant = "secondary",
+  href,
+  style,
+  ...props
+}: LinkButtonProps) {
+  return (
+    <Link
+      href={href}
+      className={cn(buttonBase, className)}
+      style={{ ...baseStyle, ...VARIANT_STYLE[variant], ...style }}
+      {...props}
+    />
+  );
 }

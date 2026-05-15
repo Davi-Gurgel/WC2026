@@ -1,33 +1,78 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { Flag } from "@/components/Flag";
 import { scoreDisplay } from "@/lib/tournament/matches";
 import type { Match, Team } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
-import { Activity, ArrowLeft, Shield, Swords, UsersRound } from "lucide-react";
+import { ArrowLeft, Shield } from "lucide-react";
+import { StatBox } from "@/components/ui/StatBox";
 
 export function TeamHero({ team }: { team: Team }) {
   return (
-    <header className="relative overflow-hidden border-b border-glass-border bg-navy-panel/30 px-6 pb-4 pt-0 backdrop-blur-md">
-      <Flag countryCode={team.countryCode} className="pointer-events-none absolute -right-10 top-1/2 -translate-y-1/2 text-[18rem] opacity-[0.035] grayscale" />
-      <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div className="relative">
-          <Link href="/teams" className="inline-flex items-center gap-2 label-micro text-white/40 transition-colors hover:text-white">
+    <header
+      className="relative overflow-hidden"
+      style={{
+        background: "#fefaf0",
+        borderBottom: "3px solid #0d0d10",
+        padding: "28px 24px",
+      }}
+    >
+      <Flag
+        countryCode={team.countryCode}
+        className="pointer-events-none absolute -right-12 top-1/2 hidden -translate-y-1/2 text-[16rem] opacity-[0.07] grayscale md:block"
+      />
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 md:flex-row md:items-end md:justify-between">
+        <div className="relative min-w-0">
+          <Link
+            href="/teams"
+            className="inline-flex items-center gap-2 transition-opacity hover:opacity-60"
+            style={{
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.24em",
+              color: "#0d0d10",
+              opacity: 0.55,
+            }}
+          >
             <ArrowLeft className="size-3" />
-            Database
+            DATABASE
           </Link>
-          <div className="mb-3 mt-1 flex items-center gap-3 label-micro text-wc-blue">
-            <Flag countryCode={team.countryCode} label={team.name} className="text-2xl" />
-            <span>{team.confederation} / Group {team.group}</span>
+          <div
+            className="mt-3 flex flex-wrap items-center gap-2"
+            style={{
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.22em",
+              color: "#0d0d10",
+            }}
+          >
+            <Flag countryCode={team.countryCode} label={team.name} className="text-xl" />
+            <span
+              className="px-2 py-1"
+              style={{ background: "#D52B1E", color: "#fff" }}
+            >
+              GROUP {team.group}
+            </span>
+            <span style={{ opacity: 0.55 }}>{team.confederation}</span>
           </div>
-          <h1 className="font-outfit text-5xl font-black uppercase tracking-tighter text-white md:text-7xl">{team.name}</h1>
+          <h1
+            className="mt-4 break-words"
+            style={{
+              fontFamily: "var(--font-archivo-black)",
+              fontSize: "clamp(40px, 7vw, 80px)",
+              lineHeight: 0.85,
+              letterSpacing: "-0.04em",
+              color: "#0d0d10",
+            }}
+          >
+            {team.name.toUpperCase()}
+          </h1>
         </div>
 
-        <div className="grid grid-cols-2 gap-px border border-glass-border bg-glass-border sm:grid-cols-4 md:min-w-[32.5rem]">
-          <DetailStat value={team.fifaRanking} label="FIFA Rank" />
-          <DetailStat value={team.strength} label="Power" />
-          <DetailStat value={team.attackStrength} label="Attack" />
-          <DetailStat value={team.defenseStrength} label="Defense" />
+        <div className="grid w-full grid-cols-2 gap-2 sm:grid-cols-4 md:w-auto md:min-w-[32rem]">
+          <StatBox value={team.fifaRanking} label="FIFA RANK" />
+          <StatBox value={team.strength} label="POWER" />
+          <StatBox value={team.attackStrength} label="ATTACK" />
+          <StatBox value={team.defenseStrength} label="DEFENSE" />
         </div>
       </div>
     </header>
@@ -38,27 +83,98 @@ export function TeamSquadSection({ team }: { team: Team }) {
   const groupedPlayers = groupPlayersByPosition(team.players);
 
   return (
-    <section className="border border-glass-border bg-navy-panel/40">
-      <div className="flex items-center justify-between border-b border-glass-border bg-white/5 px-5 py-4">
-        <div className="flex items-center gap-3">
-          <UsersRound className="size-4 text-wc-blue" />
-          <h2 className="font-outfit text-xl font-black uppercase tracking-tight text-white">Squad manifest</h2>
-        </div>
-        <span className="label-micro tracking-widest text-white/30">{team.players.length} players</span>
+    <section className="bg-white" style={{ border: "2px solid #0d0d10" }}>
+      <div
+        className="flex items-center justify-between"
+        style={{ background: "#0d0d10", color: "#fff", padding: "12px 16px" }}
+      >
+        <h2
+          style={{
+            fontFamily: "var(--font-archivo-black)",
+            fontSize: "16px",
+            letterSpacing: "0.04em",
+          }}
+        >
+          SQUAD MANIFEST
+        </h2>
+        <span
+          style={{
+            fontFamily: "var(--font-jetbrains-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.22em",
+            opacity: 0.6,
+          }}
+        >
+          {team.players.length} PLAYERS
+        </span>
       </div>
 
-      <div className="grid gap-px bg-glass-border md:grid-cols-2">
+      <div className="grid gap-px md:grid-cols-2" style={{ background: "#0d0d10" }}>
         {groupedPlayers.map(([position, players]) => (
-          <article key={position} className="bg-navy-panel/80 p-5">
-            <div className="mb-4 flex items-center justify-between border-b border-glass-border/60 pb-3">
-              <h3 className="label-micro text-white/50">{positionLabel(position)}</h3>
-              <span className="font-mono text-[10px] text-white/25">{players.length.toString().padStart(2, "0")}</span>
+          <article key={position} className="bg-white p-4">
+            <div
+              className="mb-3 flex items-center justify-between"
+              style={{
+                borderBottom: "1px solid rgba(13,13,16,0.15)",
+                paddingBottom: "8px",
+              }}
+            >
+              <h3
+                style={{
+                  fontFamily: "var(--font-jetbrains-mono)",
+                  fontSize: "10px",
+                  letterSpacing: "0.24em",
+                  color: "#0d0d10",
+                  opacity: 0.65,
+                }}
+              >
+                {positionLabel(position).toUpperCase()}
+              </h3>
+              <span
+                style={{
+                  fontFamily: "var(--font-jetbrains-mono)",
+                  fontSize: "10px",
+                  color: "#0d0d10",
+                  opacity: 0.4,
+                }}
+              >
+                {players.length.toString().padStart(2, "0")}
+              </span>
             </div>
             <div className="grid gap-2">
               {players.map((player) => (
-                <div key={player.name} className="group flex items-center justify-between border border-glass-border/50 bg-black/10 px-3 py-3 transition-colors hover:border-white/20 hover:bg-white/5">
-                  <span className="truncate font-outfit text-sm font-semibold text-white/80 group-hover:text-white">{player.name}</span>
-                  <span className="ml-3 font-mono text-sm font-black text-white">{player.strength}</span>
+                <div
+                  key={player.name}
+                  className="flex items-center justify-between gap-3 transition-transform hover:-translate-y-0.5"
+                  style={{
+                    border: "1px solid rgba(13,13,16,0.2)",
+                    background: "#fefaf0",
+                    padding: "8px 12px",
+                    transitionDuration: "120ms",
+                  }}
+                >
+                  <span
+                    className="min-w-0 truncate"
+                    style={{
+                      fontFamily: "var(--font-space-grotesk)",
+                      fontSize: "13px",
+                      fontWeight: 600,
+                      color: "#0d0d10",
+                    }}
+                  >
+                    {player.name}
+                  </span>
+                  <span
+                    className="shrink-0"
+                    style={{
+                      fontFamily: "var(--font-archivo-black)",
+                      fontSize: "14px",
+                      color: "#D52B1E",
+                      letterSpacing: "-0.02em",
+                    }}
+                  >
+                    {player.strength}
+                  </span>
                 </div>
               ))}
             </div>
@@ -71,44 +187,128 @@ export function TeamSquadSection({ team }: { team: Team }) {
 
 export function TeamTelemetry({ matches }: { matches: Match[] }) {
   return (
-    <section className="border border-glass-border bg-navy-panel/40">
-      <div className="flex items-center justify-between border-b border-glass-border bg-white/5 px-5 py-4">
-        <div className="flex items-center gap-3">
-          <Activity className="size-4 text-wc-red" />
-          <h2 className="font-outfit text-xl font-black uppercase tracking-tight text-white">Match telemetry</h2>
-        </div>
-        <span className="label-micro tracking-widest text-white/30">{matches.length} logs</span>
+    <section className="bg-white" style={{ border: "2px solid #0d0d10" }}>
+      <div
+        className="flex items-center justify-between"
+        style={{ background: "#0d0d10", color: "#fff", padding: "12px 16px" }}
+      >
+        <h2
+          style={{
+            fontFamily: "var(--font-archivo-black)",
+            fontSize: "16px",
+            letterSpacing: "0.04em",
+          }}
+        >
+          MATCH TELEMETRY
+        </h2>
+        <span
+          style={{
+            fontFamily: "var(--font-jetbrains-mono)",
+            fontSize: "10px",
+            letterSpacing: "0.22em",
+            opacity: 0.6,
+          }}
+        >
+          {matches.length} LOGS
+        </span>
       </div>
 
-      <div className="divide-y divide-glass-border/60">
-        {matches.map((match) => (
+      <div>
+        {matches.map((match, index) => (
           <div
             key={match.id}
             className={cn(
-              "grid grid-cols-[1fr_auto_1fr] items-center gap-3 px-4 py-4 font-mono text-[10px] uppercase",
-              !match.played && "opacity-45 grayscale"
+              "grid grid-cols-[1fr_auto_1fr] items-center gap-2 px-3 py-3 sm:gap-3 sm:px-4",
+              !match.played && "opacity-50"
             )}
+            style={{
+              background: index % 2 === 0 ? "#fff" : "#fefaf0",
+              borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
+            }}
           >
-            <div className="flex min-w-0 items-center justify-end gap-2 text-right text-white/60">
-              <span className="truncate">{match.homeTeam.name}</span>
-              <Flag countryCode={match.homeTeam.countryCode} label={match.homeTeam.name} />
+            <div className="flex min-w-0 items-center justify-end gap-2 text-right">
+              <span
+                className="min-w-0 truncate"
+                style={{
+                  fontFamily: "var(--font-space-grotesk)",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "#0d0d10",
+                }}
+              >
+                {match.homeTeam.name}
+              </span>
+              <Flag
+                countryCode={match.homeTeam.countryCode}
+                label={match.homeTeam.name}
+                className="shrink-0 text-base"
+              />
             </div>
-            <div className={cn("min-w-16 text-center text-sm font-black", match.played ? "text-wc-red" : "text-white/25")}>
+            <div
+              className="min-w-14 text-center"
+              style={{
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "16px",
+                color: match.played ? "#D52B1E" : "rgba(13,13,16,0.35)",
+                letterSpacing: "-0.02em",
+              }}
+            >
               {match.played ? scoreDisplay(match) : "VS"}
             </div>
-            <div className="flex min-w-0 items-center gap-2 text-white/60">
-              <Flag countryCode={match.awayTeam.countryCode} label={match.awayTeam.name} />
-              <span className="truncate">{match.awayTeam.name}</span>
+            <div className="flex min-w-0 items-center gap-2">
+              <Flag
+                countryCode={match.awayTeam.countryCode}
+                label={match.awayTeam.name}
+                className="shrink-0 text-base"
+              />
+              <span
+                className="min-w-0 truncate"
+                style={{
+                  fontFamily: "var(--font-space-grotesk)",
+                  fontSize: "12px",
+                  fontWeight: 600,
+                  color: "#0d0d10",
+                }}
+              >
+                {match.awayTeam.name}
+              </span>
             </div>
           </div>
         ))}
 
         {!matches.length && (
           <div className="p-8 text-center">
-            <Shield className="mx-auto mb-4 size-6 text-white/20" />
-            <div className="mb-4 label-micro tracking-widest text-white/30">No match data recorded</div>
-            <Link href="/groups" className="inline-flex border border-wc-blue/50 px-4 py-2 label-micro tracking-widest text-wc-blue transition-colors hover:bg-wc-blue hover:text-white">
-              Simulate groups
+            <Shield
+              className="mx-auto mb-4 size-6"
+              style={{ color: "rgba(13,13,16,0.35)" }}
+            />
+            <div
+              className="mb-5"
+              style={{
+                fontFamily: "var(--font-jetbrains-mono)",
+                fontSize: "10px",
+                letterSpacing: "0.24em",
+                color: "#0d0d10",
+                opacity: 0.55,
+              }}
+            >
+              NO MATCH DATA RECORDED
+            </div>
+            <Link
+              href="/groups"
+              className="inline-flex transition-transform hover:-translate-y-0.5"
+              style={{
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "13px",
+                letterSpacing: "0.04em",
+                background: "#fff",
+                color: "#0d0d10",
+                border: "2px solid #0d0d10",
+                padding: "10px 18px",
+                transitionDuration: "120ms",
+              }}
+            >
+              SIMULATE GROUPS
             </Link>
           </div>
         )}
@@ -119,39 +319,57 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
 
 export function TeamMetricGrid({ team }: { team: Team }) {
   return (
-    <section className="grid grid-cols-3 gap-px border border-glass-border bg-glass-border">
-      <Metric icon={<Swords className="size-4" />} label="ATT" value={team.attackStrength} />
-      <Metric icon={<Activity className="size-4" />} label="MID" value={team.midfieldStrength} />
-      <Metric icon={<Shield className="size-4" />} label="DEF" value={team.defenseStrength} />
+    <section
+      className="grid grid-cols-3 gap-px"
+      style={{ background: "#0d0d10", border: "2px solid #0d0d10" }}
+    >
+      <Metric label="ATT" value={team.attackStrength} accent="#D52B1E" />
+      <Metric label="MID" value={team.midfieldStrength} accent="#006847" />
+      <Metric label="DEF" value={team.defenseStrength} accent="#002868" />
     </section>
   );
 }
 
-function DetailStat({ value, label }: { value: number | string; label: string }) {
+function Metric({ label, value, accent }: { label: string; value: number; accent: string }) {
   return (
-    <div className="bg-navy p-5 text-left">
-      <div className="font-mono text-3xl font-black tabular-nums text-white">{value}</div>
-      <div className="mt-1 font-mono text-[10px] uppercase tracking-[0.2em] text-white/35">{label}</div>
+    <div
+      className="text-center"
+      style={{ background: "#fff", padding: "18px 12px" }}
+    >
+      <div
+        style={{
+          fontFamily: "var(--font-jetbrains-mono)",
+          fontSize: "10px",
+          letterSpacing: "0.24em",
+          color: accent,
+          marginBottom: "6px",
+        }}
+      >
+        {label}
+      </div>
+      <div
+        style={{
+          fontFamily: "var(--font-archivo-black)",
+          fontSize: "36px",
+          letterSpacing: "-0.04em",
+          color: "#0d0d10",
+          lineHeight: 0.9,
+        }}
+      >
+        {value}
+      </div>
     </div>
   );
 }
 
-function Metric({ icon, label, value }: { icon: ReactNode; label: string; value: number }) {
-  return (
-    <div className="bg-navy-panel/80 p-5 text-center">
-      <div className="mx-auto mb-3 flex size-9 items-center justify-center border border-glass-border text-white/50">{icon}</div>
-      <div className="label-micro text-white/35">{label}</div>
-      <div className="mt-1 font-outfit text-3xl font-black text-white">{value}</div>
-    </div>
-  );
-}
-
-function groupPlayersByPosition(players: Team["players"]): Array<[Team["players"][number]["position"], Team["players"]]> {
+function groupPlayersByPosition(
+  players: Team["players"]
+): Array<[Team["players"][number]["position"], Team["players"]]> {
   const buckets: Record<Team["players"][number]["position"], Team["players"]> = {
     GOALKEEPER: [],
     DEFENDER: [],
     MIDFIELDER: [],
-    FORWARD: []
+    FORWARD: [],
   };
 
   for (const player of players) {
@@ -162,7 +380,7 @@ function groupPlayersByPosition(players: Team["players"]): Array<[Team["players"
     ["GOALKEEPER", buckets.GOALKEEPER],
     ["DEFENDER", buckets.DEFENDER],
     ["MIDFIELDER", buckets.MIDFIELDER],
-    ["FORWARD", buckets.FORWARD]
+    ["FORWARD", buckets.FORWARD],
   ];
 }
 
@@ -171,7 +389,7 @@ function positionLabel(position: Team["players"][number]["position"]): string {
     GOALKEEPER: "Goalkeepers",
     DEFENDER: "Defenders",
     MIDFIELDER: "Midfielders",
-    FORWARD: "Forwards"
+    FORWARD: "Forwards",
   };
   return labels[position];
 }
