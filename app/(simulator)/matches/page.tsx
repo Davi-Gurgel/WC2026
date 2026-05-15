@@ -5,8 +5,6 @@ import { useTournament } from "@/components/TournamentProvider";
 import { MatchRow } from "@/components/simulator/MatchRow";
 import { getAllGroupMatches } from "@/lib/tournament/selectors";
 import type { Match } from "@/lib/types/tournament";
-
-import { Activity, Clock } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 type MatchFilter = "GROUP" | "R32" | "R16" | "QF" | "SF" | "FINAL";
@@ -14,12 +12,12 @@ type MatchFilter = "GROUP" | "R32" | "R16" | "QF" | "SF" | "FINAL";
 const MATCH_DAYS = [1, 2, 3] as const;
 
 const filters: Array<[MatchFilter, string]> = [
-  ["GROUP", "Group Stage"],
-  ["R32", "Round of 32"],
-  ["R16", "Round of 16"],
-  ["QF", "Quarter Finals"],
-  ["SF", "Semi Finals"],
-  ["FINAL", "Finals"]
+  ["GROUP", "GROUP STAGE"],
+  ["R32", "ROUND OF 32"],
+  ["R16", "ROUND OF 16"],
+  ["QF", "QUARTER FINALS"],
+  ["SF", "SEMI FINALS"],
+  ["FINAL", "FINALS"],
 ];
 
 export default function MatchesPage() {
@@ -34,69 +32,155 @@ export default function MatchesPage() {
       R16: state.r16Matches,
       QF: state.quarterFinals,
       SF: state.semiFinals,
-      FINAL: [state.thirdPlaceMatch, state.finalMatch].filter(Boolean) as Match[]
+      FINAL: [state.thirdPlaceMatch, state.finalMatch].filter(Boolean) as Match[],
     };
     return byPhase[phase];
   }, [day, phase, state]);
 
   return (
-    <main className="flex-1 pb-20">
-      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div className="mb-2 flex items-center gap-2 label-micro text-white/50">
-              <Activity className="size-3" />
-              <span>System Log</span>
-            </div>
-            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Match History</h1>
+    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+      <header
+        className="px-4 py-7 sm:px-6 sm:py-8"
+        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      >
+        <div className="mx-auto max-w-7xl">
+          <div
+            style={{
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.24em",
+              color: "#0d0d10",
+              opacity: 0.55,
+            }}
+          >
+            MATCH LOG
           </div>
+          <h1
+            className="mt-2"
+            style={{
+              fontFamily: "var(--font-archivo-black)",
+              fontSize: "clamp(36px, 5vw, 56px)",
+              lineHeight: 1,
+              letterSpacing: "-0.03em",
+              color: "#0d0d10",
+            }}
+          >
+            MATCHES
+          </h1>
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
-        <div className="mb-8 flex flex-col gap-4 border border-glass-border bg-white/5 p-4 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <div
+          className="mb-7 flex flex-col gap-3 p-3 sm:p-4"
+          style={{ background: "#fff", border: "2px solid #0d0d10" }}
+        >
           <div className="flex flex-wrap gap-2">
-            {filters.map(([f, label]) => (
-              <button
-                key={f}
-                className={cn(
-                  "px-4 py-2 label-micro tracking-widest transition-colors",
-                  phase === f 
-                    ? "border border-wc-blue bg-wc-blue/20 text-wc-blue" 
-                    : "border border-glass-border text-white/50 hover:bg-white/10 hover:text-white"
-                )}
-                onClick={() => setPhase(f)}
-              >
-                {label}
-              </button>
-            ))}
+            {filters.map(([f, label]) => {
+              const active = phase === f;
+              return (
+                <button
+                  key={f}
+                  type="button"
+                  onClick={() => setPhase(f)}
+                  className="transition-transform hover:-translate-y-0.5"
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono)",
+                    fontSize: "10px",
+                    letterSpacing: "0.18em",
+                    padding: "8px 12px",
+                    border: "2px solid #0d0d10",
+                    background: active ? "#0d0d10" : "#fff",
+                    color: active ? "#fff" : "#0d0d10",
+                    cursor: "pointer",
+                    transitionDuration: "120ms",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  {label}
+                </button>
+              );
+            })}
           </div>
 
           {phase === "GROUP" && (
-            <div className="flex items-center gap-2 border-l border-glass-border pl-4">
-              <span className="font-mono text-[10px] text-white/30 uppercase tracking-widest">Matchday</span>
-              {MATCH_DAYS.map((d) => (
-                <button
-                  key={d}
-                  onClick={() => setDay(d)}
-                  className={cn(
-                    "flex size-8 items-center justify-center font-mono text-xs font-bold transition-colors",
-                    day === d 
-                      ? "bg-white text-navy" 
-                      : "border border-glass-border text-white/50 hover:border-white/50 hover:text-white"
-                  )}
-                >
-                  {d}
-                </button>
-              ))}
+            <div
+              className="flex flex-wrap items-center gap-2"
+              style={{
+                paddingTop: "10px",
+                borderTop: "1px solid rgba(13,13,16,0.15)",
+              }}
+            >
+              <span
+                style={{
+                  fontFamily: "var(--font-jetbrains-mono)",
+                  fontSize: "10px",
+                  letterSpacing: "0.22em",
+                  color: "#0d0d10",
+                  opacity: 0.55,
+                }}
+              >
+                MATCHDAY
+              </span>
+              {MATCH_DAYS.map((d) => {
+                const active = day === d;
+                return (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setDay(d)}
+                    className={cn(
+                      "flex size-8 items-center justify-center transition-transform hover:-translate-y-0.5"
+                    )}
+                    style={{
+                      fontFamily: "var(--font-archivo-black)",
+                      fontSize: "12px",
+                      border: "2px solid #0d0d10",
+                      background: active ? "#D52B1E" : "#fff",
+                      color: active ? "#fff" : "#0d0d10",
+                      cursor: "pointer",
+                      transitionDuration: "120ms",
+                    }}
+                  >
+                    {d}
+                  </button>
+                );
+              })}
             </div>
           )}
         </div>
 
         {matches.length === 0 ? (
-          <div className="flex flex-col items-center justify-center border border-dashed border-glass-border py-20 text-center">
-            <Clock className="mb-4 size-6 text-white/20" />
-            <div className="font-mono text-xs uppercase tracking-widest text-white/30">No matches generated for this query</div>
+          <div
+            className="flex flex-col items-center justify-center px-6 py-16 text-center"
+            style={{
+              background: "#fff",
+              border: "2px dashed #0d0d10",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "var(--font-jetbrains-mono)",
+                fontSize: "10px",
+                letterSpacing: "0.24em",
+                color: "#0d0d10",
+                opacity: 0.55,
+              }}
+            >
+              NO MATCHES YET
+            </div>
+            <p
+              className="mt-3 max-w-sm"
+              style={{
+                fontFamily: "var(--font-space-grotesk)",
+                fontSize: "13px",
+                lineHeight: 1.55,
+                color: "#0d0d10",
+                opacity: 0.55,
+              }}
+            >
+              Run the simulation to populate this round.
+            </p>
           </div>
         ) : (
           <div className="grid gap-3">
