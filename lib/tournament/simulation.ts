@@ -120,7 +120,7 @@ function simulateRound(matches: Match[], scorerMap: Map<string, Scorer>): Match[
 }
 
 function simulateMatch(match: Match, scorerMap: Map<string, Scorer>, knockout: boolean): Match {
-  const homeStrength = match.homeTeam.strength + 5;
+  const homeStrength = match.homeTeam.strength;
   const awayStrength = match.awayTeam.strength;
   const homeGoalChance = (homeStrength * randomLuck()) / 380;
   const awayGoalChance = (awayStrength * randomLuck()) / 380;
@@ -191,7 +191,7 @@ function selectScorer(team: Team): Player | null {
   const r = Math.random();
   if (r < 0.6) return selectPlayerWeightedByStrength(byPosition("FORWARD")) ?? selectPlayerWeightedByStrength(team.players);
   if (r < 0.85) return selectPlayerWeightedByStrength(byPosition("MIDFIELDER")) ?? selectPlayerWeightedByStrength(team.players);
-  if (r < 0.97) return selectPlayerWeightedByStrength(byPosition("DEFENDER")) ?? selectPlayerWeightedByStrength(team.players);
+  if (r < 0.99) return selectPlayerWeightedByStrength(byPosition("DEFENDER")) ?? selectPlayerWeightedByStrength(team.players);
   return selectPlayerWeightedByStrength(byPosition("GOALKEEPER")) ?? selectPlayerWeightedByStrength(team.players);
 }
 

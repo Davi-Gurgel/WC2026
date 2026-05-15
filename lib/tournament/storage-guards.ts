@@ -1,16 +1,9 @@
-import { isArrayOf, isFiniteNumber, isKnockoutRound, isNullable, isRecord, isScorer, isString, isTournamentPhase, isTournamentState } from "@/lib/tournament/guards";
-import { LEGACY_STORAGE_VERSION, STORAGE_VERSION } from "@/lib/tournament/storage-schema";
-import type { CompactGroup, CompactMatch, CompactTournamentState, LegacyStoredTournamentState, StoredCompactTournamentState, StoredTournamentState } from "@/lib/tournament/storage-schema";
+import { isArrayOf, isFiniteNumber, isKnockoutRound, isNullable, isRecord, isScorer, isString, isTournamentPhase } from "@/lib/tournament/guards";
+import { STORAGE_VERSION } from "@/lib/tournament/storage-schema";
+import type { CompactGroup, CompactMatch, CompactTournamentState, StoredCompactTournamentState, StoredTournamentState } from "@/lib/tournament/storage-schema";
 
 export function isStoredTournamentState(value: unknown): value is StoredTournamentState {
-  return isLegacyStoredTournamentState(value) || isStoredCompactTournamentState(value);
-}
-
-function isLegacyStoredTournamentState(value: unknown): value is LegacyStoredTournamentState {
-  if (!value || typeof value !== "object") return false;
-
-  const candidate = value as Partial<LegacyStoredTournamentState>;
-  return candidate.version === LEGACY_STORAGE_VERSION && isTournamentState(candidate.state);
+  return isStoredCompactTournamentState(value);
 }
 
 function isStoredCompactTournamentState(value: unknown): value is StoredCompactTournamentState {

@@ -26,7 +26,6 @@ const teamSchema = z
     countryCode: z.string().trim().min(2).max(3),
     confederation: confederationSchema,
     group: groupSchema,
-    flagEmoji: z.string().min(1),
     fifaRanking: z.number().int().min(1).max(250).finite()
   })
   .strict();

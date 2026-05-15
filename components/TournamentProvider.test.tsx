@@ -5,6 +5,7 @@ import userEvent from "@testing-library/user-event";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { STORAGE_KEY, TournamentProvider, useTournament } from "@/components/TournamentProvider";
 import { getAllTeams } from "@/lib/teams";
+import { toStoredTournamentState } from "@/lib/tournament/storage-codec";
 import { initializeTournament } from "@/lib/tournament/state";
 
 describe("TournamentProvider flow", () => {
@@ -18,10 +19,7 @@ describe("TournamentProvider flow", () => {
 
   it("restores a valid tournament state from browser storage", async () => {
     const storedState = initializeTournament(getAllTeams());
-    window.localStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({ version: 1, state: storedState })
-    );
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(toStoredTournamentState(storedState)));
 
     render(
       <TournamentProvider>
