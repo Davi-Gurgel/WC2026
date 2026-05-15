@@ -10,8 +10,6 @@ import { isTournamentCompleted } from "@/lib/tournament/selectors";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 
-import { Network, Lock, Trophy } from "lucide-react";
-
 type BracketSide = "left" | "right";
 
 type MatchRect = {
@@ -31,6 +29,27 @@ type ConnectorRoundSets = {
   right: Match[][];
 };
 
+const EYEBROW: React.CSSProperties = {
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: "10px",
+  letterSpacing: "0.24em",
+  color: "#0d0d10",
+  opacity: 0.55,
+};
+
+const H1: React.CSSProperties = {
+  fontFamily: "var(--font-archivo-black)",
+  fontSize: "clamp(36px, 5vw, 56px)",
+  lineHeight: 1,
+  letterSpacing: "-0.03em",
+  color: "#0d0d10",
+};
+
+const SIDE_STROKE = {
+  left: "#002868",
+  right: "#006847",
+} satisfies Record<BracketSide, string>;
+
 export default function BracketPage() {
   const { state, simulateKnockoutRound } = useTournament();
   const bracketContainerRef = useRef<HTMLDivElement>(null);
@@ -43,14 +62,14 @@ export default function BracketPage() {
         ["Round of 32", splitMatches(state.r32Matches).left],
         ["Round of 16", splitMatches(state.r16Matches).left],
         ["Quarter-finals", splitMatches(state.quarterFinals).left],
-        ["Semi-finals", splitMatches(state.semiFinals).left]
+        ["Semi-finals", splitMatches(state.semiFinals).left],
       ] satisfies BracketRound[],
       right: [
         ["Semi-finals", splitMatches(state.semiFinals).right],
         ["Quarter-finals", splitMatches(state.quarterFinals).right],
         ["Round of 16", splitMatches(state.r16Matches).right],
-        ["Round of 32", splitMatches(state.r32Matches).right]
-      ] satisfies BracketRound[]
+        ["Round of 32", splitMatches(state.r32Matches).right],
+      ] satisfies BracketRound[],
     }),
     [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]
   );
@@ -62,7 +81,7 @@ export default function BracketPage() {
 
     return {
       left: [r32.left, r16.left, quarterFinals.left, semiFinals.left],
-      right: [r32.right, r16.right, quarterFinals.right, semiFinals.right]
+      right: [r32.right, r16.right, quarterFinals.right, semiFinals.right],
     };
   }, [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]);
   const groupStageComplete = state.phase !== "GROUP_STAGE" && state.phase !== "NOT_STARTED";
@@ -72,7 +91,6 @@ export default function BracketPage() {
       matchRefs.current.set(matchId, node);
       return;
     }
-
     matchRefs.current.delete(matchId);
   }, []);
 
@@ -86,10 +104,7 @@ export default function BracketPage() {
     if (!container) return;
 
     const containerRect = container.getBoundingClientRect();
-    const nextSize = {
-      width: containerRect.width,
-      height: containerRect.height
-    };
+    const nextSize = { width: containerRect.width, height: containerRect.height };
     const rectByMatchId = new Map<string, MatchRect>();
 
     for (const [matchId, node] of matchRefs.current) {
@@ -98,7 +113,7 @@ export default function BracketPage() {
       rectByMatchId.set(matchId, {
         left: rect.left - containerRect.left,
         right: rect.right - containerRect.left,
-        centerY
+        centerY,
       });
     }
 
@@ -123,7 +138,7 @@ export default function BracketPage() {
           nextPaths.push({
             id: `${side}-${parentMatch.id}-${childAMatch.id}-${childBMatch.id}`,
             side,
-            path: getConnectorPath(parentRect, childARect, childBRect, side)
+            path: getConnectorPath(parentRect, childARect, childBRect, side),
           });
         }
       }
@@ -143,7 +158,7 @@ export default function BracketPage() {
       nextPaths.push({
         id: `left-${finalMatch.id}-${leftSemiFinalMatch.id}`,
         side: "left",
-        path: getFinalConnectorPath(finalRect, leftSemiFinalRect, "left")
+        path: getFinalConnectorPath(finalRect, leftSemiFinalRect, "left"),
       });
     }
 
@@ -151,7 +166,7 @@ export default function BracketPage() {
       nextPaths.push({
         id: `right-${finalMatch.id}-${rightSemiFinalMatch.id}`,
         side: "right",
-        path: getFinalConnectorPath(finalRect, rightSemiFinalRect, "right")
+        path: getFinalConnectorPath(finalRect, rightSemiFinalRect, "right"),
       });
     }
 
@@ -195,46 +210,141 @@ export default function BracketPage() {
   }, [groupStageComplete, updateConnectorGeometry]);
 
   return (
-    <main className="flex-1 pb-20">
-      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+    <main className="flex-1 pb-24" style={{ background: "#fefaf0" }}>
+      <header
+        className="px-4 py-7 sm:px-6 sm:py-8"
+        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 label-micro text-wc-red">
-              <Network className="size-3" />
-              <span>Phase 02</span>
-            </div>
-            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Knockout Stage</h1>
+            <div style={EYEBROW}>PHASE · 02</div>
+            <h1 className="mt-2" style={H1}>
+              KNOCKOUT STAGE
+            </h1>
           </div>
-          
-          <div className="flex font-mono text-xs">
-            <span className="border border-glass-border bg-white/5 px-4 py-2 uppercase tracking-widest text-[10px] text-white/50">
-              {phaseLabel(state.phase)}
-            </span>
-          </div>
+          <span
+            className="self-start md:self-auto"
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.22em",
+              padding: "5px 10px",
+              border: "1px solid #0d0d10",
+              background: "#fefaf0",
+              color: "#0d0d10",
+            }}
+          >
+            {phaseLabel(state.phase).toUpperCase()}
+          </span>
         </div>
       </header>
 
-      <div className="mx-auto max-w-[96rem] px-4 py-12 relative 2xl:max-w-[104rem]">
+      <div className="mx-auto max-w-[104rem] px-4 py-8 sm:px-6">
         {!groupStageComplete ? (
-          <div className="mx-auto flex max-w-md flex-col items-center border border-glass-border bg-white/5 p-12 text-center backdrop-blur-sm">
-            <Lock className="mb-6 size-8 text-white/20" />
-            <h3 className="mb-3 font-outfit text-xl font-bold uppercase tracking-widest text-white">Groups Active</h3>
-            <p className="mb-8 font-mono text-xs text-white/40">Bracket generation locked until Phase 01 concludes.</p>
-            <Link href="/groups" className="border border-white/20 bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy">
-              Return to Groups
+          <div
+            className="mx-auto w-full max-w-md text-center"
+            style={{
+              background: "#fff",
+              border: "3px solid #0d0d10",
+              boxShadow: "8px 8px 0 0 #D52B1E",
+              padding: "32px 28px",
+            }}
+          >
+            <div
+              style={{
+                fontFamily: "var(--font-jetbrains-mono)",
+                fontSize: "10px",
+                letterSpacing: "0.24em",
+                color: "#D52B1E",
+                marginBottom: "12px",
+              }}
+            >
+              LOCKED
+            </div>
+            <h3
+              style={{
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "26px",
+                lineHeight: 1.05,
+                letterSpacing: "-0.02em",
+                color: "#0d0d10",
+                marginBottom: "12px",
+              }}
+            >
+              GROUPS ACTIVE
+            </h3>
+            <p
+              style={{
+                fontFamily: "var(--font-space-grotesk)",
+                fontSize: "14px",
+                lineHeight: 1.55,
+                color: "#0d0d10",
+                opacity: 0.6,
+                marginBottom: "22px",
+              }}
+            >
+              Bracket generation unlocks when Phase 01 concludes.
+            </p>
+            <Link
+              href="/groups"
+              className="inline-flex items-center transition-transform hover:-translate-y-0.5"
+              style={{
+                background: "#0d0d10",
+                color: "#fff",
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "14px",
+                letterSpacing: "0.04em",
+                border: "none",
+                padding: "12px 22px",
+                boxShadow: "4px 4px 0 0 #D52B1E",
+                transitionDuration: "120ms",
+              }}
+            >
+              RETURN TO GROUPS
             </Link>
           </div>
         ) : (
           <>
             {state.champion && (
-              <section className="relative mx-auto mb-16 flex max-w-2xl flex-col items-center overflow-hidden border border-wc-red/40 bg-wc-red/5 px-12 py-16 text-center">
-                <div className="absolute top-0 w-full h-1 bg-linear-to-r from-wc-blue via-wc-red to-wc-green" />
-                <Trophy className="mb-6 size-12 text-wc-red" />
-                <div className="mb-2 label-micro tracking-[0.3em] text-wc-red">
-                  World Champion 2026
+              <section
+                className="mx-auto mb-12 flex max-w-2xl flex-col items-center text-center"
+                style={{
+                  background: "#fff",
+                  border: "3px solid #0d0d10",
+                  boxShadow: "8px 8px 0 0 #D52B1E",
+                  padding: "32px 28px",
+                }}
+              >
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono)",
+                    fontSize: "10px",
+                    letterSpacing: "0.3em",
+                    color: "#D52B1E",
+                    marginBottom: "10px",
+                  }}
+                >
+                  WORLD CHAMPION 2026
                 </div>
-                <h2 className="font-outfit text-5xl font-black tracking-tighter text-white">{state.champion.name}</h2>
-                <Flag countryCode={state.champion.countryCode} label={state.champion.name} className="mt-8 text-7xl" />
+                <h2
+                  className="break-words"
+                  style={{
+                    fontFamily: "var(--font-archivo-black)",
+                    fontSize: "clamp(36px, 6vw, 64px)",
+                    lineHeight: 0.9,
+                    letterSpacing: "-0.04em",
+                    color: "#0d0d10",
+                  }}
+                >
+                  {state.champion.name.toUpperCase()}
+                </h2>
+                <Flag
+                  countryCode={state.champion.countryCode}
+                  label={state.champion.name}
+                  className="mt-6 text-6xl"
+                />
               </section>
             )}
 
@@ -252,16 +362,16 @@ export default function BracketPage() {
                       key={connector.id}
                       d={connector.path}
                       fill="none"
-                      stroke={connector.side === "left" ? "var(--color-wc-blue)" : "var(--color-wc-green)"}
-                      strokeOpacity={0.75}
-                      strokeWidth={1.75}
+                      stroke={SIDE_STROKE[connector.side]}
+                      strokeOpacity={0.45}
+                      strokeWidth={1.5}
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
                   ))}
                 </svg>
 
-                <div className="relative z-10 grid grid-cols-[repeat(4,minmax(112px,1fr))_minmax(200px,0.85fr)_repeat(4,minmax(112px,1fr))] items-stretch gap-x-8 gap-y-3">
+                <div className="relative z-10 grid grid-cols-[repeat(4,minmax(120px,1fr))_minmax(210px,0.95fr)_repeat(4,minmax(120px,1fr))] items-stretch gap-x-8 gap-y-3">
                   {bracketSides.left.map(([title, matches], index) => (
                     <BracketRoundColumn
                       key={`left-${title}`}
@@ -273,10 +383,20 @@ export default function BracketPage() {
                     />
                   ))}
 
-                  <div className="relative z-10 grid min-h-[620px] grid-rows-[1fr_auto_auto_1fr] py-10">
+                  <div className="relative z-10 grid min-h-[640px] grid-rows-[1fr_auto_auto_1fr] py-10">
                     <div className="row-start-2">
-                      <div className="mb-6 border-b border-wc-red/60 pb-2 text-center font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] text-wc-red drop-shadow-sm">
-                        [Final]
+                      <div
+                        className="mb-5 text-center"
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono)",
+                          fontSize: "11px",
+                          letterSpacing: "0.3em",
+                          color: "#D52B1E",
+                          borderBottom: "2px solid #D52B1E",
+                          paddingBottom: "6px",
+                        }}
+                      >
+                        FINAL
                       </div>
                       {state.finalMatch ? (
                         <BracketMatch match={state.finalMatch} final onMatchRef={registerMatchRef} />
@@ -284,9 +404,18 @@ export default function BracketPage() {
                         <EmptyMatchSlot />
                       )}
                     </div>
-                    <div className="row-start-3 mt-10">
-                      <div className="mb-3 text-center font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-white/30">
-                        Third Place
+                    <div className="row-start-3 mt-8">
+                      <div
+                        className="mb-3 text-center"
+                        style={{
+                          fontFamily: "var(--font-jetbrains-mono)",
+                          fontSize: "10px",
+                          letterSpacing: "0.24em",
+                          color: "#0d0d10",
+                          opacity: 0.45,
+                        }}
+                      >
+                        THIRD PLACE
                       </div>
                       {state.thirdPlaceMatch ? (
                         <BracketMatch match={state.thirdPlaceMatch} compact onMatchRef={registerMatchRef} />
@@ -311,16 +440,34 @@ export default function BracketPage() {
             </section>
 
             {!state.champion && (
-              <div className="fixed bottom-10 left-1/2 z-40 -translate-x-1/2">
-                <button 
-                    className="rounded-sm border border-white/15 bg-navy-panel px-7 py-3 font-outfit text-sm font-black uppercase tracking-[0.16em] text-white/85 shadow-xl transition-colors hover:border-white/30 hover:bg-white/10 active:scale-95 disabled:pointer-events-none disabled:opacity-50"
-                  onClick={simulateKnockoutRound} 
+              <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
+                <button
+                  type="button"
+                  onClick={simulateKnockoutRound}
                   disabled={isTournamentCompleted(state)}
+                  className="transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+                  style={{
+                    background: "#0d0d10",
+                    color: "#fff",
+                    fontFamily: "var(--font-archivo-black)",
+                    fontSize: "14px",
+                    letterSpacing: "0.04em",
+                    border: "none",
+                    padding: "14px 26px",
+                    cursor: "pointer",
+                    boxShadow: "6px 6px 0 0 #D52B1E",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "10px",
+                    transitionDuration: "120ms",
+                  }}
                 >
-                  <span className="flex items-center gap-3">
-                    <span className="inline-block h-2 w-2 rounded-full bg-white animate-pulse" />
-                    SIMULATE {nextRoundLabel}
-                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="inline-block animate-pulse"
+                    style={{ width: 8, height: 8, background: "#D52B1E" }}
+                  />
+                  SIMULATE {nextRoundLabel.toUpperCase()}
                 </button>
               </div>
             )}
@@ -337,7 +484,7 @@ function splitMatches(matches: Match[]): { left: Match[]; right: Match[] } {
   const midpoint = Math.ceil(matches.length / 2);
   return {
     left: matches.slice(0, midpoint),
-    right: matches.slice(midpoint)
+    right: matches.slice(midpoint),
   };
 }
 
@@ -346,7 +493,7 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
   matches,
   density,
   side,
-  onMatchRef
+  onMatchRef,
 }: {
   title: string;
   matches: Match[];
@@ -356,16 +503,22 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
 }) {
   const rowSpan = 2 ** (density + 1);
   const slotCount = 16 / rowSpan;
+  const accent = SIDE_STROKE[side];
 
   return (
-    <div className="relative grid min-h-[620px] grid-rows-[repeat(16,minmax(32px,1fr))] py-10">
+    <div className="relative grid min-h-[640px] grid-rows-[repeat(16,minmax(32px,1fr))] py-10">
       <div
-        className={cn(
-          "absolute -top-0 left-0 right-0 border-b pb-2 text-center font-mono text-[10px] font-extrabold uppercase tracking-[0.2em] drop-shadow-sm",
-          side === "left" ? "border-wc-blue/50 text-wc-blue" : "border-wc-green/50 text-wc-green"
-        )}
+        className="absolute left-0 right-0 top-0 text-center"
+        style={{
+          fontFamily: "var(--font-jetbrains-mono)",
+          fontSize: "10px",
+          letterSpacing: "0.24em",
+          color: accent,
+          borderBottom: `2px solid ${accent}`,
+          paddingBottom: "6px",
+        }}
       >
-        [{title}]
+        {title.toUpperCase()}
       </div>
 
       {Array.from({ length: slotCount }, (_, index) => {
@@ -375,9 +528,7 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
           <div
             className="z-10 flex items-center"
             key={match?.id ?? `${title}-${index}`}
-            style={{
-              gridRow: `${index * rowSpan + 1} / span ${rowSpan}`
-            }}
+            style={{ gridRow: `${index * rowSpan + 1} / span ${rowSpan}` }}
           >
             {match ? <BracketMatch match={match} onMatchRef={onMatchRef} /> : <EmptyMatchSlot />}
           </div>
@@ -391,14 +542,29 @@ const EmptyMatchSlot = memo(function EmptyMatchSlot() {
   return (
     <article
       aria-hidden="true"
-      className="relative z-10 my-2 w-full overflow-visible rounded-sm border border-glass-border/25 bg-navy-panel/35 opacity-60 backdrop-blur-sm"
+      className="relative z-10 my-2 w-full"
+      style={{
+        background: "#fefaf0",
+        border: "2px dashed rgba(13,13,16,0.25)",
+      }}
     >
-      <div className="flex justify-between gap-2 border-b border-glass-border/20 bg-black/25 px-3 py-1.5 label-micro tracking-widest text-white/20">
+      <div
+        className="flex justify-between gap-2"
+        style={{
+          background: "rgba(13,13,16,0.04)",
+          borderBottom: "1px dashed rgba(13,13,16,0.2)",
+          padding: "4px 8px",
+          fontFamily: "var(--font-jetbrains-mono)",
+          fontSize: "9px",
+          letterSpacing: "0.2em",
+          color: "rgba(13,13,16,0.4)",
+        }}
+      >
         <span>M#</span>
         <span>TBD</span>
       </div>
       <PlaceholderTeam />
-      <div className="h-px w-full bg-glass-border/10" />
+      <div style={{ height: 1, background: "rgba(13,13,16,0.1)" }} />
       <PlaceholderTeam />
     </article>
   );
@@ -406,12 +572,31 @@ const EmptyMatchSlot = memo(function EmptyMatchSlot() {
 
 const PlaceholderTeam = memo(function PlaceholderTeam() {
   return (
-    <div className="flex items-center gap-2 px-3 py-2">
-      <span className="inline-block aspect-[4/3] h-[1.125rem] rounded-sm border border-white/10 bg-white/5" />
-      <span className="flex-1 font-mono text-sm font-black tracking-widest text-white/25">
+    <div className="flex items-center gap-2" style={{ padding: "6px 8px" }}>
+      <span
+        aria-hidden="true"
+        className="inline-block aspect-[4/3] shrink-0"
+        style={{ height: "14px", background: "rgba(13,13,16,0.08)" }}
+      />
+      <span
+        className="flex-1"
+        style={{
+          fontFamily: "var(--font-archivo-black)",
+          fontSize: "12px",
+          letterSpacing: "0.06em",
+          color: "rgba(13,13,16,0.3)",
+        }}
+      >
         TBD
       </span>
-      <span className="min-w-6 text-right font-mono text-sm font-bold text-white/20">
+      <span
+        className="min-w-6 text-right"
+        style={{
+          fontFamily: "var(--font-archivo-black)",
+          fontSize: "12px",
+          color: "rgba(13,13,16,0.25)",
+        }}
+      >
         -
       </span>
     </div>
@@ -422,7 +607,7 @@ const BracketMatch = memo(function BracketMatch({
   match,
   final = false,
   compact = false,
-  onMatchRef
+  onMatchRef,
 }: {
   match: Match;
   final?: boolean;
@@ -438,23 +623,57 @@ const BracketMatch = memo(function BracketMatch({
         onMatchRef?.(match.id, node);
       }}
       className={cn(
-        "relative z-10 my-2 w-full overflow-visible rounded-sm border bg-navy-panel/80 backdrop-blur-sm transition-all hover:border-white/20 hover:bg-navy-panel",
-        final ? "border-wc-red" : "border-glass-border/40",
-        compact && "opacity-80"
+        "relative z-10 my-2 w-full transition-transform hover:-translate-y-0.5",
+        compact && "opacity-90"
       )}
+      style={{
+        background: "#fff",
+        border: final ? "2px solid #D52B1E" : "2px solid #0d0d10",
+        boxShadow: final ? "4px 4px 0 0 #D52B1E" : "none",
+        transitionDuration: "120ms",
+      }}
     >
-      <div className={`flex justify-between gap-2 border-b px-3 py-1.5 label-micro tracking-widest ${final ? "border-wc-red/30 bg-wc-red/10 text-wc-red" : "border-glass-border/30 bg-black/40 text-white/30"}`}>
-        <span>{match.matchNumber ? `M#${match.matchNumber}` : "M#"}</span>
+      <div
+        className="flex justify-between gap-2"
+        style={{
+          background: final ? "#D52B1E" : "#0d0d10",
+          color: "#fff",
+          padding: "4px 8px",
+          fontFamily: "var(--font-jetbrains-mono)",
+          fontSize: "9px",
+          letterSpacing: "0.2em",
+        }}
+      >
+        <span style={{ opacity: 0.75 }}>{match.matchNumber ? `M#${match.matchNumber}` : "M#"}</span>
         <span>{final ? "FINAL" : roundAbbreviation(match.knockoutRound)}</span>
       </div>
-      <BracketTeam team={match.homeTeam} score={match.homeScore} played={match.played} winner={winner?.name === match.homeTeam.name} loser={match.played && winner?.name !== match.homeTeam.name} final={final} />
-      <div className="h-px w-full bg-glass-border/10" />
-      <BracketTeam team={match.awayTeam} score={match.awayScore} played={match.played} winner={winner?.name === match.awayTeam.name} loser={match.played && winner?.name !== match.awayTeam.name} final={final} />
+      <BracketTeam
+        team={match.homeTeam}
+        score={match.homeScore}
+        played={match.played}
+        winner={winner?.name === match.homeTeam.name}
+        loser={match.played && winner?.name !== match.homeTeam.name}
+        final={final}
+      />
+      <div style={{ height: 1, background: "rgba(13,13,16,0.12)" }} />
+      <BracketTeam
+        team={match.awayTeam}
+        score={match.awayScore}
+        played={match.played}
+        winner={winner?.name === match.awayTeam.name}
+        loser={match.played && winner?.name !== match.awayTeam.name}
+        final={final}
+      />
     </article>
   );
 });
 
-function getConnectorPath(parentRect: MatchRect, childARect: MatchRect, childBRect: MatchRect, side: BracketSide): string {
+function getConnectorPath(
+  parentRect: MatchRect,
+  childARect: MatchRect,
+  childBRect: MatchRect,
+  side: BracketSide
+): string {
   const dir = side === "left" ? 1 : -1;
 
   const childAEdgeX = side === "left" ? childARect.right : childARect.left;
@@ -475,7 +694,7 @@ function getConnectorPath(parentRect: MatchRect, childARect: MatchRect, childBRe
     `M ${childAEdgeX} ${childAY} H ${joinX}`,
     `M ${childBEdgeX} ${childBY} H ${joinX}`,
     `M ${joinX} ${verticalTop} V ${verticalBottom}`,
-    `M ${joinX} ${parentY} H ${parentEdgeX}`
+    `M ${joinX} ${parentY} H ${parentEdgeX}`,
   ].join(" ");
 }
 
@@ -493,7 +712,7 @@ function getFinalConnectorPath(parentRect: MatchRect, childRect: MatchRect, side
   return [
     `M ${childEdgeX} ${childY} H ${joinX}`,
     `M ${joinX} ${verticalTop} V ${verticalBottom}`,
-    `M ${joinX} ${parentY} H ${parentEdgeX}`
+    `M ${joinX} ${parentY} H ${parentEdgeX}`,
   ].join(" ");
 }
 
@@ -522,7 +741,7 @@ const BracketTeam = memo(function BracketTeam({
   played,
   winner,
   loser,
-  final
+  final,
 }: {
   team: Match["homeTeam"];
   score: number;
@@ -534,11 +753,33 @@ const BracketTeam = memo(function BracketTeam({
   return (
     <div
       data-winner={winner ? "true" : "false"}
-      className={`flex items-center gap-2 px-3 py-2 transition-opacity ${loser ? "opacity-30 grayscale" : "opacity-100"}`}
+      className={cn("flex items-center gap-2 transition-opacity", loser && "opacity-40")}
+      style={{
+        padding: "6px 8px",
+        background: winner ? (final ? "#fefaf0" : "#fff") : "#fff",
+      }}
     >
-      <Flag countryCode={team.countryCode} label={team.name} className="text-lg" />
-      <span className={`flex-1 font-mono text-sm font-black tracking-widest ${winner ? "text-white" : "text-white/60"}`}>{team.countryCode}</span>
-      <span className={`min-w-6 text-right font-mono text-sm font-bold ${winner ? (final ? "text-wc-red" : "text-white") : "text-white/40"}`}>
+      <Flag countryCode={team.countryCode} label={team.name} className="shrink-0 text-base" />
+      <span
+        className="flex-1 min-w-0 truncate"
+        style={{
+          fontFamily: "var(--font-archivo-black)",
+          fontSize: "12px",
+          letterSpacing: "0.04em",
+          color: winner ? "#0d0d10" : "rgba(13,13,16,0.7)",
+        }}
+      >
+        {team.countryCode}
+      </span>
+      <span
+        className="min-w-6 shrink-0 text-right"
+        style={{
+          fontFamily: "var(--font-archivo-black)",
+          fontSize: "14px",
+          letterSpacing: "-0.02em",
+          color: winner ? (final ? "#D52B1E" : "#0d0d10") : "rgba(13,13,16,0.4)",
+        }}
+      >
         {played ? score : "-"}
       </span>
     </div>
