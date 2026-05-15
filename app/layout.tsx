@@ -1,27 +1,26 @@
 import type { Metadata } from "next";
-import { Geist, Outfit } from "next/font/google";
+import { Geist, Outfit, Archivo_Black, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import { Nav } from "@/components/Nav";
 import "flag-icons/css/flag-icons.min.css";
 import "./globals.css";
 
-const geist = Geist({
-  subsets: ["latin"],
-  variable: "--font-geist-sans",
-});
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--font-outfit-display",
-});
+const geist = Geist({ subsets: ["latin"], variable: "--font-geist-sans" });
+const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit-display" });
+const archivoBlack = Archivo_Black({ subsets: ["latin"], weight: "400", variable: "--font-archivo-black" });
+const spaceGrotesk = Space_Grotesk({ subsets: ["latin"], weight: ["400", "500", "600", "700"], variable: "--font-space-grotesk" });
+const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-jetbrains-mono" });
 
 export const metadata: Metadata = {
-  title: "WC26 Simulator | Terminal",
+  title: "WC26 Simulator",
   description: "Advanced simulator for the 2026 World Cup"
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="pt-BR" className={`${geist.variable} ${outfit.variable} dark`}>
+    <html
+      lang="pt-BR"
+      className={`${geist.variable} ${outfit.variable} ${archivoBlack.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} dark`}
+    >
       <body className="antialiased font-geist min-h-dvh flex flex-col relative">
         <div className="fixed inset-0 pointer-events-none z-[-1] bg-[url('/noise.svg')] opacity-20 contrast-150 grayscale" />
         <Nav />

@@ -14,8 +14,21 @@
   --color-success-bright: #4ade80;
   --color-danger-bright: #f87171;
 
+  /* WC26 Festival host palette */
+  --color-wc-mex-green: #006847;
+  --color-wc-mex-red:   #CE1126;
+  --color-wc-usa-blue:  #002868;
+  --color-wc-usa-red:   #BF0A30;
+  --color-wc-can-red:   #D52B1E;
+  --color-wc-cream:     #fefaf0;
+  --color-wc-paper:     #f7f1e3;
+  --color-wc-ink:       #0d0d10;
+
   --font-geist: var(--font-geist-sans);
   --font-outfit: var(--font-outfit-display);
+  --font-archivo: var(--font-archivo-black);
+  --font-grotesk: var(--font-space-grotesk);
+  --font-mono:    var(--font-jetbrains-mono);
 }
 
 @layer base {
@@ -102,5 +115,53 @@ select {
 @media (min-width: 1400px) {
   .app-container {
     max-width: 1320px;
+  }
+}
+
+/* Festival home grid */
+.festival-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.6fr 1.1fr;
+  grid-template-rows: 1.2fr 1fr 60px;
+  gap: 8px;
+  padding: 8px;
+  height: calc(100dvh - 48px);
+  background: #fefaf0;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .festival-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    min-height: calc(100dvh - 48px);
+    overflow: auto;
+  }
+  .festival-grid > * {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+    min-height: 240px;
+  }
+  .festival-ticker {
+    min-height: 60px !important;
+    height: 60px !important;
+  }
+}
+
+/* Ticker scroll animation */
+@keyframes wc-ticker-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.wc-ticker-inner {
+  animation: wc-ticker-scroll 50s linear infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wc-ticker-inner {
+    animation-play-state: paused;
   }
 }
