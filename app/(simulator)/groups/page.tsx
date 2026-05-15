@@ -5,9 +5,36 @@ import { useMemo } from "react";
 import { GroupCard, GroupLegend } from "@/components/simulator/GroupCard";
 import { useTournament } from "@/components/TournamentProvider";
 import { getTournamentStats } from "@/lib/tournament/selectors";
-import { LayoutGrid, AlertCircle, FastForward, Play, CheckCircle2 } from "lucide-react";
 import { StatBox } from "@/components/ui/StatBox";
-import { cn } from "@/lib/utils";
+
+const EYEBROW: React.CSSProperties = {
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: "10px",
+  letterSpacing: "0.24em",
+  color: "#0d0d10",
+  opacity: 0.55,
+};
+
+const H1: React.CSSProperties = {
+  fontFamily: "var(--font-archivo-black)",
+  fontSize: "clamp(36px, 5vw, 56px)",
+  lineHeight: 1,
+  letterSpacing: "-0.03em",
+  color: "#0d0d10",
+};
+
+const PILL_BASE: React.CSSProperties = {
+  display: "inline-flex",
+  alignItems: "center",
+  gap: "8px",
+  fontFamily: "var(--font-jetbrains-mono)",
+  fontSize: "10px",
+  letterSpacing: "0.22em",
+  padding: "5px 10px",
+  border: "1px solid #0d0d10",
+  background: "#fefaf0",
+  color: "#0d0d10",
+};
 
 export default function GroupsPage() {
   const { state, hydrated, startTournament, simulateGroupDay, simulateAllGroups } = useTournament();
@@ -16,21 +43,86 @@ export default function GroupsPage() {
 
   if (!state.active) {
     return (
-      <main className="flex-1 flex flex-col items-center justify-center px-6 py-20">
-        <div className="flex max-w-md flex-col items-center border border-wc-red/30 bg-wc-red/5 p-8 text-center backdrop-blur-md">
-          <AlertCircle className="mb-4 size-8 text-wc-red" />
-          <h2 className="mb-2 font-outfit text-xl font-bold uppercase tracking-widest text-white">System Offline</h2>
-          <p className="mb-6 font-mono text-xs text-white/50">Simulation requires initialization sequence.</p>
+      <main
+        className="flex flex-1 items-center justify-center px-6 py-16"
+        style={{ background: "#fefaf0" }}
+      >
+        <div
+          className="w-full max-w-md text-center"
+          style={{
+            background: "#fff",
+            border: "3px solid #0d0d10",
+            boxShadow: "8px 8px 0 0 #D52B1E",
+            padding: "32px 28px",
+          }}
+        >
+          <div
+            style={{
+              fontFamily: "var(--font-jetbrains-mono)",
+              fontSize: "10px",
+              letterSpacing: "0.24em",
+              color: "#D52B1E",
+              marginBottom: "12px",
+            }}
+          >
+            NOT STARTED
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-archivo-black)",
+              fontSize: "28px",
+              lineHeight: 1.05,
+              letterSpacing: "-0.02em",
+              color: "#0d0d10",
+              marginBottom: "12px",
+            }}
+          >
+            NO SIMULATION ACTIVE
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-space-grotesk)",
+              fontSize: "14px",
+              lineHeight: 1.55,
+              color: "#0d0d10",
+              opacity: 0.6,
+              marginBottom: "24px",
+            }}
+          >
+            Start the tournament to draw groups and begin Phase 01.
+          </p>
           <button
             type="button"
             disabled={!hydrated}
             onClick={() => {
               if (hydrated) startTournament();
             }}
-            className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy disabled:pointer-events-none disabled:opacity-45"
+            className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+            style={{
+              background: "#0d0d10",
+              color: "#fff",
+              fontFamily: "var(--font-archivo-black)",
+              fontSize: "16px",
+              letterSpacing: "0.04em",
+              border: "none",
+              padding: "14px 28px",
+              cursor: "pointer",
+              gap: "10px",
+              boxShadow: "6px 6px 0 0 #D52B1E",
+              transitionDuration: "120ms",
+            }}
           >
-            <Play className="size-3 fill-current" />
-            Initialize Now
+            <span
+              style={{
+                width: 0,
+                height: 0,
+                borderLeft: "8px solid #fff",
+                borderTop: "6px solid transparent",
+                borderBottom: "6px solid transparent",
+                display: "inline-block",
+              }}
+            />
+            START TOURNAMENT
           </button>
         </div>
       </main>
@@ -38,85 +130,187 @@ export default function GroupsPage() {
   }
 
   return (
-    <main className="flex-1 pb-20">
-      <header className="border-b border-glass-border bg-navy-panel/30 px-6 py-8 backdrop-blur-md">
+    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+      <header
+        className="px-4 py-7 sm:px-6 sm:py-8"
+        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      >
         <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
-            <div className="mb-2 flex items-center gap-2 label-micro text-wc-blue">
-              <LayoutGrid className="size-3" />
-              <span>Phase 01</span>
-            </div>
-            <h1 className="font-outfit text-4xl font-black uppercase tracking-tight text-white">Group Stage</h1>
+            <div style={EYEBROW}>PHASE · 01</div>
+            <h1 className="mt-2" style={H1}>
+              GROUP STAGE
+            </h1>
           </div>
-          
-          <div className="flex gap-2 font-mono text-xs">
-            <span className={cn(
-              "border px-3 py-1 uppercase tracking-widest text-[10px]",
-              state.phase === "GROUP_STAGE" ? "border-wc-green/30 bg-wc-green/10 text-success-bright" : "border-glass-border bg-white/5 text-white/50"
-            )}>
-              {state.phase === "GROUP_STAGE" ? "Active" : phaseDone ? "Completed" : "Pending"}
+
+          <div className="flex flex-wrap items-center gap-2">
+            <span style={PILL_BASE}>
+              <span
+                aria-hidden="true"
+                style={{
+                  width: 8,
+                  height: 8,
+                  background:
+                    state.phase === "GROUP_STAGE"
+                      ? "#006847"
+                      : phaseDone
+                        ? "#0d0d10"
+                        : "rgba(13,13,16,0.3)",
+                }}
+              />
+              {state.phase === "GROUP_STAGE" ? "ACTIVE" : phaseDone ? "COMPLETED" : "PENDING"}
             </span>
-            <span className="border border-glass-border bg-white/5 px-3 py-1 uppercase tracking-widest text-[10px] text-white/50">
-              Round {Math.min(state.currentGroupMatchDay, 3)}/3
+            <span style={PILL_BASE}>
+              MATCHDAY {Math.min(state.currentGroupMatchDay, 3)}/3
             </span>
           </div>
         </div>
       </header>
 
-      <div className="mx-auto max-w-7xl px-6 py-8">
-        <section className="mb-10 grid grid-cols-2 gap-px border border-glass-border bg-glass-border md:grid-cols-4">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
+        <section className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
           <StatBox value={stats.simulatedGroupMatches} label="Matches Sim'd" />
           <StatBox value={stats.totalGoals} label="Total Goals" />
-          <StatBox value={stats.averageGoals.toFixed(1)} label="Avg Goals/Match" />
-          <StatBox value={state.groups.length} label="Groups Active" />
+          <StatBox value={stats.averageGoals.toFixed(1)} label="Avg Goals" />
+          <StatBox value={state.groups.length} label="Groups" />
         </section>
 
         {state.phase === "GROUP_STAGE" && (
-          <section className="mb-10 flex flex-wrap items-center justify-between gap-4 border border-wc-blue/30 bg-wc-blue/5 p-6">
-            <p className="font-mono text-xs text-wc-blue">Awaiting command to process next match day.</p>
+          <section
+            className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+            style={{
+              background: "#fff",
+              border: "2px solid #0d0d10",
+              padding: "18px 20px",
+            }}
+          >
+            <div className="flex items-start gap-3">
+              <span
+                aria-hidden="true"
+                className="mt-1 inline-block shrink-0"
+                style={{ width: 3, height: 28, background: "#006847" }}
+              />
+              <p
+                style={{
+                  fontFamily: "var(--font-space-grotesk)",
+                  fontSize: "14px",
+                  fontWeight: 600,
+                  color: "#0d0d10",
+                  lineHeight: 1.45,
+                }}
+              >
+                Awaiting command to process the next match day.
+              </p>
+            </div>
             <div className="flex flex-wrap gap-3">
               <button
                 type="button"
                 disabled={!hydrated}
-                className="flex items-center gap-2 border border-glass-border bg-white/5 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-white transition-colors hover:bg-white hover:text-navy disabled:pointer-events-none disabled:opacity-45"
+                className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+                style={{
+                  background: "#0d0d10",
+                  color: "#fff",
+                  fontFamily: "var(--font-archivo-black)",
+                  fontSize: "13px",
+                  letterSpacing: "0.04em",
+                  border: "none",
+                  padding: "12px 20px",
+                  cursor: "pointer",
+                  boxShadow: "6px 6px 0 0 #D52B1E",
+                  transitionDuration: "120ms",
+                }}
                 onClick={() => {
                   if (hydrated) simulateGroupDay();
                 }}
               >
-                <FastForward className="size-3" />
-                Sim Round {state.currentGroupMatchDay}
+                SIM MATCHDAY {state.currentGroupMatchDay}
               </button>
               <button
                 type="button"
                 disabled={!hydrated}
-                className="flex items-center gap-2 border border-wc-red bg-wc-red/10 px-6 py-3 font-mono text-xs font-bold uppercase tracking-widest text-wc-red transition-colors hover:bg-wc-red hover:text-white disabled:pointer-events-none disabled:opacity-45"
+                className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
+                style={{
+                  background: "#fff",
+                  color: "#0d0d10",
+                  fontFamily: "var(--font-archivo-black)",
+                  fontSize: "13px",
+                  letterSpacing: "0.04em",
+                  border: "2px solid #0d0d10",
+                  padding: "10px 18px",
+                  cursor: "pointer",
+                  transitionDuration: "120ms",
+                }}
                 onClick={() => {
                   if (hydrated) simulateAllGroups();
                 }}
               >
-                <FastForward className="size-3 fill-current" />
-                Auto-Resolve Phase
+                AUTO-RESOLVE PHASE
               </button>
             </div>
           </section>
         )}
 
         {phaseDone && (
-          <section className="mb-10 flex items-center justify-between border border-wc-green/30 bg-wc-green/10 p-6 text-success-bright">
-            <div className="flex items-center gap-3 font-mono text-sm">
-              <CheckCircle2 className="size-5" />
-              <span>Phase 01 data finalized. 32 qualifiers locked.</span>
+          <section
+            className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"
+            style={{
+              background: "#fff",
+              border: "2px solid #0d0d10",
+              boxShadow: "6px 6px 0 0 #006847",
+              padding: "18px 20px",
+            }}
+          >
+            <div className="flex items-start gap-3">
+              <span
+                aria-hidden="true"
+                className="mt-1 inline-block shrink-0"
+                style={{ width: 3, height: 28, background: "#006847" }}
+              />
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-jetbrains-mono)",
+                    fontSize: "10px",
+                    letterSpacing: "0.24em",
+                    color: "#006847",
+                    marginBottom: "4px",
+                  }}
+                >
+                  PHASE 01 COMPLETE
+                </div>
+                <p
+                  style={{
+                    fontFamily: "var(--font-space-grotesk)",
+                    fontSize: "14px",
+                    fontWeight: 600,
+                    color: "#0d0d10",
+                  }}
+                >
+                  32 qualifiers locked. Bracket is ready.
+                </p>
+              </div>
             </div>
-            <Link 
-              href="/bracket" 
-              className="border border-wc-green px-4 py-2 font-mono text-xs font-bold uppercase tracking-widest transition-colors hover:bg-wc-green hover:text-white"
+            <Link
+              href="/bracket"
+              className="inline-flex items-center transition-transform hover:-translate-y-0.5"
+              style={{
+                background: "#0d0d10",
+                color: "#fff",
+                fontFamily: "var(--font-archivo-black)",
+                fontSize: "13px",
+                letterSpacing: "0.04em",
+                border: "none",
+                padding: "12px 20px",
+                boxShadow: "4px 4px 0 0 #D52B1E",
+                transitionDuration: "120ms",
+              }}
             >
-              Access Bracket
+              VIEW BRACKET →
             </Link>
           </section>
         )}
 
-        <section className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+        <section className="grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
           {state.groups.map((group) => (
             <GroupCard key={group.letter} group={group} />
           ))}
@@ -127,5 +321,3 @@ export default function GroupsPage() {
     </main>
   );
 }
-
-
