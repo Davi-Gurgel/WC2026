@@ -38,7 +38,7 @@ export function Nav() {
         <Link
           href="/"
           className="flex items-center gap-2.5 text-white"
-          style={ARCHIVO}
+          style={{ ...ARCHIVO, color: "#fff" }}
           onClick={() => setOpen(false)}
         >
           <div
@@ -52,7 +52,7 @@ export function Nav() {
               />
             </svg>
           </div>
-          WC26·SIMULATOR
+          WORLD CUP 2026 SIMULATOR
         </Link>
 
         <button

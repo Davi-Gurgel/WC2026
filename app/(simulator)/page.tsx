@@ -4,12 +4,16 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useTournament } from "@/components/TournamentProvider";
 import { FLAG_COLORS } from "@/lib/flagColors";
-import nationalTeamsData from "@/data/national_teams.json";
 import { X } from "lucide-react";
 
-const tickerTeams = (nationalTeamsData as Array<{ countryCode: string }>).map(
-  (t) => t.countryCode
-);
+const tickerTeams = [
+  "MEX", "KOR", "RSA", "CZE", "CAN", "SUI", "QAT", "BIH",
+  "BRA", "MAR", "HAI", "SCO", "USA", "PAR", "AUS", "TUR",
+  "GER", "CUW", "CIV", "ECU", "NED", "JPN", "SWE", "TUN",
+  "BEL", "EGY", "IRN", "NZL", "ESP", "CPV", "KSA", "URU",
+  "FRA", "SEN", "NOR", "IRQ", "ARG", "ALG", "AUT", "JOR",
+  "POR", "COL", "UZB", "COD", "ENG", "CRO", "GHA", "PAN",
+];
 
 // ── Sub-components ───────────────────────────────────────────────────────────
 
@@ -334,22 +338,6 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="flex flex-col gap-4">
-            {/* Status pill */}
-            <div
-              className="inline-flex items-center gap-2 self-start"
-              style={{
-                fontFamily: "var(--font-jetbrains-mono)",
-                fontSize: "11px",
-                padding: "5px 10px",
-                border: "1px solid #0d0d10",
-                background: "#fefaf0",
-                color: "#0d0d10",
-              }}
-            >
-              <span style={{ color: "#00853F", fontSize: "12px", lineHeight: 1 }}>●</span>
-              TOURNAMENT IN PROGRESS
-            </div>
-
             {/* Action buttons */}
             <div className="flex flex-wrap gap-3">
               <Link

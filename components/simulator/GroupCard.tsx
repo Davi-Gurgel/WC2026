@@ -79,14 +79,14 @@ function GroupTable({ group }: { group: WorldCupGroup }) {
               color: "#0d0d10",
             }}
           >
-            <th className="w-7 px-2 py-2 font-normal opacity-50">#</th>
+            <th className="w-8 px-2 py-2 font-normal opacity-50">#</th>
             <th className="px-2 py-2 font-normal">TEAM</th>
-            <th className="w-7 px-1 py-2 text-right font-normal opacity-60">P</th>
-            <th className="w-7 px-1 py-2 text-right font-normal opacity-60">W</th>
-            <th className="w-7 px-1 py-2 text-right font-normal opacity-60">D</th>
-            <th className="w-7 px-1 py-2 text-right font-normal opacity-60">L</th>
-            <th className="w-9 px-1 py-2 text-right font-normal opacity-50">GD</th>
-            <th className="w-10 px-2 py-2 text-right" style={{ color: "#D52B1E" }}>PTS</th>
+            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">P</th>
+            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">W</th>
+            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">D</th>
+            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">L</th>
+            <th className="w-7 px-1 py-2 text-right font-normal opacity-50">GD</th>
+            <th className="w-8 px-2 py-2 text-right" style={{ color: "#D52B1E" }}>PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -148,11 +148,11 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
           </span>
         </div>
       </td>
-      <td className="min-w-0 px-2 py-2">
-        <div className="flex min-w-0 items-center gap-2">
+      <td className="px-2 py-2">
+        <div className="flex items-center gap-2">
           <Flag countryCode={countryCode} label={team.teamName} className="h-3 w-4 shrink-0" />
           <span
-            className="truncate"
+            className="whitespace-nowrap"
             style={{
               fontFamily: "var(--font-archivo-black)",
               fontSize: "12px",

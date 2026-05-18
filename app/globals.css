@@ -1,6 +1,9 @@
 @import "tailwindcss";
 
 @theme {
+  --color-white: #ffffff;
+  --color-black: #000000;
+  --color-transparent: transparent;
   --color-navy: #040810;
   --color-navy-panel: #0d1a33;
   --color-gold: #c9931b;
