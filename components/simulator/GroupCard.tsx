@@ -8,30 +8,30 @@ const displayTeamName = (name: string) => (name === "Bosnia and Herzegovina" ? "
 export const GroupCard = memo(function GroupCard({ group }: { group: WorldCupGroup }) {
   return (
     <article
-      className="content-auto flex flex-col bg-white"
+      className="content-auto flex min-w-0 flex-col bg-white"
       style={{ border: "2px solid #0d0d10" }}
     >
       <header
-        className="flex items-center justify-between"
+        className="flex items-center justify-between gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5"
         style={{
           background: "#0d0d10",
           color: "#fff",
-          padding: "10px 14px",
         }}
       >
         <span
           style={{
             fontFamily: "var(--font-archivo-black)",
-            fontSize: "18px",
+            fontSize: "15px",
             letterSpacing: "0.02em",
           }}
         >
           GROUP {group.letter}
         </span>
         <span
+          className="whitespace-nowrap"
           style={{
             fontFamily: "var(--font-jetbrains-mono)",
-            fontSize: "10px",
+            fontSize: "9px",
             letterSpacing: "0.22em",
             opacity: 0.6,
           }}
@@ -40,7 +40,9 @@ export const GroupCard = memo(function GroupCard({ group }: { group: WorldCupGro
         </span>
       </header>
       <GroupTable group={group} />
-      <MatchLog group={group} />
+      <div className="hidden sm:block">
+        <MatchLog group={group} />
+      </div>
     </article>
   );
 });
@@ -66,7 +68,7 @@ export function GroupLegend() {
 
 function GroupTable({ group }: { group: WorldCupGroup }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="w-full overflow-x-hidden">
       <table className="w-full table-fixed text-left">
         <thead>
           <tr
@@ -79,14 +81,14 @@ function GroupTable({ group }: { group: WorldCupGroup }) {
               color: "#0d0d10",
             }}
           >
-            <th className="w-8 px-2 py-2 font-normal opacity-50">#</th>
-            <th className="px-2 py-2 font-normal">TEAM</th>
-            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">P</th>
-            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">W</th>
-            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">D</th>
-            <th className="w-5 px-1 py-2 text-right font-normal opacity-60">L</th>
-            <th className="w-7 px-1 py-2 text-right font-normal opacity-50">GD</th>
-            <th className="w-8 px-2 py-2 text-right" style={{ color: "#D52B1E" }}>PTS</th>
+            <th className="w-7 px-1.5 py-1.5 font-normal opacity-50">#</th>
+            <th className="px-1.5 py-1.5 font-normal">TEAM</th>
+            <th className="w-5 px-1 py-1.5 text-right font-normal opacity-60">P</th>
+            <th className="hidden w-5 px-1 py-1.5 text-right font-normal opacity-60 sm:table-cell">W</th>
+            <th className="hidden w-5 px-1 py-1.5 text-right font-normal opacity-60 sm:table-cell">D</th>
+            <th className="hidden w-5 px-1 py-1.5 text-right font-normal opacity-60 sm:table-cell">L</th>
+            <th className="w-7 px-1 py-1.5 text-right font-normal opacity-50">GD</th>
+            <th className="w-8 px-1.5 py-1.5 text-right" style={{ color: "#D52B1E" }}>PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -113,7 +115,7 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
       className={cn("transition-colors", thirdPlace ? "bg-wc-paper" : index === 3 ? "opacity-40" : "")}
       style={{ borderBottom: "1px solid rgba(13,13,16,0.1)" }}
     >
-      <td className="px-2 py-2 align-middle">
+      <td className="px-1.5 py-1.5 align-middle">
         <div className="flex items-center gap-1.5">
           {advancing && (
             <span
@@ -148,7 +150,7 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
           </span>
         </div>
       </td>
-      <td className="px-2 py-2">
+      <td className="px-1.5 py-1.5">
         <div className="flex items-center gap-2">
           <Flag countryCode={countryCode} label={team.teamName} className="h-3 w-4 shrink-0" />
           <span
@@ -164,23 +166,23 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
           </span>
         </div>
       </td>
-      <td className="px-1 py-2 text-right" style={cellStyle()}>
+      <td className="px-1 py-1.5 text-right" style={cellStyle()}>
         {team.played}
       </td>
-      <td className="px-1 py-2 text-right" style={cellStyle()}>
+      <td className="hidden px-1 py-1.5 text-right sm:table-cell" style={cellStyle()}>
         {team.wins}
       </td>
-      <td className="px-1 py-2 text-right" style={cellStyle()}>
+      <td className="hidden px-1 py-1.5 text-right sm:table-cell" style={cellStyle()}>
         {team.draws}
       </td>
-      <td className="px-1 py-2 text-right" style={cellStyle()}>
+      <td className="hidden px-1 py-1.5 text-right sm:table-cell" style={cellStyle()}>
         {team.losses}
       </td>
       <td className="px-1 py-2 text-right" style={{ ...cellStyle(), opacity: 0.5 }}>
         {team.goalDifference > 0 ? `+${team.goalDifference}` : team.goalDifference}
       </td>
       <td
-        className="px-2 py-2 text-right"
+        className="px-1.5 py-1.5 text-right"
         style={{
           fontFamily: "var(--font-archivo-black)",
           fontSize: "14px",

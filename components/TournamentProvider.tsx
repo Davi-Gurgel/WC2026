@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { getAllTeams } from "@/lib/teams";
 import { simulateAllGroupMatchDays, simulateCurrentGroupMatchDay, simulateCurrentKnockoutRound } from "@/lib/tournament/simulation";
 import { createEmptyTournamentState, initializeTournament } from "@/lib/tournament/state";
 import { loadStoredTournamentState, persistTournamentState, STORAGE_KEY } from "@/lib/tournament/storage";
@@ -70,13 +71,7 @@ export function TournamentProvider({ children }: { children: React.ReactNode }) 
   }, [state, hydrated]);
 
   const startTournament = useCallback(() => {
-    void import("@/lib/teams")
-      .then(({ getAllTeams }) => {
-        setState(initializeTournament(getAllTeams()));
-      })
-      .catch((error: unknown) => {
-        console.error("Failed to start tournament:", error);
-      });
+    setState(initializeTournament(getAllTeams()));
   }, []);
   const resetTournament = useCallback(() => setState(createEmptyTournamentState()), []);
   const simulateGroupDay = useCallback(() => setState((current) => simulateCurrentGroupMatchDay(current)), []);

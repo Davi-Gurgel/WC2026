@@ -34,7 +34,7 @@ export function Nav() {
 
   return (
     <nav className="sticky top-0 z-50" style={{ background: "#0d0d10" }}>
-      <div className="flex h-12 items-center justify-between px-6">
+      <div className="flex h-12 items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
           className="flex items-center gap-2.5 text-white"
@@ -52,7 +52,8 @@ export function Nav() {
               />
             </svg>
           </div>
-          WORLD CUP 2026 SIMULATOR
+          <span className="hidden sm:inline">WORLD CUP 2026 SIMULATOR</span>
+          <span className="sm:hidden">WC26 SIMULATOR</span>
         </Link>
 
         <button

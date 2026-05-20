@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { useTournament } from "@/components/TournamentProvider";
 import { FLAG_COLORS } from "@/lib/flagColors";
@@ -20,10 +21,11 @@ const tickerTeams = [
 function StatCard({ n, label }: { n: string; label: string }) {
   return (
     <div
-      className="bg-white text-center transition-transform ease-out hover:-translate-y-0.5"
+      className="festival-stats-card bg-white text-center transition-transform ease-out hover:-translate-y-0.5"
       style={{ border: "2px solid #0d0d10", padding: "16px 14px", transitionDuration: "120ms" }}
     >
       <div
+        className="festival-stats-card-num"
         style={{
           fontFamily: "var(--font-archivo-black)",
           fontSize: "clamp(58px, 5vw, 78px)",
@@ -35,6 +37,7 @@ function StatCard({ n, label }: { n: string; label: string }) {
         {n}
       </div>
       <div
+        className="festival-stats-card-label"
         style={{
           fontFamily: "var(--font-jetbrains-mono)",
           fontSize: "11px",
@@ -59,7 +62,7 @@ function Ticker({ teams }: { teams: string[] }) {
     >
       {/* Left badge */}
       <div
-        className="flex flex-shrink-0 items-center self-stretch z-10"
+        className="festival-ticker-badge flex flex-shrink-0 items-center self-stretch z-10"
         style={{
           background: "#D52B1E",
           color: "#fff",
@@ -83,7 +86,7 @@ function Ticker({ teams }: { teams: string[] }) {
         }}
       >
         <div
-          className="wc-ticker-inner flex items-center"
+          className="wc-ticker-inner festival-ticker-inner flex items-center"
           style={{
             gap: "28px",
             whiteSpace: "nowrap",
@@ -116,6 +119,7 @@ const facts = [
 
 export default function HomePage() {
   const { state, hydrated, startTournament, resetTournament } = useTournament();
+  const router = useRouter();
   const [showRestartConfirm, setShowRestartConfirm] = useState(false);
   const [factIndex, setFactIndex] = useState(0);
 
@@ -136,10 +140,11 @@ export default function HomePage() {
     <main className="festival-grid">
       {/* ── 1. Mexico block ─────────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden text-white"
+        className="festival-host relative overflow-hidden text-white"
         style={{ background: "#006847", padding: "22px", gridColumn: "1", gridRow: "1" }}
       >
         <div
+          className="festival-host-meta"
           style={{
             fontFamily: "var(--font-jetbrains-mono)",
             fontSize: "10px",
@@ -150,6 +155,7 @@ export default function HomePage() {
           HOST · 01
         </div>
         <div
+          className="festival-host-name"
           style={{
             fontFamily: "var(--font-archivo-black)",
             fontSize: "clamp(40px, 5vw, 64px)",
@@ -161,6 +167,7 @@ export default function HomePage() {
           MÉXICO
         </div>
         <div
+          className="festival-host-meta"
           style={{
             marginTop: "10px",
             fontFamily: "var(--font-jetbrains-mono)",
@@ -172,7 +179,7 @@ export default function HomePage() {
         </div>
         {/* Mexico flag */}
         <span
-          className="fi fi-mx absolute"
+          className="festival-host-flag fi fi-mx absolute"
           aria-hidden="true"
           style={{
             width: "260px",
@@ -189,7 +196,7 @@ export default function HomePage() {
 
       {/* ── 2. Center title block (spans rows 1–2) ──────────────────────── */}
       <div
-        className="relative overflow-hidden flex flex-col justify-between"
+        className="festival-title relative overflow-hidden flex flex-col justify-between gap-5"
         style={{
           background: "#fefaf0",
           border: "3px solid #0d0d10",
@@ -228,6 +235,7 @@ export default function HomePage() {
         {/* Title stack */}
         <div>
           <div
+            className="festival-title-word"
             style={{
               fontFamily: "var(--font-archivo-black)",
               fontSize: "clamp(64px, 9vw, 116px)",
@@ -239,6 +247,7 @@ export default function HomePage() {
             WORLD
           </div>
           <div
+            className="festival-title-word"
             style={{
               fontFamily: "var(--font-archivo-black)",
               fontSize: "clamp(64px, 9vw, 116px)",
@@ -251,6 +260,7 @@ export default function HomePage() {
             CUP
           </div>
           <div
+            className="festival-title-year"
             style={{
               fontFamily: "var(--font-archivo-black)",
               fontSize: "clamp(88px, 13vw, 170px)",
@@ -267,6 +277,7 @@ export default function HomePage() {
           <div className="flex items-center gap-2.5" style={{ marginTop: "8px" }}>
             <div style={{ height: "6px", flex: 1, background: "#0d0d10" }} />
             <div
+              className="festival-title-sub"
               style={{
                 fontFamily: "var(--font-archivo-black)",
                 fontSize: "clamp(20px, 2.5vw, 34px)",
@@ -281,7 +292,7 @@ export default function HomePage() {
           </div>
 
           {/* Rotating fact */}
-          <div className="flex items-center gap-3" style={{ marginTop: "12px" }}>
+          <div className="festival-title-fact flex items-center gap-3" style={{ marginTop: "12px" }}>
             <div style={{ width: "3px", alignSelf: "stretch", background: "#D52B1E", flexShrink: 0 }} />
             <p
               style={{
@@ -304,9 +315,12 @@ export default function HomePage() {
         {!state.active ? (
           <div>
             <button
-              onClick={startTournament}
+              onClick={() => {
+                startTournament();
+                router.push("/groups");
+              }}
               disabled={!hydrated}
-              className="flex items-center transition-transform ease-out hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="festival-cta inline-flex w-full items-center justify-center transition-transform ease-out hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto sm:justify-start"
               style={{
                 background: "#0d0d10",
                 color: "#fff",
@@ -342,7 +356,7 @@ export default function HomePage() {
             <div className="flex flex-wrap gap-3">
               <Link
                 href="/groups"
-                className="flex items-center transition-transform ease-out hover:-translate-y-0.5"
+                className="festival-cta-secondary flex items-center transition-transform ease-out hover:-translate-y-0.5"
                 style={{
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
@@ -357,7 +371,7 @@ export default function HomePage() {
               </Link>
               <Link
                 href="/bracket"
-                className="flex items-center transition-transform ease-out hover:-translate-y-0.5"
+                className="festival-cta-secondary flex items-center transition-transform ease-out hover:-translate-y-0.5"
                 style={{
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
@@ -374,7 +388,7 @@ export default function HomePage() {
                 type="button"
                 onClick={() => setShowRestartConfirm(true)}
                 disabled={!hydrated}
-                className="flex items-center transition-transform ease-out hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="festival-cta-secondary flex items-center transition-transform ease-out hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
                 style={{
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
@@ -396,11 +410,11 @@ export default function HomePage() {
 
       {/* ── 3. Canada block ─────────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden text-white"
+        className="festival-host relative overflow-hidden text-white"
         style={{ background: "#D52B1E", padding: "22px", gridColumn: "3", gridRow: "1" }}
       >
         <div
-          className="text-right"
+          className="festival-host-meta text-right"
           style={{
             fontFamily: "var(--font-jetbrains-mono)",
             fontSize: "10px",
@@ -411,7 +425,7 @@ export default function HomePage() {
           HOST · 02
         </div>
         <div
-          className="text-right"
+          className="festival-host-name text-right"
           style={{
             fontFamily: "var(--font-archivo-black)",
             fontSize: "clamp(40px, 5vw, 64px)",
@@ -423,7 +437,7 @@ export default function HomePage() {
           CANADA
         </div>
         <div
-          className="text-right"
+          className="festival-host-meta text-right"
           style={{
             marginTop: "10px",
             fontFamily: "var(--font-jetbrains-mono)",
@@ -435,7 +449,7 @@ export default function HomePage() {
         </div>
         {/* Canada flag */}
         <span
-          className="fi fi-ca absolute"
+          className="festival-host-flag fi fi-ca absolute"
           aria-hidden="true"
           style={{
             width: "260px",
@@ -452,10 +466,11 @@ export default function HomePage() {
 
       {/* ── 4. USA block ────────────────────────────────────────────────── */}
       <div
-        className="relative overflow-hidden text-white"
+        className="festival-host relative overflow-hidden text-white"
         style={{ background: "#002868", padding: "22px", gridColumn: "1", gridRow: "2" }}
       >
         <div
+          className="festival-host-meta"
           style={{
             fontFamily: "var(--font-jetbrains-mono)",
             fontSize: "10px",
@@ -466,6 +481,7 @@ export default function HomePage() {
           HOST · 03
         </div>
         <div
+          className="festival-host-name"
           style={{
             fontFamily: "var(--font-archivo-black)",
             fontSize: "clamp(32px, 3.5vw, 48px)",
@@ -479,6 +495,7 @@ export default function HomePage() {
           STATES
         </div>
         <div
+          className="festival-host-meta"
           style={{
             marginTop: "10px",
             fontFamily: "var(--font-jetbrains-mono)",
@@ -490,7 +507,7 @@ export default function HomePage() {
         </div>
         {/* USA flag */}
         <span
-          className="fi fi-us absolute"
+          className="festival-host-flag fi fi-us absolute"
           aria-hidden="true"
           style={{
             width: "260px",
@@ -507,7 +524,7 @@ export default function HomePage() {
 
       {/* ── 5. Stats block ──────────────────────────────────────────────── */}
       <div
-        className="flex flex-col items-center justify-center"
+        className="festival-stats flex flex-col items-center justify-center"
         style={{
           background: "#fefaf0",
           border: "3px solid #0d0d10",
@@ -517,6 +534,7 @@ export default function HomePage() {
         }}
       >
         <div
+          className="festival-stats-eyebrow"
           style={{
             fontFamily: "var(--font-jetbrains-mono)",
             fontSize: "10px",
