@@ -97,6 +97,11 @@
         "position": "GOALKEEPER"
       },
       {
+        "name": "Jo Hyeon-woo",
+        "strength": 73,
+        "position": "GOALKEEPER"
+      },
+      {
         "name": "Song Bum-keun",
         "strength": 72,
         "position": "GOALKEEPER"
@@ -107,18 +112,48 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Lee Ki-je",
-        "strength": 71,
+        "name": "Kim Moon-hwan",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Kim Young-gwon",
-        "strength": 70,
+        "name": "Seol Young-woo",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Kim Jin-su",
-        "strength": 71,
+        "name": "Cho Yu-min",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Lee Tae-seok",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Park Jin-seob",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Kim Tae-hyeon",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Lee Han-beom",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Jens Castrop",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Lee Ki-hyuk",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
@@ -127,22 +162,47 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Jung Woo-young",
-        "strength": 72,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Kwon Chang-hoon",
-        "strength": 73,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Na Sang-ho",
-        "strength": 72,
+        "name": "Hwang Hee-chan",
+        "strength": 76,
         "position": "MIDFIELDER"
       },
       {
         "name": "Hwang In-beom",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Lee Kang-in",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Paik Seung-ho",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kim Jin-gyu",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Lee Dong-gyeong",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Bae Jun-ho",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Eom Ji-sung",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Yang Hyun-jun",
         "strength": 73,
         "position": "MIDFIELDER"
       },
@@ -152,18 +212,13 @@
         "position": "FORWARD"
       },
       {
-        "name": "Hwang Hee-chan",
-        "strength": 76,
+        "name": "Cho Gue-sung",
+        "strength": 73,
         "position": "FORWARD"
       },
       {
         "name": "Oh Hyeon-gyu",
         "strength": 74,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Cho Gue-sung",
-        "strength": 73,
         "position": "FORWARD"
       }
     ],
@@ -356,14 +411,24 @@
     "strength": 75,
     "players": [
       {
-        "name": "Yann Sommer",
-        "strength": 81,
-        "position": "GOALKEEPER"
-      },
-      {
         "name": "Gregor Kobel",
         "strength": 79,
         "position": "GOALKEEPER"
+      },
+      {
+        "name": "Yvon Mvogo",
+        "strength": 75,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Marvin Keller",
+        "strength": 75,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Ricardo Rodriguez",
+        "strength": 73,
+        "position": "DEFENDER"
       },
       {
         "name": "Manuel Akanji",
@@ -371,18 +436,33 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Fabian Schär",
-        "strength": 76,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Ricardo Rodríguez",
-        "strength": 73,
-        "position": "DEFENDER"
-      },
-      {
         "name": "Nico Elvedi",
         "strength": 74,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Silvan Widmer",
+        "strength": 75,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Eray Cömert",
+        "strength": 75,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Miro Muheim",
+        "strength": 75,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Aurèle Amenda",
+        "strength": 75,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Luca Jaquez",
+        "strength": 75,
         "position": "DEFENDER"
       },
       {
@@ -396,13 +476,13 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Xherdan Shaqiri",
-        "strength": 76,
+        "name": "Denis Zakaria",
+        "strength": 74,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Denis Zakaria",
-        "strength": 74,
+        "name": "Djibril Sow",
+        "strength": 75,
         "position": "MIDFIELDER"
       },
       {
@@ -411,18 +491,48 @@
         "position": "MIDFIELDER"
       },
       {
+        "name": "Fabian Rieder",
+        "strength": 75,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Christian Fassnacht",
+        "strength": 75,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Johan Manzambi",
+        "strength": 75,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ardon Jashari",
+        "strength": 75,
+        "position": "MIDFIELDER"
+      },
+      {
         "name": "Breel Embolo",
         "strength": 76,
         "position": "FORWARD"
       },
       {
-        "name": "Haris Seferović",
-        "strength": 73,
+        "name": "Rubén Vargas",
+        "strength": 74,
         "position": "FORWARD"
       },
       {
-        "name": "Ruben Vargas",
-        "strength": 74,
+        "name": "Dan Ndoye",
+        "strength": 75,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Zeki Amdouni",
+        "strength": 75,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Noah Okafor",
+        "strength": 75,
         "position": "FORWARD"
       },
       {
@@ -532,28 +642,28 @@
     "strength": 71,
     "players": [
       {
-        "name": "Ibrahim Šehić",
-        "strength": 72,
+        "name": "Nikola Vasilj",
+        "strength": 71,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Amer Šporar",
-        "strength": 70,
+        "name": "Martin Zlomislić",
+        "strength": 71,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Ognjen Vranješ",
-        "strength": 70,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Ermin Bičakčić",
-        "strength": 69,
-        "position": "DEFENDER"
+        "name": "Osman Hadžikić",
+        "strength": 71,
+        "position": "GOALKEEPER"
       },
       {
         "name": "Sead Kolašinac",
         "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Dennis Hadžikadunić",
+        "strength": 71,
         "position": "DEFENDER"
       },
       {
@@ -562,27 +672,77 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Miralem Pjanić",
-        "strength": 78,
-        "position": "MIDFIELDER"
+        "name": "Nikola Katić",
+        "strength": 71,
+        "position": "DEFENDER"
       },
       {
-        "name": "Haris Hajradinović",
-        "strength": 72,
-        "position": "MIDFIELDER"
+        "name": "Tarik Muharemović",
+        "strength": 71,
+        "position": "DEFENDER"
       },
       {
-        "name": "Amer Gojak",
+        "name": "Nihad Mujakić",
+        "strength": 71,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Stjepan Radeljić",
+        "strength": 71,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Nidal Čelik",
+        "strength": 71,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Amir Hadžiahmetović",
         "strength": 71,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Armin Hodžić",
-        "strength": 70,
+        "name": "Benjamin Tahirović",
+        "strength": 71,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Deni Jurić",
+        "name": "Armin Gigović",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Dženis Burnić",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ivan Bašić",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Esmir Bajraktarević",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Amar Memić",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ivan Šunjić",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kerim Alajbegović",
+        "strength": 71,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ermin Mahmić",
         "strength": 71,
         "position": "MIDFIELDER"
       },
@@ -597,13 +757,18 @@
         "position": "FORWARD"
       },
       {
-        "name": "Tarik Đulbić",
-        "strength": 69,
+        "name": "Samed Baždar",
+        "strength": 71,
         "position": "FORWARD"
       },
       {
-        "name": "Jusuf Gazibegović",
-        "strength": 68,
+        "name": "Haris Tabaković",
+        "strength": 71,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jovo Lukić",
+        "strength": 71,
         "position": "FORWARD"
       }
     ],
@@ -718,23 +883,53 @@
         "position": "GOALKEEPER"
       },
       {
+        "name": "Weverton",
+        "strength": 85,
+        "position": "GOALKEEPER"
+      },
+      {
         "name": "Marquinhos",
         "strength": 84,
         "position": "DEFENDER"
       },
       {
-        "name": "Éder Militão",
-        "strength": 83,
+        "name": "Danilo Luiz",
+        "strength": 85,
         "position": "DEFENDER"
       },
       {
-        "name": "Danilo",
-        "strength": 79,
+        "name": "Alex Sandro",
+        "strength": 85,
         "position": "DEFENDER"
       },
       {
-        "name": "Alex Telles",
-        "strength": 77,
+        "name": "Gabriel Magalhães",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Bremer",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Wesley",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Roger Ibañez",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Douglas Santos",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Léo Pereira",
+        "strength": 85,
         "position": "DEFENDER"
       },
       {
@@ -743,33 +938,38 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Bruno Guimarães",
-        "strength": 84,
-        "position": "MIDFIELDER"
-      },
-      {
         "name": "Lucas Paquetá",
         "strength": 84,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Rodrygo",
-        "strength": 83,
+        "name": "Bruno Guimarães",
+        "strength": 84,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Gerson",
-        "strength": 78,
+        "name": "Fabinho",
+        "strength": 85,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Vinicius Jr.",
-        "strength": 90,
+        "name": "Danilo Santos",
+        "strength": 85,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Neymar",
+        "strength": 85,
         "position": "FORWARD"
       },
       {
-        "name": "Endrick",
-        "strength": 83,
+        "name": "Vinícius Júnior",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Raphinha",
+        "strength": 85,
         "position": "FORWARD"
       },
       {
@@ -778,8 +978,28 @@
         "position": "FORWARD"
       },
       {
-        "name": "Richarlison",
-        "strength": 80,
+        "name": "Matheus Cunha",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Endrick",
+        "strength": 83,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Luiz Henrique",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Igor Thiago",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Rayan",
+        "strength": 85,
         "position": "FORWARD"
       }
     ],
@@ -884,18 +1104,23 @@
     "strength": 72,
     "players": [
       {
-        "name": "Angus Gunn",
-        "strength": 73,
-        "position": "GOALKEEPER"
-      },
-      {
         "name": "Craig Gordon",
         "strength": 72,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Kieran Tierney",
-        "strength": 75,
+        "name": "Angus Gunn",
+        "strength": 73,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Liam Kelly",
+        "strength": 72,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Andy Robertson",
+        "strength": 72,
         "position": "DEFENDER"
       },
       {
@@ -904,8 +1129,18 @@
         "position": "DEFENDER"
       },
       {
-        "name": "John Souttar",
-        "strength": 71,
+        "name": "Kieran Tierney",
+        "strength": 75,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Scott McKenna",
+        "strength": 72,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Jack Hendry",
+        "strength": 72,
         "position": "DEFENDER"
       },
       {
@@ -914,13 +1149,38 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Callum McGregor",
-        "strength": 75,
+        "name": "Anthony Ralston",
+        "strength": 72,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "John Souttar",
+        "strength": 71,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Aaron Hickey",
+        "strength": 72,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Dominic Hyam",
+        "strength": 72,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "John McGinn",
+        "strength": 76,
         "position": "MIDFIELDER"
       },
       {
         "name": "Scott McTominay",
         "strength": 77,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ryan Christie",
+        "strength": 72,
         "position": "MIDFIELDER"
       },
       {
@@ -934,12 +1194,27 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "John McGinn",
-        "strength": 76,
+        "name": "Lewis Ferguson",
+        "strength": 72,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ben Gannon-Doak",
+        "strength": 72,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Findlay Curtis",
+        "strength": 72,
         "position": "MIDFIELDER"
       },
       {
         "name": "Lyndon Dykes",
+        "strength": 72,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Ché Adams",
         "strength": 72,
         "position": "FORWARD"
       },
@@ -949,13 +1224,13 @@
         "position": "FORWARD"
       },
       {
-        "name": "Ryan Christie",
+        "name": "George Hirst",
         "strength": 72,
         "position": "FORWARD"
       },
       {
-        "name": "Stuart Armstrong",
-        "strength": 71,
+        "name": "Ross Stewart",
+        "strength": 72,
         "position": "FORWARD"
       }
     ],
@@ -972,78 +1247,133 @@
     "strength": 62,
     "players": [
       {
+        "name": "Johny Placide",
+        "strength": 62,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Alexandre Pierre",
+        "strength": 62,
+        "position": "GOALKEEPER"
+      },
+      {
         "name": "Josué Duverger",
         "strength": 63,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Carnejot Thermidor",
-        "strength": 61,
-        "position": "GOALKEEPER"
-      },
-      {
-        "name": "Joel Garnier",
+        "name": "Ricardo Adé",
         "strength": 62,
         "position": "DEFENDER"
       },
       {
-        "name": "Mechack Jérôme",
-        "strength": 61,
+        "name": "Carlens Arcus",
+        "strength": 62,
         "position": "DEFENDER"
       },
       {
-        "name": "Benchy Bazile",
-        "strength": 61,
+        "name": "Martin Expérience",
+        "strength": 62,
         "position": "DEFENDER"
       },
       {
-        "name": "Kevin Lafrance",
-        "strength": 60,
+        "name": "Jean-Kévin Duverne",
+        "strength": 62,
         "position": "DEFENDER"
+      },
+      {
+        "name": "Duke Lacroix",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Wilguens Paugain",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Hannes Delcroix",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Keeto Thermoncy",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Leverton Pierre",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Danley Jean Jacques",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Carl Sainté",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Jean-Ricner Bellegarde",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Woodensky Pierre",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Dominique Simon",
+        "strength": 62,
+        "position": "MIDFIELDER"
       },
       {
         "name": "Duckens Nazon",
         "strength": 64,
-        "position": "MIDFIELDER"
+        "position": "FORWARD"
       },
       {
         "name": "Frantzdy Pierrot",
         "strength": 62,
-        "position": "MIDFIELDER"
+        "position": "FORWARD"
       },
       {
-        "name": "Wilde-Donald Guerrier",
+        "name": "Derrick Etienne Jr.",
         "strength": 62,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Steeven Saba",
-        "strength": 61,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Kennly Dolce",
-        "strength": 60,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Nicolas Duvivier",
-        "strength": 65,
         "position": "FORWARD"
       },
       {
-        "name": "Jems Geffrard",
-        "strength": 63,
+        "name": "Louicius Deedson",
+        "strength": 62,
         "position": "FORWARD"
       },
       {
-        "name": "Kervens Belfort",
-        "strength": 61,
+        "name": "Ruben Providence",
+        "strength": 62,
         "position": "FORWARD"
       },
       {
-        "name": "Alain Doubs",
-        "strength": 60,
+        "name": "Josué Casimir",
+        "strength": 62,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Yassin Fortuné",
+        "strength": 62,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Wilson Isidor",
+        "strength": 62,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Lenny Joseph",
+        "strength": 62,
         "position": "FORWARD"
       }
     ],
@@ -1500,17 +1830,22 @@
     "strength": 73,
     "players": [
       {
-        "name": "Badra Ali Sangaré",
+        "name": "Yahia Fofana",
         "strength": 73,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Sylvain Gbohouo",
-        "strength": 71,
+        "name": "Alban Lafont",
+        "strength": 73,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Simon Deli",
+        "name": "Mohamed Koné",
+        "strength": 73,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Ghislain Konan",
         "strength": 71,
         "position": "DEFENDER"
       },
@@ -1520,23 +1855,43 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Serge Aurier",
-        "strength": 72,
+        "name": "Wilfried Singo",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Ghislain Konan",
-        "strength": 71,
+        "name": "Evan Ndicka",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Jean Michaël Seri",
-        "strength": 74,
-        "position": "MIDFIELDER"
+        "name": "Emmanuel Agbadou",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Guéla Doué",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Ousmane Diomande",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Clément Akpa",
+        "strength": 73,
+        "position": "DEFENDER"
       },
       {
         "name": "Franck Kessié",
         "strength": 78,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Jean Michaël Seri",
+        "strength": 74,
         "position": "MIDFIELDER"
       },
       {
@@ -1550,28 +1905,58 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Christian Kouamé",
+        "name": "Christ Inao Oulaï",
         "strength": 73,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Sebastien Haller",
-        "strength": 77,
-        "position": "FORWARD"
+        "name": "Parfait Guiagon",
+        "strength": 73,
+        "position": "MIDFIELDER"
       },
       {
-        "name": "Nicolas Pepe",
+        "name": "Nicolas Pépé",
         "strength": 76,
         "position": "FORWARD"
       },
       {
-        "name": "Jonathan Bamba",
+        "name": "Oumar Diakité",
         "strength": 73,
         "position": "FORWARD"
       },
       {
-        "name": "Wilfried Zaha",
-        "strength": 76,
+        "name": "Simon Adingra",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Evann Guessand",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Amad Diallo",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Yan Diomande",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Bazoumana Touré",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Elye Wahi",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Ange-Yoan Bonny",
+        "strength": 73,
         "position": "FORWARD"
       }
     ],
@@ -1681,28 +2066,53 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Wuilker Fariñez",
-        "strength": 61,
+        "name": "Trevor Doornbusch",
+        "strength": 60,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Cuco Martina",
-        "strength": 61,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Vito van Crooy",
-        "strength": 59,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Rangelo Janga",
-        "strength": 59,
-        "position": "DEFENDER"
+        "name": "Tyrick Bodak",
+        "strength": 60,
+        "position": "GOALKEEPER"
       },
       {
         "name": "Juriën Gaari",
         "strength": 58,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Roshon van Eijma",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Sherel Floranus",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Joshua Brenet",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Shurandy Sambo",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Armando Obispo",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Riechedly Bazoer",
+        "strength": 60,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Deveron Fonville",
+        "strength": 60,
         "position": "DEFENDER"
       },
       {
@@ -1711,43 +2121,73 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Gilmar Filho",
-        "strength": 61,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Ruben Ríos",
+        "name": "Juninho Bacuna",
         "strength": 60,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Quentin Boisgard",
+        "name": "Godfried Roemeratoe",
         "strength": 60,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Chedric Bazoer",
-        "strength": 59,
+        "name": "Kevin Felida",
+        "strength": 60,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Gevaro Nepomuceno",
-        "strength": 64,
+        "name": "Livano Comenencia",
+        "strength": 60,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ar'jany Martha",
+        "strength": 60,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Tyrese Noslin",
+        "strength": 60,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kenji Gorré",
+        "strength": 60,
         "position": "FORWARD"
       },
       {
-        "name": "Jarchinio Antonia",
-        "strength": 62,
+        "name": "Brandley Kuwas",
+        "strength": 60,
         "position": "FORWARD"
       },
       {
-        "name": "Kyghan Cova",
-        "strength": 59,
+        "name": "Gervane Kastaneer",
+        "strength": 60,
         "position": "FORWARD"
       },
       {
-        "name": "Jornelly Francisco",
-        "strength": 58,
+        "name": "Jeremy Antonisse",
+        "strength": 60,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jearl Margaritha",
+        "strength": 60,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jürgen Locadia",
+        "strength": 60,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Sontje Hansen",
+        "strength": 60,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Tahith Chong",
+        "strength": 60,
         "position": "FORWARD"
       }
     ],
@@ -1852,37 +2292,77 @@
     "strength": 76,
     "players": [
       {
-        "name": "Shuichi Gonda",
-        "strength": 76,
-        "position": "GOALKEEPER"
-      },
-      {
         "name": "Zion Suzuki",
         "strength": 74,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Maya Yoshida",
-        "strength": 74,
+        "name": "Keisuke Ōsako",
+        "strength": 76,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Tomoki Hayakawa",
+        "strength": 76,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Yūto Nagatomo",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Ko Itakura",
+        "name": "Takehiro Tomiyasu",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Kō Itakura",
         "strength": 75,
         "position": "DEFENDER"
       },
       {
-        "name": "Hiroki Sakai",
-        "strength": 73,
+        "name": "Shōgo Taniguchi",
+        "strength": 76,
         "position": "DEFENDER"
       },
       {
-        "name": "Yuto Nagatomo",
-        "strength": 73,
+        "name": "Hiroki Itō",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Yukinari Sugawara",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Ayumu Seko",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Tsuyoshi Watanabe",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Junnosuke Suzuki",
+        "strength": 76,
         "position": "DEFENDER"
       },
       {
         "name": "Wataru Endo",
+        "strength": 77,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Junya Itō",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ritsu Dōan",
         "strength": 77,
         "position": "MIDFIELDER"
       },
@@ -1892,24 +2372,24 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Hidemasa Morita",
-        "strength": 75,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Kaoru Mitoma",
-        "strength": 81,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Junya Ito",
+        "name": "Takefusa Kubo",
         "strength": 76,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Takumi Minamino",
-        "strength": 78,
-        "position": "FORWARD"
+        "name": "Ao Tanaka",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Keito Nakamura",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kaishū Sano",
+        "strength": 76,
+        "position": "MIDFIELDER"
       },
       {
         "name": "Ayase Ueda",
@@ -1917,13 +2397,28 @@
         "position": "FORWARD"
       },
       {
-        "name": "Ritsu Doan",
-        "strength": 77,
+        "name": "Daizen Maeda",
+        "strength": 76,
         "position": "FORWARD"
       },
       {
-        "name": "Shōta Machino",
-        "strength": 73,
+        "name": "Kōki Ogawa",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Yuito Suzuki",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Keisuke Gotō",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Kento Shiogai",
+        "strength": 76,
         "position": "FORWARD"
       }
     ],
@@ -1940,14 +2435,14 @@
     "strength": 73,
     "players": [
       {
-        "name": "Robin Olsen",
-        "strength": 75,
+        "name": "Jacob Widell Zetterström",
+        "strength": 73,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Karl-Johan Johnsson",
-        "strength": 72,
-        "position": "GOALKEEPER"
+        "name": "Gustaf Lagerbielke",
+        "strength": 73,
+        "position": "DEFENDER"
       },
       {
         "name": "Victor Lindelöf",
@@ -1960,22 +2455,72 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Emil Krafth",
-        "strength": 71,
+        "name": "Gabriel Gudmundsson",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Niclas Eliasson",
-        "strength": 71,
+        "name": "Emil Holm",
+        "strength": 73,
         "position": "DEFENDER"
       },
       {
-        "name": "Emil Forsberg",
-        "strength": 78,
+        "name": "Lucas Bergvall",
+        "strength": 73,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Albin Ekdal",
+        "name": "Daniel Svensson",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Alexander Isak",
+        "strength": 82,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Benjamin Nygren",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Anthony Elanga",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Viktor Johansson",
+        "strength": 73,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Ken Sema",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Hjalmar Ekdal",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Carl Starfelt",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Jesper Karlström",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Viktor Gyökeres",
+        "strength": 78,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Yasin Ayari",
         "strength": 73,
         "position": "MIDFIELDER"
       },
@@ -1985,33 +2530,38 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Jens Cajuste",
-        "strength": 74,
-        "position": "MIDFIELDER"
+        "name": "Eric Smith",
+        "strength": 73,
+        "position": "DEFENDER"
       },
       {
-        "name": "Viktor Gyökeres",
-        "strength": 78,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Alexander Isak",
-        "strength": 82,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Robin Quaison",
-        "strength": 72,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Anthony Elanga",
+        "name": "Alexander Bernhardsson",
         "strength": 73,
         "position": "FORWARD"
       },
       {
-        "name": "John Guidetti",
-        "strength": 71,
+        "name": "Besfort Zeneli",
+        "strength": 73,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kristoffer Nordfeldt",
+        "strength": 73,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Elliot Stroud",
+        "strength": 73,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Gustaf Nilsson",
+        "strength": 73,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Taha Ali",
+        "strength": 73,
         "position": "FORWARD"
       }
     ],
@@ -2033,22 +2583,22 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Mouez Hassen",
+        "name": "Sabri Ben Hessen",
         "strength": 69,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Yassine Meriah",
-        "strength": 70,
-        "position": "DEFENDER"
+        "name": "Mouhib Chamakh",
+        "strength": 69,
+        "position": "GOALKEEPER"
       },
       {
-        "name": "Dylan Bronn",
+        "name": "Montassar Talbi",
         "strength": 69,
         "position": "DEFENDER"
       },
       {
-        "name": "Montassar Talbi",
+        "name": "Dylan Bronn",
         "strength": 69,
         "position": "DEFENDER"
       },
@@ -2058,13 +2608,38 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Ellyes Skhiri",
-        "strength": 74,
-        "position": "MIDFIELDER"
+        "name": "Yan Valery",
+        "strength": 69,
+        "position": "DEFENDER"
       },
       {
-        "name": "Anis Slimane",
-        "strength": 72,
+        "name": "Mohamed Amine Ben Hamida",
+        "strength": 69,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Moutaz Neffati",
+        "strength": 69,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Omar Rekik",
+        "strength": 69,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Adem Arous",
+        "strength": 69,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Raed Chikhaoui",
+        "strength": 69,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Ellyes Skhiri",
+        "strength": 74,
         "position": "MIDFIELDER"
       },
       {
@@ -2073,33 +2648,63 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Wahbi Khazri",
-        "strength": 71,
+        "name": "Anis Ben Slimane",
+        "strength": 69,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Naim Sliti",
-        "strength": 68,
+        "name": "Mortadha Ben Ouanes",
+        "strength": 69,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Taha Yassine Khenissi",
-        "strength": 70,
+        "name": "Ismaël Gharbi",
+        "strength": 69,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Hadj Mahmoud",
+        "strength": 69,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Rani Khedira",
+        "strength": 69,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Elias Achouri",
+        "strength": 69,
         "position": "FORWARD"
       },
       {
-        "name": "Sayfallah Ltaief",
-        "strength": 67,
+        "name": "Firas Chaouat",
+        "strength": 69,
         "position": "FORWARD"
       },
       {
-        "name": "Mohamed Drager",
-        "strength": 68,
+        "name": "Hazem Mastouri",
+        "strength": 69,
         "position": "FORWARD"
       },
       {
-        "name": "Seifeddine Jaziri",
-        "strength": 68,
+        "name": "Elias Saad",
+        "strength": 69,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Sebastian Tounekti",
+        "strength": 69,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Khalil Ayari",
+        "strength": 69,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Rayan Elloumi",
+        "strength": 69,
         "position": "FORWARD"
       }
     ],
@@ -2116,23 +2721,23 @@
     "strength": 82,
     "players": [
       {
-        "name": "Koen Casteels",
-        "strength": 80,
+        "name": "Thibaut Courtois",
+        "strength": 82,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Simon Mignolet",
-        "strength": 79,
+        "name": "Senne Lammens",
+        "strength": 82,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Toby Alderweireld",
-        "strength": 78,
-        "position": "DEFENDER"
+        "name": "Mike Penders",
+        "strength": 82,
+        "position": "GOALKEEPER"
       },
       {
-        "name": "Wout Faes",
-        "strength": 78,
+        "name": "Thomas Meunier",
+        "strength": 76,
         "position": "DEFENDER"
       },
       {
@@ -2141,18 +2746,48 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Thomas Meunier",
-        "strength": 76,
+        "name": "Arthur Theate",
+        "strength": 82,
         "position": "DEFENDER"
       },
       {
-        "name": "Kevin De Bruyne",
-        "strength": 88,
-        "position": "MIDFIELDER"
+        "name": "Zeno Debast",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Maxim De Cuyper",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Brandon Mechele",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Koni De Winter",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Joaquin Seys",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Nathan Ngoy",
+        "strength": 82,
+        "position": "DEFENDER"
       },
       {
         "name": "Axel Witsel",
         "strength": 78,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kevin De Bruyne",
+        "strength": 88,
         "position": "MIDFIELDER"
       },
       {
@@ -2161,12 +2796,17 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Arthur Vermeeren",
-        "strength": 80,
+        "name": "Hans Vanaken",
+        "strength": 82,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Leandro Trossard",
+        "name": "Amadou Onana",
+        "strength": 82,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Nicolas Raskin",
         "strength": 82,
         "position": "MIDFIELDER"
       },
@@ -2176,8 +2816,18 @@
         "position": "FORWARD"
       },
       {
-        "name": "Jeremy Doku",
+        "name": "Leandro Trossard",
+        "strength": 82,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jérémy Doku",
         "strength": 84,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Dodi Lukébakio",
+        "strength": 79,
         "position": "FORWARD"
       },
       {
@@ -2186,8 +2836,18 @@
         "position": "FORWARD"
       },
       {
-        "name": "Dodi Lukebakio",
-        "strength": 79,
+        "name": "Alexis Saelemaekers",
+        "strength": 82,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Diego Moreira",
+        "strength": 82,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Matias Fernandez-Pardo",
+        "strength": 82,
         "position": "FORWARD"
       }
     ],
@@ -2380,22 +3040,22 @@
     "strength": 62,
     "players": [
       {
-        "name": "Oliver Sail",
-        "strength": 63,
-        "position": "GOALKEEPER"
-      },
-      {
         "name": "Max Crocombe",
         "strength": 61,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Winston Reid",
-        "strength": 64,
+        "name": "Tim Payne",
+        "strength": 62,
         "position": "DEFENDER"
       },
       {
-        "name": "Tommy Smith",
+        "name": "Francis de Vries",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Tyler Bindon",
         "strength": 62,
         "position": "DEFENDER"
       },
@@ -2405,33 +3065,18 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Liberato Cacace",
-        "strength": 63,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Ryan Thomas",
-        "strength": 63,
+        "name": "Joe Bell",
+        "strength": 62,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Logan Rogerson",
+        "name": "Matthew Garbett",
         "strength": 61,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Sarpreet Singh",
-        "strength": 62,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Ben Old",
-        "strength": 62,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Joe Bell",
-        "strength": 62,
+        "name": "Marko Stamenić",
+        "strength": 63,
         "position": "MIDFIELDER"
       },
       {
@@ -2440,19 +3085,89 @@
         "position": "FORWARD"
       },
       {
-        "name": "Marko Stamenic",
+        "name": "Sarpreet Singh",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Elijah Just",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Alex Paulsen",
+        "strength": 62,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Liberato Cacace",
         "strength": 63,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Alex Rufer",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Nando Pijnaker",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Finn Surman",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Kosta Barbarouses",
+        "strength": 62,
         "position": "FORWARD"
       },
       {
-        "name": "Oli Sail",
-        "strength": 61,
+        "name": "Ben Waine",
+        "strength": 62,
         "position": "FORWARD"
       },
       {
-        "name": "Matthew Garbett",
-        "strength": 61,
+        "name": "Ben Old",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Callum McCowatt",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Jesse Randall",
+        "strength": 62,
         "position": "FORWARD"
+      },
+      {
+        "name": "Michael Woud",
+        "strength": 62,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Ryan Thomas",
+        "strength": 63,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Callan Elliot",
+        "strength": 62,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Lachlan Bayliss",
+        "strength": 62,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Tommy Smith",
+        "strength": 62,
+        "position": "DEFENDER"
       }
     ],
     "attackStrength": 61,
@@ -2737,8 +3452,13 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Marco Soares",
-        "strength": 64,
+        "name": "Márcio Rosa",
+        "strength": 65,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "CJ dos Santos",
+        "strength": 65,
         "position": "GOALKEEPER"
       },
       {
@@ -2747,63 +3467,113 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Filipe Moreira",
-        "strength": 64,
-        "position": "DEFENDER"
-      },
-      {
-        "name": "Dylan Tavares",
-        "strength": 64,
-        "position": "DEFENDER"
-      },
-      {
         "name": "Roberto Lopes",
         "strength": 65,
         "position": "DEFENDER"
       },
       {
-        "name": "Bebé",
-        "strength": 66,
+        "name": "João Paulo",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Diney",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Logan Costa",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Steven Moreira",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Wagner Pina",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Sidny Lopes Cabral",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Kelvin Pires",
+        "strength": 65,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Jamiro Monteiro",
+        "strength": 65,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kevin Pina",
+        "strength": 65,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Deroy Duarte",
+        "strength": 65,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Telmo Arcanjo",
+        "strength": 65,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Laros Duarte",
+        "strength": 65,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Yannick Semedo",
+        "strength": 65,
         "position": "MIDFIELDER"
       },
       {
         "name": "Ryan Mendes",
         "strength": 66,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Steven Fortes",
-        "strength": 64,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Willy Semedo",
-        "strength": 63,
-        "position": "MIDFIELDER"
+        "position": "FORWARD"
       },
       {
         "name": "Garry Rodrigues",
         "strength": 67,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Djaniny",
-        "strength": 68,
         "position": "FORWARD"
       },
       {
-        "name": "Fali Candé",
+        "name": "Willy Semedo",
+        "strength": 63,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jovane Cabral",
         "strength": 65,
         "position": "FORWARD"
       },
       {
-        "name": "Julio Tavares",
-        "strength": 64,
+        "name": "Gilson Benchimol",
+        "strength": 65,
         "position": "FORWARD"
       },
       {
-        "name": "Thiago",
-        "strength": 63,
+        "name": "Dailon Livramento",
+        "strength": 65,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Hélio Varela",
+        "strength": 65,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Nuno da Costa",
+        "strength": 65,
         "position": "FORWARD"
       }
     ],
@@ -2825,13 +3595,18 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Alphonse Areola",
-        "strength": 79,
+        "name": "Brice Samba",
+        "strength": 87,
         "position": "GOALKEEPER"
       },
       {
-        "name": "William Saliba",
-        "strength": 85,
+        "name": "Robin Risser",
+        "strength": 87,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Lucas Digne",
+        "strength": 87,
         "position": "DEFENDER"
       },
       {
@@ -2840,8 +3615,13 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Théo Hernández",
+        "name": "Théo Hernandez",
         "strength": 83,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Lucas Hernandez",
+        "strength": 87,
         "position": "DEFENDER"
       },
       {
@@ -2850,17 +3630,27 @@
         "position": "DEFENDER"
       },
       {
+        "name": "William Saliba",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Ibrahima Konaté",
+        "strength": 87,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Malo Gusto",
+        "strength": 87,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Maxence Lacroix",
+        "strength": 87,
+        "position": "DEFENDER"
+      },
+      {
         "name": "N'Golo Kanté",
-        "strength": 83,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Aurélien Tchouaméni",
-        "strength": 84,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Eduardo Camavinga",
         "strength": 83,
         "position": "MIDFIELDER"
       },
@@ -2870,18 +3660,23 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Youssouf Fofana",
-        "strength": 78,
+        "name": "Aurélien Tchouaméni",
+        "strength": 84,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Manu Koné",
+        "strength": 87,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Warren Zaïre-Emery",
+        "strength": 87,
         "position": "MIDFIELDER"
       },
       {
         "name": "Kylian Mbappé",
         "strength": 93,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Antoine Griezmann",
-        "strength": 83,
         "position": "FORWARD"
       },
       {
@@ -2892,6 +3687,36 @@
       {
         "name": "Marcus Thuram",
         "strength": 83,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Bradley Barcola",
+        "strength": 87,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Michael Olise",
+        "strength": 87,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Maghnes Akliouche",
+        "strength": 87,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Désiré Doué",
+        "strength": 87,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Rayan Cherki",
+        "strength": 87,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Jean-Philippe Mateta",
+        "strength": 87,
         "position": "FORWARD"
       }
     ],
@@ -3260,19 +4085,24 @@
     "strength": 74,
     "players": [
       {
-        "name": "Patrick Pentz",
+        "name": "Alexander Schlager",
         "strength": 74,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Heinz Lindner",
-        "strength": 72,
-        "position": "GOALKEEPER"
+        "name": "David Affengruber",
+        "strength": 74,
+        "position": "DEFENDER"
       },
       {
-        "name": "David Alaba",
-        "strength": 82,
+        "name": "Kevin Danso",
+        "strength": 74,
         "position": "DEFENDER"
+      },
+      {
+        "name": "Xaver Schlager",
+        "strength": 74,
+        "position": "MIDFIELDER"
       },
       {
         "name": "Stefan Posch",
@@ -3280,14 +4110,24 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Philipp Lienhart",
-        "strength": 72,
+        "name": "Nicolas Seiwald",
+        "strength": 75,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Marko Arnautović",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "David Alaba",
+        "strength": 82,
         "position": "DEFENDER"
       },
       {
-        "name": "Maximilian Wöber",
-        "strength": 73,
-        "position": "DEFENDER"
+        "name": "Marcel Sabitzer",
+        "strength": 78,
+        "position": "MIDFIELDER"
       },
       {
         "name": "Florian Grillitsch",
@@ -3295,8 +4135,43 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Marcel Sabitzer",
-        "strength": 78,
+        "name": "Michael Gregoritsch",
+        "strength": 74,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Florian Wiegele",
+        "strength": 74,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Patrick Pentz",
+        "strength": 74,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Saša Kalajdžić",
+        "strength": 74,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Philipp Lienhart",
+        "strength": 72,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Phillipp Mwene",
+        "strength": 74,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Carney Chukwuemeka",
+        "strength": 74,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Romano Schmid",
+        "strength": 74,
         "position": "MIDFIELDER"
       },
       {
@@ -3310,29 +4185,34 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Nicolas Seiwald",
-        "strength": 75,
+        "name": "Patrick Wimmer",
+        "strength": 72,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Marko Arnautovic",
-        "strength": 76,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Michael Gregoritsch",
+        "name": "Alexander Prass",
         "strength": 74,
-        "position": "FORWARD"
+        "position": "DEFENDER"
       },
       {
-        "name": "Sasa Kalajdzic",
+        "name": "Marco Friedl",
         "strength": 74,
-        "position": "FORWARD"
+        "position": "DEFENDER"
       },
       {
-        "name": "Patrick Wimmer",
-        "strength": 72,
-        "position": "FORWARD"
+        "name": "Paul Wanner",
+        "strength": 74,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Michael Svoboda",
+        "strength": 74,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Alessandro Schöpf",
+        "strength": 74,
+        "position": "MIDFIELDER"
       }
     ],
     "attackStrength": 73,
@@ -3529,8 +4409,13 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Rui Patrício",
-        "strength": 79,
+        "name": "José Sá",
+        "strength": 85,
+        "position": "GOALKEEPER"
+      },
+      {
+        "name": "Rui Silva",
+        "strength": 85,
         "position": "GOALKEEPER"
       },
       {
@@ -3539,18 +4424,43 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Gonçalo Inácio",
-        "strength": 82,
-        "position": "DEFENDER"
-      },
-      {
         "name": "João Cancelo",
         "strength": 81,
         "position": "DEFENDER"
       },
       {
+        "name": "Nélson Semedo",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
         "name": "Nuno Mendes",
         "strength": 81,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Diogo Dalot",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Gonçalo Inácio",
+        "strength": 82,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Matheus Nunes",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Renato Veiga",
+        "strength": 85,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Tomás Araújo",
+        "strength": 85,
         "position": "DEFENDER"
       },
       {
@@ -3564,6 +4474,11 @@
         "position": "MIDFIELDER"
       },
       {
+        "name": "Rúben Neves",
+        "strength": 82,
+        "position": "MIDFIELDER"
+      },
+      {
         "name": "Vitinha",
         "strength": 83,
         "position": "MIDFIELDER"
@@ -3574,8 +4489,8 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Rúben Neves",
-        "strength": 82,
+        "name": "Samú Costa",
+        "strength": 85,
         "position": "MIDFIELDER"
       },
       {
@@ -3584,8 +4499,18 @@
         "position": "FORWARD"
       },
       {
+        "name": "João Félix",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
         "name": "Rafael Leão",
         "strength": 86,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Gonçalo Guedes",
+        "strength": 85,
         "position": "FORWARD"
       },
       {
@@ -3596,6 +4521,16 @@
       {
         "name": "Pedro Neto",
         "strength": 82,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Francisco Trincão",
+        "strength": 85,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Francisco Conceição",
+        "strength": 85,
         "position": "FORWARD"
       }
     ],
@@ -3700,19 +4635,19 @@
     "strength": 68,
     "players": [
       {
-        "name": "Joël Kiassumbua",
-        "strength": 69,
+        "name": "Lionel Mpasi",
+        "strength": 68,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Ley Matampi",
-        "strength": 67,
+        "name": "Timothy Fayulu",
+        "strength": 68,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Wilfried Zaha-Eto",
-        "strength": 67,
-        "position": "DEFENDER"
+        "name": "Matthieu Epolo",
+        "strength": 68,
+        "position": "GOALKEEPER"
       },
       {
         "name": "Chancel Mbemba",
@@ -3720,48 +4655,98 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Marcel Tisserand",
+        "name": "Arthur Masuaku",
         "strength": 68,
         "position": "DEFENDER"
       },
       {
-        "name": "Bope Zuriko",
-        "strength": 66,
+        "name": "Gédéon Kalulu",
+        "strength": 68,
         "position": "DEFENDER"
       },
       {
-        "name": "Yannick Bolasie",
-        "strength": 70,
+        "name": "Joris Kayembe",
+        "strength": 68,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Dylan Batubinsika",
+        "strength": 68,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Axel Tuanzebe",
+        "strength": 68,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Aaron Wan-Bissaka",
+        "strength": 68,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Steve Kapuadi",
+        "strength": 68,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Meschak Elia",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Samuel Moutoussamy",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Edo Kayembe",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Charles Pickel",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Gaël Kakuta",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Noah Sadiki",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Nathanaël Mbuku",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Aaron Tshibola",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Ngal'ayel Mukau",
+        "strength": 68,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Brian Cipenga",
+        "strength": 68,
         "position": "MIDFIELDER"
       },
       {
         "name": "Cédric Bakambu",
         "strength": 74,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Arthur Masuaku",
-        "strength": 68,
-        "position": "MIDFIELDER"
+        "position": "FORWARD"
       },
       {
         "name": "Théo Bongonda",
         "strength": 69,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Samuel Bastien",
-        "strength": 67,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Dieumerci Mbokani",
-        "strength": 69,
-        "position": "FORWARD"
-      },
-      {
-        "name": "Paul-José M'Poku",
-        "strength": 70,
         "position": "FORWARD"
       },
       {
@@ -3770,8 +4755,13 @@
         "position": "FORWARD"
       },
       {
-        "name": "Willy Boly",
-        "strength": 67,
+        "name": "Yoane Wissa",
+        "strength": 68,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Simon Banza",
+        "strength": 68,
         "position": "FORWARD"
       }
     ],
@@ -3969,14 +4959,14 @@
         "position": "GOALKEEPER"
       },
       {
-        "name": "Ivica Ivušić",
-        "strength": 74,
+        "name": "Dominik Kotarski",
+        "strength": 76,
         "position": "GOALKEEPER"
       },
       {
-        "name": "Josip Šutalo",
+        "name": "Ivor Pandur",
         "strength": 76,
-        "position": "DEFENDER"
+        "position": "GOALKEEPER"
       },
       {
         "name": "Joško Gvardiol",
@@ -3984,13 +4974,33 @@
         "position": "DEFENDER"
       },
       {
-        "name": "Borna Sosa",
-        "strength": 74,
+        "name": "Duje Ćaleta-Car",
+        "strength": 76,
         "position": "DEFENDER"
       },
       {
-        "name": "Dario Šimić",
-        "strength": 73,
+        "name": "Josip Šutalo",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Josip Stanišić",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Marin Pongračić",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Martin Erlić",
+        "strength": 76,
+        "position": "DEFENDER"
+      },
+      {
+        "name": "Luka Vušković",
+        "strength": 76,
         "position": "DEFENDER"
       },
       {
@@ -4004,24 +5014,44 @@
         "position": "MIDFIELDER"
       },
       {
-        "name": "Marcelo Brozović",
-        "strength": 80,
-        "position": "MIDFIELDER"
-      },
-      {
-        "name": "Lovro Majer",
-        "strength": 77,
-        "position": "MIDFIELDER"
-      },
-      {
         "name": "Mario Pašalić",
         "strength": 76,
         "position": "MIDFIELDER"
       },
       {
-        "name": "Andrej Kramarić",
-        "strength": 78,
-        "position": "FORWARD"
+        "name": "Nikola Vlašić",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Luka Sučić",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Martin Baturina",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Kristijan Jakić",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Petar Sučić",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Nikola Moro",
+        "strength": 76,
+        "position": "MIDFIELDER"
+      },
+      {
+        "name": "Toni Fruk",
+        "strength": 76,
+        "position": "MIDFIELDER"
       },
       {
         "name": "Ivan Perišić",
@@ -4029,13 +5059,28 @@
         "position": "FORWARD"
       },
       {
-        "name": "Marko Livaja",
-        "strength": 74,
+        "name": "Andrej Kramarić",
+        "strength": 78,
         "position": "FORWARD"
       },
       {
-        "name": "Bruno Petković",
-        "strength": 73,
+        "name": "Ante Budimir",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Marco Pašalić",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Petar Musa",
+        "strength": 76,
+        "position": "FORWARD"
+      },
+      {
+        "name": "Igor Matanović",
+        "strength": 76,
         "position": "FORWARD"
       }
     ],

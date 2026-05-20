@@ -12,6 +12,7 @@
     "data:build": "tsx scripts/data/build.ts",
     "data:export": "tsx scripts/data/export.ts",
     "data:check": "tsx scripts/data/check.ts",
+    "data:scrape": "tsx scripts/data/scrape-squads.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
