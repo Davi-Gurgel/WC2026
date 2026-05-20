@@ -15,18 +15,13 @@ type BracketSide = "left" | "right";
 type MatchRect = {
   left: number;
   right: number;
-  centerY: number;
+  connectorY: number;
 };
 
 type ConnectorPath = {
   id: string;
   path: string;
   side: BracketSide;
-};
-
-type ConnectorRoundSets = {
-  left: Match[][];
-  right: Match[][];
 };
 
 const EYEBROW: React.CSSProperties = {
@@ -49,6 +44,9 @@ const SIDE_STROKE = {
   left: "#002868",
   right: "#006847",
 } satisfies Record<BracketSide, string>;
+
+const CONNECTOR_STUB = 14;
+const CONNECTOR_MIN_GAP = 18;
 
 export default function BracketPage() {
   const { state, simulateKnockoutRound } = useTournament();
@@ -73,17 +71,6 @@ export default function BracketPage() {
     }),
     [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]
   );
-  const connectorRounds = useMemo<ConnectorRoundSets>(() => {
-    const r32 = splitMatches(state.r32Matches);
-    const r16 = splitMatches(state.r16Matches);
-    const quarterFinals = splitMatches(state.quarterFinals);
-    const semiFinals = splitMatches(state.semiFinals);
-
-    return {
-      left: [r32.left, r16.left, quarterFinals.left, semiFinals.left],
-      right: [r32.right, r16.right, quarterFinals.right, semiFinals.right],
-    };
-  }, [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]);
   const groupStageComplete = state.phase !== "GROUP_STAGE" && state.phase !== "NOT_STARTED";
   const nextRoundLabel = phaseLabel(state.phase);
   const registerMatchRef = useCallback((matchId: string, node: HTMLElement | null) => {
@@ -109,34 +96,41 @@ export default function BracketPage() {
 
     for (const [matchId, node] of matchRefs.current) {
       const rect = node.getBoundingClientRect();
-      const centerY = rect.top - containerRect.top + rect.height / 2;
+      const connectorAnchor = node.querySelector<HTMLElement>("[data-connector-anchor]");
+      const anchorRect = connectorAnchor?.getBoundingClientRect();
+      const connectorY = anchorRect
+        ? anchorRect.top - containerRect.top + anchorRect.height / 2
+        : rect.top - containerRect.top + rect.height / 2;
+
       rectByMatchId.set(matchId, {
         left: rect.left - containerRect.left,
         right: rect.right - containerRect.left,
-        centerY,
+        connectorY,
       });
     }
 
     const nextPaths: ConnectorPath[] = [];
+    const ROUND_KEYS = ["round-of-32", "round-of-16", "quarter-finals", "semi-finals"];
 
-    const addRoundConnectorPaths = (rounds: Match[][], side: BracketSide) => {
-      for (let level = 0; level < rounds.length - 1; level += 1) {
-        const childRound = rounds[level];
-        const parentRound = rounds[level + 1];
+    const addRoundConnectorPaths = (side: BracketSide) => {
+      for (let level = 0; level < ROUND_KEYS.length - 1; level += 1) {
+        const childRoundKey = ROUND_KEYS[level];
+        const parentRoundKey = ROUND_KEYS[level + 1];
+        const parentCount = 2 ** (2 - level);
 
-        for (let parentIndex = 0; parentIndex < parentRound.length; parentIndex += 1) {
-          const parentMatch = parentRound[parentIndex];
-          const childAMatch = childRound[parentIndex * 2];
-          const childBMatch = childRound[parentIndex * 2 + 1];
-          if (!parentMatch || !childAMatch || !childBMatch) continue;
+        for (let parentIndex = 0; parentIndex < parentCount; parentIndex += 1) {
+          const parentSlotId = `${side}-${parentRoundKey}-${parentIndex}`;
+          const childASlotId = `${side}-${childRoundKey}-${parentIndex * 2}`;
+          const childBSlotId = `${side}-${childRoundKey}-${parentIndex * 2 + 1}`;
 
-          const parentRect = rectByMatchId.get(parentMatch.id);
-          const childARect = rectByMatchId.get(childAMatch.id);
-          const childBRect = rectByMatchId.get(childBMatch.id);
+          const parentRect = rectByMatchId.get(parentSlotId);
+          const childARect = rectByMatchId.get(childASlotId);
+          const childBRect = rectByMatchId.get(childBSlotId);
+
           if (!parentRect || !childARect || !childBRect) continue;
 
           nextPaths.push({
-            id: `${side}-${parentMatch.id}-${childAMatch.id}-${childBMatch.id}`,
+            id: `${side}-${parentSlotId}-${childASlotId}-${childBSlotId}`,
             side,
             path: getConnectorPath(parentRect, childARect, childBRect, side),
           });
@@ -144,27 +138,24 @@ export default function BracketPage() {
       }
     };
 
-    addRoundConnectorPaths(connectorRounds.left, "left");
-    addRoundConnectorPaths(connectorRounds.right, "right");
+    addRoundConnectorPaths("left");
+    addRoundConnectorPaths("right");
 
-    const finalMatch = state.finalMatch;
-    const finalRect = finalMatch ? rectByMatchId.get(finalMatch.id) : undefined;
-    const leftSemiFinalMatch = connectorRounds.left.at(-1)?.[0];
-    const rightSemiFinalMatch = connectorRounds.right.at(-1)?.[0];
-    const leftSemiFinalRect = leftSemiFinalMatch ? rectByMatchId.get(leftSemiFinalMatch.id) : undefined;
-    const rightSemiFinalRect = rightSemiFinalMatch ? rectByMatchId.get(rightSemiFinalMatch.id) : undefined;
+    const finalRect = rectByMatchId.get("final");
+    const leftSemiFinalRect = rectByMatchId.get("left-semi-finals-0");
+    const rightSemiFinalRect = rectByMatchId.get("right-semi-finals-0");
 
-    if (finalMatch && finalRect && leftSemiFinalMatch && leftSemiFinalRect) {
+    if (finalRect && leftSemiFinalRect) {
       nextPaths.push({
-        id: `left-${finalMatch.id}-${leftSemiFinalMatch.id}`,
+        id: `left-final-left-semi-finals-0`,
         side: "left",
         path: getFinalConnectorPath(finalRect, leftSemiFinalRect, "left"),
       });
     }
 
-    if (finalMatch && finalRect && rightSemiFinalMatch && rightSemiFinalRect) {
+    if (finalRect && rightSemiFinalRect) {
       nextPaths.push({
-        id: `right-${finalMatch.id}-${rightSemiFinalMatch.id}`,
+        id: `right-final-right-semi-finals-0`,
         side: "right",
         path: getFinalConnectorPath(finalRect, rightSemiFinalRect, "right"),
       });
@@ -174,11 +165,14 @@ export default function BracketPage() {
       previous.width === nextSize.width && previous.height === nextSize.height ? previous : nextSize
     );
     setConnectorPaths(nextPaths);
-  }, [connectorRounds.left, connectorRounds.right, groupStageComplete, state.finalMatch]);
+  }, [groupStageComplete]);
 
   useLayoutEffect(() => {
     const container = bracketContainerRef.current;
     if (!container || !groupStageComplete) return;
+
+    // Reference state here so it is tracked as a dependency and triggers layout recalculation when matches update
+    const _state = state;
 
     let animationFrame = 0;
     const schedule = () => {
@@ -207,7 +201,7 @@ export default function BracketPage() {
       observer?.disconnect();
       window.removeEventListener("resize", schedule);
     };
-  }, [groupStageComplete, updateConnectorGeometry]);
+  }, [groupStageComplete, updateConnectorGeometry, state]);
 
   return (
     <main className="flex-1 pb-24" style={{ background: "#fefaf0" }}>
@@ -358,16 +352,25 @@ export default function BracketPage() {
                   viewBox={`0 0 ${svgSize.width} ${svgSize.height}`}
                 >
                   {connectorPaths.map((connector) => (
-                    <path
-                      key={connector.id}
-                      d={connector.path}
-                      fill="none"
-                      stroke={SIDE_STROKE[connector.side]}
-                      strokeOpacity={0.45}
-                      strokeWidth={1.5}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <g key={connector.id}>
+                      <path
+                        d={connector.path}
+                        fill="none"
+                        stroke="#fefaf0"
+                        strokeWidth={5}
+                        strokeLinecap="square"
+                        strokeLinejoin="miter"
+                      />
+                      <path
+                        d={connector.path}
+                        fill="none"
+                        stroke={SIDE_STROKE[connector.side]}
+                        strokeOpacity={0.62}
+                        strokeWidth={1.5}
+                        strokeLinecap="square"
+                        strokeLinejoin="miter"
+                      />
+                    </g>
                   ))}
                 </svg>
 
@@ -399,9 +402,9 @@ export default function BracketPage() {
                         FINAL
                       </div>
                       {state.finalMatch ? (
-                        <BracketMatch match={state.finalMatch} final onMatchRef={registerMatchRef} />
+                        <BracketMatch match={state.finalMatch} final slotId="final" onMatchRef={registerMatchRef} />
                       ) : (
-                        <EmptyMatchSlot />
+                        <EmptyMatchSlot slotId="final" onMatchRef={registerMatchRef} />
                       )}
                     </div>
                     <div className="row-start-3 mt-8">
@@ -418,9 +421,9 @@ export default function BracketPage() {
                         THIRD PLACE
                       </div>
                       {state.thirdPlaceMatch ? (
-                        <BracketMatch match={state.thirdPlaceMatch} compact onMatchRef={registerMatchRef} />
+                        <BracketMatch match={state.thirdPlaceMatch} compact slotId="third-place" onMatchRef={registerMatchRef} />
                       ) : (
-                        <EmptyMatchSlot />
+                        <EmptyMatchSlot slotId="third-place" onMatchRef={registerMatchRef} />
                       )}
                     </div>
                   </div>
@@ -523,14 +526,20 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
 
       {Array.from({ length: slotCount }, (_, index) => {
         const match = matches[index];
+        const roundKey = title.toLowerCase().replace(/\s+/g, "-");
+        const slotId = `${side}-${roundKey}-${index}`;
 
         return (
           <div
             className="z-10 flex items-center"
-            key={match?.id ?? `${title}-${index}`}
+            key={match?.id ?? slotId}
             style={{ gridRow: `${index * rowSpan + 1} / span ${rowSpan}` }}
           >
-            {match ? <BracketMatch match={match} onMatchRef={onMatchRef} /> : <EmptyMatchSlot />}
+            {match ? (
+              <BracketMatch match={match} slotId={slotId} onMatchRef={onMatchRef} />
+            ) : (
+              <EmptyMatchSlot slotId={slotId} onMatchRef={onMatchRef} />
+            )}
           </div>
         );
       })}
@@ -538,10 +547,21 @@ const BracketRoundColumn = memo(function BracketRoundColumn({
   );
 });
 
-const EmptyMatchSlot = memo(function EmptyMatchSlot() {
+const EmptyMatchSlot = memo(function EmptyMatchSlot({
+  slotId,
+  onMatchRef,
+}: {
+  slotId?: string;
+  onMatchRef?: (matchId: string, node: HTMLElement | null) => void;
+}) {
   return (
     <article
       aria-hidden="true"
+      ref={(node) => {
+        if (slotId && onMatchRef) {
+          onMatchRef(slotId, node);
+        }
+      }}
       className="relative z-10 my-2 w-full"
       style={{
         background: "#fefaf0",
@@ -564,7 +584,7 @@ const EmptyMatchSlot = memo(function EmptyMatchSlot() {
         <span>TBD</span>
       </div>
       <PlaceholderTeam />
-      <div style={{ height: 1, background: "rgba(13,13,16,0.1)" }} />
+      <div data-connector-anchor style={{ height: 1, background: "rgba(13,13,16,0.1)" }} />
       <PlaceholderTeam />
     </article>
   );
@@ -607,11 +627,13 @@ const BracketMatch = memo(function BracketMatch({
   match,
   final = false,
   compact = false,
+  slotId,
   onMatchRef,
 }: {
   match: Match;
   final?: boolean;
   compact?: boolean;
+  slotId?: string;
   onMatchRef?: (matchId: string, node: HTMLElement | null) => void;
 }) {
   const winner = getWinner(match);
@@ -620,7 +642,11 @@ const BracketMatch = memo(function BracketMatch({
     <article
       data-match-id={match.id}
       ref={(node) => {
-        onMatchRef?.(match.id, node);
+        if (slotId && onMatchRef) {
+          onMatchRef(slotId, node);
+        } else if (onMatchRef) {
+          onMatchRef(match.id, node);
+        }
       }}
       className={cn(
         "relative z-10 my-2 w-full transition-transform hover:-translate-y-0.5",
@@ -655,7 +681,7 @@ const BracketMatch = memo(function BracketMatch({
         loser={match.played && winner?.name !== match.homeTeam.name}
         final={final}
       />
-      <div style={{ height: 1, background: "rgba(13,13,16,0.12)" }} />
+      <div data-connector-anchor style={{ height: 1, background: "rgba(13,13,16,0.12)" }} />
       <BracketTeam
         team={match.awayTeam}
         score={match.awayScore}
@@ -674,46 +700,74 @@ function getConnectorPath(
   childBRect: MatchRect,
   side: BracketSide
 ): string {
-  const dir = side === "left" ? 1 : -1;
+  const childAEdgeX = getMatchEdgeX(childARect, side, "from-child");
+  const childBEdgeX = getMatchEdgeX(childBRect, side, "from-child");
+  const parentEdgeX = getMatchEdgeX(parentRect, side, "to-parent");
+  const childForkX = getForkX(childAEdgeX, childBEdgeX, parentEdgeX, side);
+  const parentForkX = getParentForkX(childForkX, parentEdgeX, side);
 
-  const childAEdgeX = side === "left" ? childARect.right : childARect.left;
-  const childBEdgeX = side === "left" ? childBRect.right : childBRect.left;
-  const parentEdgeX = side === "left" ? parentRect.left : parentRect.right;
-
-  const averageChildEdgeX = (childAEdgeX + childBEdgeX) / 2;
-  const joinX = averageChildEdgeX + dir * Math.abs(parentEdgeX - averageChildEdgeX) * 0.5;
-
-  const childAY = childARect.centerY;
-  const childBY = childBRect.centerY;
-  const parentY = parentRect.centerY;
-
-  const verticalTop = Math.min(childAY, childBY, parentY);
-  const verticalBottom = Math.max(childAY, childBY, parentY);
+  const childAY = roundCoordinate(childARect.connectorY);
+  const childBY = roundCoordinate(childBRect.connectorY);
+  const parentY = roundCoordinate(parentRect.connectorY);
+  const trunkTop = Math.min(childAY, childBY);
+  const trunkBottom = Math.max(childAY, childBY);
 
   return [
-    `M ${childAEdgeX} ${childAY} H ${joinX}`,
-    `M ${childBEdgeX} ${childBY} H ${joinX}`,
-    `M ${joinX} ${verticalTop} V ${verticalBottom}`,
-    `M ${joinX} ${parentY} H ${parentEdgeX}`,
+    drawHorizontal(childAEdgeX, childForkX, childAY),
+    drawHorizontal(childBEdgeX, childForkX, childBY),
+    `M ${childForkX} ${trunkTop} V ${trunkBottom}`,
+    drawHorizontal(childForkX, parentForkX, parentY),
+    drawHorizontal(parentForkX, parentEdgeX, parentY),
   ].join(" ");
 }
 
 function getFinalConnectorPath(parentRect: MatchRect, childRect: MatchRect, side: BracketSide): string {
-  const dir = side === "left" ? 1 : -1;
-  const childEdgeX = side === "left" ? childRect.right : childRect.left;
-  const parentEdgeX = side === "left" ? parentRect.left : parentRect.right;
-  const joinX = childEdgeX + dir * Math.abs(parentEdgeX - childEdgeX) * 0.5;
+  const childEdgeX = getMatchEdgeX(childRect, side, "from-child");
+  const parentEdgeX = getMatchEdgeX(parentRect, side, "to-parent");
+  const joinX = getForkX(childEdgeX, childEdgeX, parentEdgeX, side);
 
-  const childY = childRect.centerY;
-  const parentY = parentRect.centerY;
+  const childY = roundCoordinate(childRect.connectorY);
+  const parentY = roundCoordinate(parentRect.connectorY);
   const verticalTop = Math.min(childY, parentY);
   const verticalBottom = Math.max(childY, parentY);
 
   return [
-    `M ${childEdgeX} ${childY} H ${joinX}`,
+    drawHorizontal(childEdgeX, joinX, childY),
     `M ${joinX} ${verticalTop} V ${verticalBottom}`,
-    `M ${joinX} ${parentY} H ${parentEdgeX}`,
+    drawHorizontal(joinX, parentEdgeX, parentY),
   ].join(" ");
+}
+
+function getMatchEdgeX(rect: MatchRect, side: BracketSide, direction: "from-child" | "to-parent"): number {
+  const useRightEdge =
+    (side === "left" && direction === "from-child") || (side === "right" && direction === "to-parent");
+
+  return roundCoordinate(useRightEdge ? rect.right : rect.left);
+}
+
+function getForkX(childAEdgeX: number, childBEdgeX: number, parentEdgeX: number, side: BracketSide): number {
+  const dir = side === "left" ? 1 : -1;
+  const childEdgeX = (childAEdgeX + childBEdgeX) / 2;
+  const availableSpace = Math.max(Math.abs(parentEdgeX - childEdgeX), CONNECTOR_MIN_GAP);
+  const forkOffset = Math.max(CONNECTOR_STUB, availableSpace * 0.42);
+
+  return roundCoordinate(childEdgeX + dir * forkOffset);
+}
+
+function getParentForkX(childForkX: number, parentEdgeX: number, side: BracketSide): number {
+  const dir = side === "left" ? -1 : 1;
+  const parentStubX = parentEdgeX + dir * CONNECTOR_STUB;
+  const crossesParent = side === "left" ? parentStubX < childForkX : parentStubX > childForkX;
+
+  return roundCoordinate(crossesParent ? parentStubX : (childForkX + parentEdgeX) / 2);
+}
+
+function drawHorizontal(fromX: number, toX: number, y: number): string {
+  return `M ${roundCoordinate(fromX)} ${roundCoordinate(y)} H ${roundCoordinate(toX)}`;
+}
+
+function roundCoordinate(value: number): number {
+  return Math.round(value * 2) / 2;
 }
 
 function roundAbbreviation(round: Match["knockoutRound"]): string {

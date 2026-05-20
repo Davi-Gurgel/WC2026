@@ -20,13 +20,13 @@ const tickerTeams = [
 function StatCard({ n, label }: { n: string; label: string }) {
   return (
     <div
-      className="bg-white transition-transform ease-out hover:-translate-y-0.5"
-      style={{ border: "2px solid #0d0d10", padding: "10px 12px", transitionDuration: "120ms" }}
+      className="bg-white text-center transition-transform ease-out hover:-translate-y-0.5"
+      style={{ border: "2px solid #0d0d10", padding: "16px 14px", transitionDuration: "120ms" }}
     >
       <div
         style={{
           fontFamily: "var(--font-archivo-black)",
-          fontSize: "56px",
+          fontSize: "clamp(58px, 5vw, 78px)",
           lineHeight: 0.9,
           color: "#0d0d10",
           letterSpacing: "-0.04em",
@@ -37,11 +37,11 @@ function StatCard({ n, label }: { n: string; label: string }) {
       <div
         style={{
           fontFamily: "var(--font-jetbrains-mono)",
-          fontSize: "10px",
+          fontSize: "11px",
           letterSpacing: "0.22em",
           color: "#0d0d10",
           opacity: 0.55,
-          marginTop: "4px",
+          marginTop: "8px",
         }}
       >
         {label}
@@ -507,11 +507,11 @@ export default function HomePage() {
 
       {/* ── 5. Stats block ──────────────────────────────────────────────── */}
       <div
-        className="flex flex-col justify-between"
+        className="flex flex-col items-center justify-center"
         style={{
           background: "#fefaf0",
           border: "3px solid #0d0d10",
-          padding: "22px",
+          padding: "26px",
           gridColumn: "3",
           gridRow: "2",
         }}
@@ -523,23 +523,15 @@ export default function HomePage() {
             letterSpacing: "0.24em",
             opacity: 0.6,
             color: "#0d0d10",
+            marginBottom: "18px",
           }}
         >
           BY THE NUMBERS
         </div>
-        <p
-          style={{
-            fontFamily: "var(--font-space-grotesk)",
-            fontWeight: 500,
-            fontSize: "14px",
-            lineHeight: 1.55,
-            color: "#0d0d10",
-            opacity: 0.55,
-          }}
+        <div
+          className="w-full max-w-sm"
+          style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "14px" }}
         >
-          The biggest World Cup in history — first edition with 48 nations across 3 host countries.
-        </p>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "12px" }}>
           <StatCard n="48" label="NATIONS" />
           <StatCard n="12" label="GROUPS" />
           <StatCard n="104" label="MATCHES" />
