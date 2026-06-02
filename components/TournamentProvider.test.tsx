@@ -69,7 +69,7 @@ describe("TournamentProvider flow", () => {
         state?: { allTeams?: unknown; groups?: Array<{ matches: Array<{ h: string; a: string }> }> };
       };
 
-      expect(parsed.version).toBe(2);
+      expect(parsed.version).toBe(3);
       expect(parsed.state?.allTeams).toBeUndefined();
       expect(parsed.state?.groups?.[0]?.matches[0]).toMatchObject({ h: "MEX", a: "KOR" });
       expect(stored?.length ?? Number.POSITIVE_INFINITY).toBeLessThan(50_000);

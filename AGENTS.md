@@ -59,7 +59,7 @@ Use the Node version declared in `.node-version` / `package.json#engines`.
   `state in → new state out`** — they never mutate. Keep them that way; the React layer owns all
   side effects.
 - **Phase flow:** `NOT_STARTED → GROUP_STAGE → ROUND_OF_32 → ROUND_OF_16 → QUARTERFINAL →
-  SEMIFINAL → FINISHED`. After three group match days, `calculateQualifiedThirds` picks the **8
+  SEMIFINAL → FINAL → FINISHED`. After three group match days, `calculateQualifiedThirds` picks the **8
   best third-placed teams** to fill the Round of 32 (32 = 24 group qualifiers + 8 best thirds).
 - **Scoring model** (`simulation.ts > simulateMatch`): goal chance ≈ `strength * luck / 380`
   (luck ∈ [0.85, 1.15]), capped at 7 goals/team. Knockout draws → extra time (2 extra events) →

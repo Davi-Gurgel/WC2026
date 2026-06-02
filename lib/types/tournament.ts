@@ -27,6 +27,7 @@ export type TournamentPhase =
   | "ROUND_OF_16"
   | "QUARTERFINAL"
   | "SEMIFINAL"
+  | "FINAL"
   | "FINISHED";
 
 export type KnockoutRound =

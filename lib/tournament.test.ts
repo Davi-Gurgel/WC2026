@@ -55,11 +55,12 @@ describe("tournament rules", () => {
     expect(state.semiFinals).toHaveLength(2);
 
     state = simulateCurrentKnockoutRound(state);
-    expect(state.phase).toBe("FINISHED");
+    expect(state.phase).toBe("FINAL");
     expect(state.thirdPlaceMatch?.matchNumber).toBe(103);
     expect(state.finalMatch?.matchNumber).toBe(104);
 
     state = simulateCurrentKnockoutRound(state);
+    expect(state.phase).toBe("FINISHED");
     expect(state.finalMatch?.played).toBe(true);
     expect(state.champion).toBeTruthy();
     expect(state.runnerUp).toBeTruthy();

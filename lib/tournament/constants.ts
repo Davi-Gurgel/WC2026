@@ -10,7 +10,8 @@ const PHASE_LABELS_BY_LOCALE = {
     ROUND_OF_16: "Oitavas de final",
     QUARTERFINAL: "Quartas de final",
     SEMIFINAL: "Semifinais",
-    FINISHED: "Finais"
+    FINAL: "Final",
+    FINISHED: "Encerrada"
   },
   en: {
     NOT_STARTED: "Not started",
@@ -19,13 +20,14 @@ const PHASE_LABELS_BY_LOCALE = {
     ROUND_OF_16: "Round of 16",
     QUARTERFINAL: "Quarterfinals",
     SEMIFINAL: "Semifinals",
-    FINISHED: "Finals"
+    FINAL: "Final",
+    FINISHED: "Finished"
   }
 } satisfies Record<string, Record<TournamentPhase, string>>;
 
 export type PhaseLabelLocale = keyof typeof PHASE_LABELS_BY_LOCALE;
 
-export function getPhaseLabels(locale: PhaseLabelLocale = "pt-BR"): Record<TournamentPhase, string> {
+function getPhaseLabels(locale: PhaseLabelLocale = "pt-BR"): Record<TournamentPhase, string> {
   return PHASE_LABELS_BY_LOCALE[locale];
 }
 

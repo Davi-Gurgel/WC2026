@@ -73,16 +73,17 @@ export function simulateCurrentKnockoutRound(state: TournamentState): Tournament
   if (state.phase === "SEMIFINAL") {
     const semiFinals = simulateRound(state.semiFinals, scorerMap);
     const [thirdPlaceMatch, finalMatch] = generateThirdAndFinal(semiFinals);
-    return { ...state, semiFinals, thirdPlaceMatch, finalMatch, phase: "FINISHED", topScorers: scorerMapToTopScorers(scorerMap) };
+    return { ...state, semiFinals, thirdPlaceMatch, finalMatch, phase: "FINAL", topScorers: scorerMapToTopScorers(scorerMap) };
   }
 
-  if (state.phase === "FINISHED") {
+  if (state.phase === "FINAL") {
     const thirdPlaceMatch = state.thirdPlaceMatch?.played ? state.thirdPlaceMatch : state.thirdPlaceMatch ? simulateMatch(state.thirdPlaceMatch, scorerMap, true) : null;
     const finalMatch = state.finalMatch?.played ? state.finalMatch : state.finalMatch ? simulateMatch(state.finalMatch, scorerMap, true) : null;
     return {
       ...state,
       thirdPlaceMatch,
       finalMatch,
+      phase: finalMatch?.played ? "FINISHED" : state.phase,
       champion: finalMatch?.played ? getWinner(finalMatch) : state.champion,
       runnerUp: finalMatch?.played ? getLoser(finalMatch) : state.runnerUp,
       topScorers: scorerMapToTopScorers(scorerMap)
