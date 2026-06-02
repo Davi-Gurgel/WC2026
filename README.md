@@ -12,19 +12,19 @@ Simulador da Copa do Mundo 2026 reescrito em Next.js.
 ## Como rodar
 
 ```bash
-npm install
-npm run dev
+pnpm install
+pnpm dev
 ```
 
 Abra `http://localhost:3000`.
 
 ## Scripts
 
-- `npm run dev`: servidor local de desenvolvimento.
-- `npm run build`: build de producao do Next.js.
-- `npm run lint`: checagem ESLint.
-- `npm run typecheck`: checagem TypeScript.
-- `npm test`: suite Vitest.
+- `pnpm dev`: servidor local de desenvolvimento.
+- `pnpm build`: build de producao do Next.js.
+- `pnpm lint`: checagem ESLint.
+- `pnpm typecheck`: checagem TypeScript.
+- `pnpm test`: suite Vitest.
 
 ## Dados
 
@@ -48,10 +48,10 @@ por `lib/teams.ts` com Zod.
 Antes de publicar ou abrir PR:
 
 ```bash
-npm run lint
-npm run typecheck
-npm test
-npm run build
+pnpm lint
+pnpm typecheck
+pnpm test
+pnpm build
 ```
 
 Tambem valide manualmente no browser:

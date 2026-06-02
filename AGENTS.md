@@ -28,23 +28,23 @@ The codebase is two largely independent halves:
 ## Build, Test, and Development Commands
 
 ```bash
-npm install          # install from package-lock.json
-npm run dev          # local dev server at http://localhost:3000
-npm run build        # production build
-npm run lint         # ESLint (next core-web-vitals) — the enforced lint gate
-npm run typecheck    # tsc --noEmit, strict
-npm test             # Vitest, run once
+pnpm install         # install from pnpm-lock.yaml
+pnpm dev             # local dev server at http://localhost:3000
+pnpm build           # production build
+pnpm lint            # ESLint (next core-web-vitals) — the enforced lint gate
+pnpm typecheck       # tsc --noEmit, strict
+pnpm test            # Vitest, run once
 ```
 
 Run a single test file or filter:
 ```bash
-npx vitest run lib/tournament/standings.test.ts
-npx vitest run -t "qualified thirds"
+pnpm exec vitest run lib/tournament/standings.test.ts
+pnpm exec vitest run -t "qualified thirds"
 ```
 
 Release / pre-PR gate (see README "Checklist de release"):
 ```bash
-npm run lint && npm run typecheck && npm test && npm run build
+pnpm lint && pnpm typecheck && pnpm test && pnpm build
 ```
 
 Use the Node version declared in `.node-version` / `package.json#engines`.
