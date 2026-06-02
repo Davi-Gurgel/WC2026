@@ -1,39 +1,16 @@
 "use client";
 
-import Link from "next/link";
 import { useMemo } from "react";
 import { GroupCard, GroupLegend } from "@/components/simulator/GroupCard";
 import { useTournament } from "@/components/TournamentProvider";
-import { getTournamentStats } from "@/lib/tournament/selectors";
+import { getTournamentStats } from "@/lib/tournament";
 import { StatBox } from "@/components/ui/StatBox";
-
-const EYEBROW: React.CSSProperties = {
-  fontFamily: "var(--font-jetbrains-mono)",
-  fontSize: "10px",
-  letterSpacing: "0.24em",
-  color: "#0d0d10",
-  opacity: 0.55,
-};
-
-const H1: React.CSSProperties = {
-  fontFamily: "var(--font-archivo-black)",
-  fontSize: "clamp(36px, 5vw, 56px)",
-  lineHeight: 1,
-  letterSpacing: "-0.03em",
-  color: "#0d0d10",
-};
+import { Button, LinkButton } from "@/components/ui/Button";
+import { PageHeader, BADGE_STYLE } from "@/components/ui/PageHeader";
 
 const PILL_BASE: React.CSSProperties = {
-  display: "inline-flex",
-  alignItems: "center",
+  ...BADGE_STYLE,
   gap: "8px",
-  fontFamily: "var(--font-jetbrains-mono)",
-  fontSize: "10px",
-  letterSpacing: "0.22em",
-  padding: "5px 10px",
-  border: "1px solid #0d0d10",
-  background: "#fefaf0",
-  color: "#0d0d10",
 };
 
 export default function GroupsPage() {
@@ -131,19 +108,10 @@ export default function GroupsPage() {
 
   return (
     <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
-      <header
-        className="px-4 py-7 sm:px-6 sm:py-8"
-        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div style={EYEBROW}>PHASE · 01</div>
-            <h1 className="mt-2" style={H1}>
-              GROUP STAGE
-            </h1>
-          </div>
+      <PageHeader eyebrow="PHASE · 01" title="GROUP STAGE" />
 
-          <div className="flex flex-wrap items-center gap-2">
+      <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
+        <div className="flex flex-wrap items-center gap-2">
             <span style={PILL_BASE}>
               <span
                 aria-hidden="true"
@@ -163,9 +131,8 @@ export default function GroupsPage() {
             <span style={PILL_BASE}>
               MATCHDAY {Math.min(state.currentGroupMatchDay, 3)}/3
             </span>
-          </div>
         </div>
-      </header>
+      </div>
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <section className="mb-8 grid grid-cols-2 gap-3 md:grid-cols-4">
@@ -203,49 +170,30 @@ export default function GroupsPage() {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <button
+              <Button
                 type="button"
+                variant="primary"
                 disabled={!hydrated}
-                className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
-                style={{
-                  background: "#0d0d10",
-                  color: "#fff",
-                  fontFamily: "var(--font-archivo-black)",
-                  fontSize: "13px",
-                  letterSpacing: "0.04em",
-                  border: "none",
-                  padding: "12px 20px",
-                  cursor: "pointer",
-                  boxShadow: "6px 6px 0 0 #D52B1E",
-                  transitionDuration: "120ms",
-                }}
+                className="disabled:cursor-not-allowed disabled:opacity-50"
+                style={{ fontSize: "13px", padding: "12px 20px" }}
                 onClick={() => {
                   if (hydrated) simulateGroupDay();
                 }}
               >
                 SIM MATCHDAY {state.currentGroupMatchDay}
-              </button>
-              <button
+              </Button>
+              <Button
                 type="button"
+                variant="secondary"
                 disabled={!hydrated}
-                className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
-                style={{
-                  background: "#fff",
-                  color: "#0d0d10",
-                  fontFamily: "var(--font-archivo-black)",
-                  fontSize: "13px",
-                  letterSpacing: "0.04em",
-                  border: "2px solid #0d0d10",
-                  padding: "10px 18px",
-                  cursor: "pointer",
-                  transitionDuration: "120ms",
-                }}
+                className="disabled:cursor-not-allowed disabled:opacity-50"
+                style={{ fontSize: "13px", padding: "10px 18px" }}
                 onClick={() => {
                   if (hydrated) simulateAllGroups();
                 }}
               >
                 AUTO-RESOLVE PHASE
-              </button>
+              </Button>
             </div>
           </section>
         )}
@@ -290,23 +238,13 @@ export default function GroupsPage() {
                 </p>
               </div>
             </div>
-            <Link
+            <LinkButton
               href="/bracket"
-              className="inline-flex items-center transition-transform hover:-translate-y-0.5"
-              style={{
-                background: "#0d0d10",
-                color: "#fff",
-                fontFamily: "var(--font-archivo-black)",
-                fontSize: "13px",
-                letterSpacing: "0.04em",
-                border: "none",
-                padding: "12px 20px",
-                boxShadow: "4px 4px 0 0 #D52B1E",
-                transitionDuration: "120ms",
-              }}
+              variant="primary"
+              style={{ fontSize: "13px", padding: "12px 20px", boxShadow: "4px 4px 0 0 #D52B1E" }}
             >
               VIEW BRACKET →
-            </Link>
+            </LinkButton>
           </section>
         )}
 

@@ -2,8 +2,7 @@
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { getAllTeams } from "@/lib/teams";
-import { simulateAllGroupMatchDays, simulateCurrentGroupMatchDay, simulateCurrentKnockoutRound } from "@/lib/tournament/simulation";
-import { createEmptyTournamentState, initializeTournament } from "@/lib/tournament/state";
+import { createEmptyTournamentState, initializeTournament, simulateAllGroupMatchDays, simulateCurrentGroupMatchDay, simulateCurrentKnockoutRound } from "@/lib/tournament";
 import { loadStoredTournamentState, persistTournamentState, STORAGE_KEY } from "@/lib/tournament/storage";
 import type { TournamentState } from "@/lib/types/tournament";
 

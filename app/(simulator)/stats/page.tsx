@@ -3,21 +3,14 @@
 import { useMemo } from "react";
 import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
-import { scoreDisplay } from "@/lib/tournament/matches";
 import {
   collectTournamentMatches,
   getMatchActivityTime,
   getTournamentStats,
-} from "@/lib/tournament/selectors";
+  scoreDisplay,
+} from "@/lib/tournament";
 import { StatBox } from "@/components/ui/StatBox";
-
-const EYEBROW: React.CSSProperties = {
-  fontFamily: "var(--font-jetbrains-mono)",
-  fontSize: "10px",
-  letterSpacing: "0.24em",
-  color: "#0d0d10",
-  opacity: 0.55,
-};
+import { PageHeader } from "@/components/ui/PageHeader";
 
 const SECTION_TITLE: React.CSSProperties = {
   fontFamily: "var(--font-archivo-black)",
@@ -46,44 +39,7 @@ export default function StatsPage() {
 
   return (
     <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
-      <header
-        className="px-4 py-7 sm:px-6 sm:py-8"
-        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div style={EYEBROW}>ANALYTICS</div>
-            <h1
-              className="mt-2"
-              style={{
-                fontFamily: "var(--font-archivo-black)",
-                fontSize: "clamp(36px, 5vw, 56px)",
-                lineHeight: 1,
-                letterSpacing: "-0.03em",
-                color: "#0d0d10",
-              }}
-            >
-              STATISTICS
-            </h1>
-          </div>
-          <span
-            className="self-start md:self-auto"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              fontFamily: "var(--font-jetbrains-mono)",
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              padding: "5px 10px",
-              border: "1px solid #0d0d10",
-              background: "#fefaf0",
-              color: "#0d0d10",
-            }}
-          >
-            {stats.phase.toUpperCase()}
-          </span>
-        </div>
-      </header>
+      <PageHeader eyebrow="ANALYTICS" title="STATISTICS" badge={stats.phase.toUpperCase()} />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         {state.champion && (

@@ -3,9 +3,10 @@
 import { useMemo, useState } from "react";
 import { useTournament } from "@/components/TournamentProvider";
 import { MatchRow } from "@/components/simulator/MatchRow";
-import { getAllGroupMatches } from "@/lib/tournament/selectors";
+import { getGroupMatchesForDay } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 type MatchFilter = "GROUP" | "R32" | "R16" | "QF" | "SF" | "FINAL";
 
@@ -27,7 +28,7 @@ export default function MatchesPage() {
 
   const matches = useMemo(() => {
     const byPhase: Record<MatchFilter, Match[]> = {
-      GROUP: getAllGroupMatches(state).filter((match) => match.round === day),
+      GROUP: getGroupMatchesForDay(state, day),
       R32: state.r32Matches,
       R16: state.r16Matches,
       QF: state.quarterFinals,
@@ -39,36 +40,7 @@ export default function MatchesPage() {
 
   return (
     <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
-      <header
-        className="px-4 py-7 sm:px-6 sm:py-8"
-        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
-      >
-        <div className="mx-auto max-w-7xl">
-          <div
-            style={{
-              fontFamily: "var(--font-jetbrains-mono)",
-              fontSize: "10px",
-              letterSpacing: "0.24em",
-              color: "#0d0d10",
-              opacity: 0.55,
-            }}
-          >
-            MATCH LOG
-          </div>
-          <h1
-            className="mt-2"
-            style={{
-              fontFamily: "var(--font-archivo-black)",
-              fontSize: "clamp(36px, 5vw, 56px)",
-              lineHeight: 1,
-              letterSpacing: "-0.03em",
-              color: "#0d0d10",
-            }}
-          >
-            MATCHES
-          </h1>
-        </div>
-      </header>
+      <PageHeader eyebrow="MATCH LOG" title="MATCHES" />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div

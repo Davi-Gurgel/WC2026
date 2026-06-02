@@ -8,7 +8,7 @@ import {
   TeamTelemetry,
 } from "@/components/simulator/TeamDetailSections";
 import { useTournament } from "@/components/TournamentProvider";
-import { findTeamByCodeOrName, getMatchesForTeam } from "@/lib/tournament/selectors";
+import { findTeamByCodeOrName, getMatchesForTeam } from "@/lib/tournament";
 import type { Team } from "@/lib/types/tournament";
 
 export function TeamDetailClient({ code, fallbackTeam }: { code: string; fallbackTeam: Team }) {

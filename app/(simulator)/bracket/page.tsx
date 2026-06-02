@@ -1,23 +1,15 @@
 "use client";
 
-import Link from "next/link";
-import { memo, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import confetti from "canvas-confetti";
+import { memo, useCallback, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
-import { phaseLabel } from "@/lib/tournament/constants";
-import { getWinner } from "@/lib/tournament/matches";
-import { isTournamentCompleted } from "@/lib/tournament/selectors";
+import { BracketSide, MatchRect, getConnectorPath, getFinalConnectorPath } from "@/components/simulator/bracket-geometry";
+import { useChampionCelebration } from "@/components/simulator/useChampionCelebration";
+import { phaseLabel, getWinner, isTournamentCompleted } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
-
-type BracketSide = "left" | "right";
-
-type MatchRect = {
-  left: number;
-  right: number;
-  connectorY: number;
-};
+import { Button, LinkButton } from "@/components/ui/Button";
+import { PageHeader } from "@/components/ui/PageHeader";
 
 type ConnectorPath = {
   id: string;
@@ -25,29 +17,10 @@ type ConnectorPath = {
   side: BracketSide;
 };
 
-const EYEBROW: React.CSSProperties = {
-  fontFamily: "var(--font-jetbrains-mono)",
-  fontSize: "10px",
-  letterSpacing: "0.24em",
-  color: "#0d0d10",
-  opacity: 0.55,
-};
-
-const H1: React.CSSProperties = {
-  fontFamily: "var(--font-archivo-black)",
-  fontSize: "clamp(36px, 5vw, 56px)",
-  lineHeight: 1,
-  letterSpacing: "-0.03em",
-  color: "#0d0d10",
-};
-
 const SIDE_STROKE = {
   left: "#002868",
   right: "#006847",
 } satisfies Record<BracketSide, string>;
-
-const CONNECTOR_STUB = 14;
-const CONNECTOR_MIN_GAP = 18;
 
 export default function BracketPage() {
   const { state, simulateKnockoutRound } = useTournament();
@@ -55,74 +28,9 @@ export default function BracketPage() {
   const championRef = useRef<HTMLElement>(null);
   const matchRefs = useRef<Map<string, HTMLElement>>(new Map());
   const championId = state.champion?.countryCode ?? null;
-  const lastCelebratedChampion = useRef<string | null>(null);
-
-  useEffect(() => {
-    if (!championId) {
-      lastCelebratedChampion.current = null;
-      return;
-    }
-    if (lastCelebratedChampion.current === championId) return;
-    lastCelebratedChampion.current = championId;
-
-    const reduceMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-
-    // Smooth scroll to champion (next tick so the card is committed to DOM)
-    window.setTimeout(() => {
-      championRef.current?.scrollIntoView({
-        behavior: reduceMotion ? "auto" : "smooth",
-        block: "center",
-      });
-    }, 120);
-
-    if (reduceMotion) return;
-
-    // Fire-and-forget celebration — intentionally NOT cancelled on cleanup
-    // so React strict-mode double-invoke / fast remounts don't kill the show.
-    const colors = ["#D52B1E", "#002868", "#006847", "#fefaf0", "#FFD700"];
-
-    const fire = (particleRatio: number, opts: confetti.Options) => {
-      void confetti({
-        origin: { y: 0.7 },
-        colors,
-        zIndex: 9999,
-        ...opts,
-        particleCount: Math.floor(220 * particleRatio),
-      });
-    };
-
-    // Realistic multi-burst recipe (canvas-confetti official)
-    fire(0.25, { spread: 26, startVelocity: 55 });
-    fire(0.2, { spread: 60 });
-    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-    fire(0.1, { spread: 120, startVelocity: 45 });
-
-    // Side cannons for drama
-    window.setTimeout(() => {
-      void confetti({
-        particleCount: 90,
-        angle: 60,
-        spread: 75,
-        origin: { x: 0, y: 0.9 },
-        colors,
-        zIndex: 9999,
-      });
-      void confetti({
-        particleCount: 90,
-        angle: 120,
-        spread: 75,
-        origin: { x: 1, y: 0.9 },
-        colors,
-        zIndex: 9999,
-      });
-    }, 400);
-
-  }, [championId]);
   const [connectorPaths, setConnectorPaths] = useState<ConnectorPath[]>([]);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
+  useChampionCelebration(championId, championRef);
   const bracketSides = useMemo(
     () => ({
       left: [
@@ -274,35 +182,7 @@ export default function BracketPage() {
 
   return (
     <main className="flex-1 pb-24" style={{ background: "#fefaf0" }}>
-      <header
-        className="px-4 py-7 sm:px-6 sm:py-8"
-        style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
-      >
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <div style={EYEBROW}>PHASE · 02</div>
-            <h1 className="mt-2" style={H1}>
-              KNOCKOUT STAGE
-            </h1>
-          </div>
-          <span
-            className="self-start md:self-auto"
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              fontFamily: "var(--font-jetbrains-mono)",
-              fontSize: "10px",
-              letterSpacing: "0.22em",
-              padding: "5px 10px",
-              border: "1px solid #0d0d10",
-              background: "#fefaf0",
-              color: "#0d0d10",
-            }}
-          >
-            {phaseLabel(state.phase).toUpperCase()}
-          </span>
-        </div>
-      </header>
+      <PageHeader eyebrow="PHASE · 02" title="KNOCKOUT STAGE" badge={phaseLabel(state.phase).toUpperCase()} />
 
       <div className="mx-auto max-w-[104rem] px-4 py-8 sm:px-6">
         {!groupStageComplete ? (
@@ -350,23 +230,13 @@ export default function BracketPage() {
             >
               Bracket generation unlocks when Phase 01 concludes.
             </p>
-            <Link
+            <LinkButton
               href="/groups"
-              className="inline-flex items-center transition-transform hover:-translate-y-0.5"
-              style={{
-                background: "#0d0d10",
-                color: "#fff",
-                fontFamily: "var(--font-archivo-black)",
-                fontSize: "14px",
-                letterSpacing: "0.04em",
-                border: "none",
-                padding: "12px 22px",
-                boxShadow: "4px 4px 0 0 #D52B1E",
-                transitionDuration: "120ms",
-              }}
+              variant="primary"
+              style={{ boxShadow: "4px 4px 0 0 #D52B1E" }}
             >
               RETURN TO GROUPS
-            </Link>
+            </LinkButton>
           </div>
         ) : (
           <>
@@ -515,26 +385,13 @@ export default function BracketPage() {
 
             {!state.champion && (
               <div className="fixed bottom-6 left-1/2 z-40 -translate-x-1/2">
-                <button
+                <Button
                   type="button"
+                  variant="primary"
                   onClick={simulateKnockoutRound}
                   disabled={isTournamentCompleted(state)}
-                  className="transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
-                  style={{
-                    background: "#0d0d10",
-                    color: "#fff",
-                    fontFamily: "var(--font-archivo-black)",
-                    fontSize: "14px",
-                    letterSpacing: "0.04em",
-                    border: "none",
-                    padding: "14px 26px",
-                    cursor: "pointer",
-                    boxShadow: "6px 6px 0 0 #D52B1E",
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: "10px",
-                    transitionDuration: "120ms",
-                  }}
+                  className="disabled:cursor-not-allowed disabled:opacity-50"
+                  style={{ padding: "14px 26px" }}
                 >
                   <span
                     aria-hidden="true"
@@ -542,7 +399,7 @@ export default function BracketPage() {
                     style={{ width: 8, height: 8, background: "#D52B1E" }}
                   />
                   SIMULATE {nextRoundLabel.toUpperCase()}
-                </button>
+                </Button>
               </div>
             )}
           </>
@@ -764,82 +621,6 @@ const BracketMatch = memo(function BracketMatch({
     </article>
   );
 });
-
-function getConnectorPath(
-  parentRect: MatchRect,
-  childARect: MatchRect,
-  childBRect: MatchRect,
-  side: BracketSide
-): string {
-  const childAEdgeX = getMatchEdgeX(childARect, side, "from-child");
-  const childBEdgeX = getMatchEdgeX(childBRect, side, "from-child");
-  const parentEdgeX = getMatchEdgeX(parentRect, side, "to-parent");
-  const childForkX = getForkX(childAEdgeX, childBEdgeX, parentEdgeX, side);
-  const parentForkX = getParentForkX(childForkX, parentEdgeX, side);
-
-  const childAY = roundCoordinate(childARect.connectorY);
-  const childBY = roundCoordinate(childBRect.connectorY);
-  const parentY = roundCoordinate(parentRect.connectorY);
-  const trunkTop = Math.min(childAY, childBY);
-  const trunkBottom = Math.max(childAY, childBY);
-
-  return [
-    drawHorizontal(childAEdgeX, childForkX, childAY),
-    drawHorizontal(childBEdgeX, childForkX, childBY),
-    `M ${childForkX} ${trunkTop} V ${trunkBottom}`,
-    drawHorizontal(childForkX, parentForkX, parentY),
-    drawHorizontal(parentForkX, parentEdgeX, parentY),
-  ].join(" ");
-}
-
-function getFinalConnectorPath(parentRect: MatchRect, childRect: MatchRect, side: BracketSide): string {
-  const childEdgeX = getMatchEdgeX(childRect, side, "from-child");
-  const parentEdgeX = getMatchEdgeX(parentRect, side, "to-parent");
-  const joinX = getForkX(childEdgeX, childEdgeX, parentEdgeX, side);
-
-  const childY = roundCoordinate(childRect.connectorY);
-  const parentY = roundCoordinate(parentRect.connectorY);
-  const verticalTop = Math.min(childY, parentY);
-  const verticalBottom = Math.max(childY, parentY);
-
-  return [
-    drawHorizontal(childEdgeX, joinX, childY),
-    `M ${joinX} ${verticalTop} V ${verticalBottom}`,
-    drawHorizontal(joinX, parentEdgeX, parentY),
-  ].join(" ");
-}
-
-function getMatchEdgeX(rect: MatchRect, side: BracketSide, direction: "from-child" | "to-parent"): number {
-  const useRightEdge =
-    (side === "left" && direction === "from-child") || (side === "right" && direction === "to-parent");
-
-  return roundCoordinate(useRightEdge ? rect.right : rect.left);
-}
-
-function getForkX(childAEdgeX: number, childBEdgeX: number, parentEdgeX: number, side: BracketSide): number {
-  const dir = side === "left" ? 1 : -1;
-  const childEdgeX = (childAEdgeX + childBEdgeX) / 2;
-  const availableSpace = Math.max(Math.abs(parentEdgeX - childEdgeX), CONNECTOR_MIN_GAP);
-  const forkOffset = Math.max(CONNECTOR_STUB, availableSpace * 0.42);
-
-  return roundCoordinate(childEdgeX + dir * forkOffset);
-}
-
-function getParentForkX(childForkX: number, parentEdgeX: number, side: BracketSide): number {
-  const dir = side === "left" ? -1 : 1;
-  const parentStubX = parentEdgeX + dir * CONNECTOR_STUB;
-  const crossesParent = side === "left" ? parentStubX < childForkX : parentStubX > childForkX;
-
-  return roundCoordinate(crossesParent ? parentStubX : (childForkX + parentEdgeX) / 2);
-}
-
-function drawHorizontal(fromX: number, toX: number, y: number): string {
-  return `M ${roundCoordinate(fromX)} ${roundCoordinate(y)} H ${roundCoordinate(toX)}`;
-}
-
-function roundCoordinate(value: number): number {
-  return Math.round(value * 2) / 2;
-}
 
 function roundAbbreviation(round: Match["knockoutRound"]): string {
   switch (round) {

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Flag } from "@/components/Flag";
-import { scoreDisplay } from "@/lib/tournament/matches";
+import { scoreDisplay } from "@/lib/tournament";
 import type { Match, Team } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 import { ArrowLeft, Shield } from "lucide-react";

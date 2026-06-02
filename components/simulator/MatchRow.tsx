@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Flag } from "@/components/Flag";
-import { scoreDisplay } from "@/lib/tournament/matches";
+import { scoreDisplay } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 
