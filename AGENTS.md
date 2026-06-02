@@ -134,3 +134,10 @@ verification commands run.
 
 Do not commit local environment files, generated `.next/` output, or `node_modules/`. Validate
 imported JSON data with the existing typed Zod helpers in `lib/` rather than bypassing them.
+
+The package manager is pinned via `packageManager` in `package.json` (Corepack reads it; run
+`corepack enable` once). pnpm runs with `strictDepBuilds` (the v11 default), so dependency build
+scripts are **blocked unless allowlisted**. If you add a dependency whose install fails because it
+needs to run a postinstall/build script, add it to `allowBuilds` in `pnpm-workspace.yaml` (where
+`sharp` and `unrs-resolver` already live) — don't disable the check. `engine-strict=true` in
+`.npmrc` enforces the Node version in `engines`.
