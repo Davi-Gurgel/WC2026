@@ -46,6 +46,15 @@ describe("parseCsvRatings", () => {
     expect(rows[0]).toEqual({ name: "Ronaldo", overall: 88 });
   });
 
+  it("parses optional country_code columns for scoped rating files", () => {
+    const csv = `country_code,name,overall\nARG,Emiliano Martínez,85\nURU,Emiliano Martínez,70\n`;
+    const rows = parseCsvRatings(csv);
+    expect(rows).toEqual([
+      { countryCode: "ARG", name: "Emiliano Martínez", overall: 85 },
+      { countryCode: "URU", name: "Emiliano Martínez", overall: 70 },
+    ]);
+  });
+
   it("throws when no name column is found", () => {
     const csv = `player,overall\nFoo,80\n`;
     expect(() => parseCsvRatings(csv)).toThrow(/name column/i);
@@ -144,6 +153,9 @@ describe("applyRatingsToTeams", () => {
       byExact: new Map(),
       byReversed: new Map(),
       byLastName: new Map(),
+      byCountryExact: new Map(),
+      byCountryReversed: new Map(),
+      byCountryLastName: new Map(),
     };
     const { teams: next, plan } = applyRatingsToTeams(noMatchTeam, emptyIndex);
     const p = plan.updated[0];
@@ -157,6 +169,9 @@ describe("applyRatingsToTeams", () => {
       byExact: new Map(),
       byReversed: new Map(),
       byLastName: new Map(),
+      byCountryExact: new Map(),
+      byCountryReversed: new Map(),
+      byCountryLastName: new Map(),
     };
     const { teams: next } = applyRatingsToTeams(
       [
@@ -188,5 +203,47 @@ describe("applyRatingsToTeams", () => {
     const { teams: a } = applyRatingsToTeams(teams, map);
     const { teams: b } = applyRatingsToTeams(teams, map);
     expect(a).toEqual(b);
+  });
+
+  it("keeps country-scoped ratings from leaking across same-name players", () => {
+    const csv = `country_code,name,overall\nARG,Emiliano Martínez,85\nURU,Emiliano Martínez,70\n`;
+    const index = buildRatingMap(parseCsvRatings(csv));
+    const sameNameTeams = [
+      makeTeam({
+        countryCode: "ARG",
+        name: "Argentina",
+        players: [{ name: "Emiliano Martínez", position: "GOALKEEPER", strength: 75 }],
+      }),
+      makeTeam({
+        countryCode: "URU",
+        name: "Uruguay",
+        players: [{ name: "Emiliano Martínez", position: "MIDFIELDER", strength: 75 }],
+      }),
+    ];
+
+    const { teams: next } = applyRatingsToTeams(sameNameTeams, index);
+    expect(next[0].players[0].strength).toBe(85);
+    expect(next[1].players[0].strength).toBe(70);
+  });
+
+  it("does not use last-name fallback for country-scoped rating rows", () => {
+    const csv = `country_code,name,overall\nCAN,Jonathan David,82\n`;
+    const index = buildRatingMap(parseCsvRatings(csv));
+    const canada = [
+      makeTeam({
+        countryCode: "CAN",
+        name: "Canada",
+        strength: 72,
+        players: [
+          { name: "Jonathan David", position: "FORWARD", strength: 75 },
+          { name: "Promise David", position: "FORWARD", strength: 50 },
+        ],
+      }),
+    ];
+
+    const { teams: next, plan } = applyRatingsToTeams(canada, index);
+    expect(plan.updated[0].matched).toBe(1);
+    expect(next[0].players[0].strength).toBe(82);
+    expect(next[0].players[1].strength).not.toBe(82);
   });
 });

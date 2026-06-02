@@ -5,8 +5,9 @@ import type { ExportedTeam } from "./lib";
 // Accepts the most common column names from Kaggle EA FC datasets.
 const NAME_COLS = ["short_name", "name", "long_name", "player_name", "fullname"];
 const OVR_COLS = ["overall", "ovr", "rating", "oa"];
+const COUNTRY_CODE_COLS = ["country_code", "countrycode", "team_country_code", "nationality_code", "code"];
 
-export type RatingRow = { name: string; overall: number };
+export type RatingRow = { name: string; overall: number; countryCode?: string };
 
 export function parseCsvRatings(csv: string): RatingRow[] {
   const lines = csv.split(/\r?\n/);
@@ -16,6 +17,7 @@ export function parseCsvRatings(csv: string): RatingRow[] {
 
   const nameIdx = NAME_COLS.map((c) => header.indexOf(c)).find((i) => i !== -1);
   const ovrIdx = OVR_COLS.map((c) => header.indexOf(c)).find((i) => i !== -1);
+  const countryCodeIdx = COUNTRY_CODE_COLS.map((c) => header.indexOf(c)).find((i) => i !== -1);
 
   if (nameIdx === undefined) {
     throw new Error(
@@ -38,7 +40,8 @@ export function parseCsvRatings(csv: string): RatingRow[] {
     if (!name || !ovrRaw) continue;
     const overall = parseInt(ovrRaw, 10);
     if (isNaN(overall)) continue;
-    rows.push({ name, overall });
+    const countryCode = countryCodeIdx === undefined ? undefined : fields[countryCodeIdx]?.trim().toUpperCase();
+    rows.push({ name, overall, ...(countryCode ? { countryCode } : {}) });
   }
   return rows;
 }
@@ -73,12 +76,18 @@ export type RatingIndex = {
   byExact: Map<string, number>;
   byReversed: Map<string, number>;
   byLastName: Map<string, number[]>; // last token → all OVRs (used for unique-last-name lookup)
+  byCountryExact: Map<string, number>;
+  byCountryReversed: Map<string, number>;
+  byCountryLastName: Map<string, number[]>;
 };
 
 export function buildRatingMap(rows: RatingRow[]): RatingIndex {
   const byExact = new Map<string, number>();
   const byReversed = new Map<string, number>();
   const byLastName = new Map<string, number[]>();
+  const byCountryExact = new Map<string, number>();
+  const byCountryReversed = new Map<string, number>();
+  const byCountryLastName = new Map<string, number[]>();
 
   for (const row of rows) {
     const key = normalize(row.name);
@@ -87,22 +96,29 @@ export function buildRatingMap(rows: RatingRow[]): RatingIndex {
       if (ex === undefined || row.overall > ex) map.set(k, row.overall);
     };
 
-    best(byExact, key);
+    const exactMap = row.countryCode ? byCountryExact : byExact;
+    const reversedMap = row.countryCode ? byCountryReversed : byReversed;
+    const exactKey = row.countryCode ? countryKey(row.countryCode, key) : key;
+
+    best(exactMap, exactKey);
 
     const tokens = key.split(" ").filter(Boolean);
     if (tokens.length >= 2) {
       // Tier 2: reversed token order (fixes "Son Heung-min" ↔ "Heung-Min Son")
       const reversed = [...tokens].reverse().join(" ");
-      if (reversed !== key) best(byReversed, reversed);
+      if (reversed !== key) best(reversedMap, row.countryCode ? countryKey(row.countryCode, reversed) : reversed);
 
-      // Tier 3: index by last token for unique-last-name fallback
-      const last = tokens[tokens.length - 1];
-      if (!byLastName.has(last)) byLastName.set(last, []);
-      byLastName.get(last)!.push(row.overall);
+      // Tier 3 is intentionally global-only. Country-scoped research rows are
+      // exact roster entries; last-name fallback can leak across teammates.
+      if (!row.countryCode) {
+        const last = tokens[tokens.length - 1];
+        if (!byLastName.has(last)) byLastName.set(last, []);
+        byLastName.get(last)!.push(row.overall);
+      }
     }
   }
 
-  return { byExact, byReversed, byLastName };
+  return { byExact, byReversed, byLastName, byCountryExact, byCountryReversed, byCountryLastName };
 }
 
 // === Apply ratings to teams ===
@@ -127,7 +143,7 @@ export function applyRatingsToTeams(
     const matchedStrengths: number[] = [];
 
     for (const player of team.players) {
-      const rating = lookupRating(player.name, index);
+      const rating = lookupRating(player.name, team.countryCode, index);
       if (rating !== undefined) matchedStrengths.push(rating);
     }
 
@@ -138,7 +154,7 @@ export function applyRatingsToTeams(
     let defaulted = 0;
 
     const newPlayers: ExportedTeam["players"] = team.players.map((player) => {
-      const rating = lookupRating(player.name, index);
+      const rating = lookupRating(player.name, team.countryCode, index);
       if (rating !== undefined) {
         matched++;
         return { ...player, strength: rating };
@@ -161,10 +177,14 @@ export function applyRatingsToTeams(
   return { teams: next, plan };
 }
 
-function lookupRating(name: string, index: RatingIndex): number | undefined {
+function lookupRating(name: string, countryCode: string, index: RatingIndex): number | undefined {
   const key = normalize(name);
+  const scopedKey = countryKey(countryCode, key);
 
   // Tier 1: exact normalized match
+  const countryExact = index.byCountryExact.get(scopedKey);
+  if (countryExact !== undefined) return countryExact;
+
   const exact = index.byExact.get(key);
   if (exact !== undefined) return exact;
 
@@ -172,6 +192,9 @@ function lookupRating(name: string, index: RatingIndex): number | undefined {
   // byReversed is keyed by the reversed form of the CSV name, so look up by our key directly.
   const tokens = key.split(" ").filter(Boolean);
   if (tokens.length >= 2) {
+    const countryRev = index.byCountryReversed.get(scopedKey);
+    if (countryRev !== undefined) return countryRev;
+
     const rev = index.byReversed.get(key);
     if (rev !== undefined) return rev;
 
@@ -183,6 +206,10 @@ function lookupRating(name: string, index: RatingIndex): number | undefined {
   }
 
   return undefined;
+}
+
+function countryKey(countryCode: string, key: string): string {
+  return `${countryCode}|${key}`;
 }
 
 function normalize(name: string): string {
