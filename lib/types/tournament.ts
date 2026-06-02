@@ -1,4 +1,4 @@
-export type Position = "GOALKEEPER" | "DEFENDER" | "MIDFIELDER" | "FORWARD";
+type Position = "GOALKEEPER" | "DEFENDER" | "MIDFIELDER" | "FORWARD";
 
 export type Player = {
   name: string;

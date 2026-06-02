@@ -9,7 +9,7 @@ export function getGroupMatchesForDay(state: TournamentState, day: number): Matc
   return getAllGroupMatches(state).filter((match) => match.round === day);
 }
 
-export function getAllKnockoutMatches(state: TournamentState): Match[] {
+function getAllKnockoutMatches(state: TournamentState): Match[] {
   return [
     ...state.r32Matches,
     ...state.r16Matches,

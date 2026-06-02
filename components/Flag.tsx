@@ -51,7 +51,7 @@ const FIFA_TO_FLAG_ICONS_CODE: Record<string, string> = {
   UZB: "uz",
 };
 
-export function getFlagIconCode(countryCode?: string): string | null {
+function getFlagIconCode(countryCode?: string): string | null {
   if (!countryCode) return null;
   return FIFA_TO_FLAG_ICONS_CODE[countryCode.toUpperCase()] ?? countryCode.toLowerCase();
 }
