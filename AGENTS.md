@@ -124,9 +124,11 @@ rather than exact scorelines.
 ## Commit & Pull Request Guidelines
 
 Use short conventional-style commits — `fix:`, `feat:`, `chore:`, `test:`, or `docs:` plus an
-imperative summary (e.g. `fix: harden tournament hydration`). Pull requests should include a
-description, a linked issue when applicable, screenshots for UI changes, and the verification
-commands run.
+imperative summary (e.g. `fix: harden tournament hydration`). Keep commits atomic: each commit
+should capture one coherent change that can be reviewed, reverted, and tested independently; split
+unrelated cleanup, behavior changes, tests, and docs into separate commits. Pull requests should
+include a description, a linked issue when applicable, screenshots for UI changes, and the
+verification commands run.
 
 ## Security & Configuration
 
