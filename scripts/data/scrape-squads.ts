@@ -38,7 +38,7 @@ async function main() {
   printPlan(plan);
 
   if (plan.updated.length === 0) {
-    console.log("\nNo nations had a final 26-man squad to apply. Nothing to write.");
+    console.log("\nNo nations had an accepted final 25/26-player squad to apply. Nothing to write.");
     return;
   }
 
@@ -80,14 +80,14 @@ Pipeline:
          -> rebuild data/wc2026.sqlite
          -> rewrite data/national_teams.json
 
-Nations with a final 26-man squad are updated. Preliminary lists (>26) and
-unannounced placeholders (0) are skipped; existing players are retained.
+Nations with a final 25- or 26-player squad are updated. Preliminary lists
+(>26) and unannounced placeholders (0) are skipped; existing players are retained.
 `
   );
 }
 
 function printPlan(plan: MergePlan) {
-  console.log(`Updated ${plan.updated.length} nation(s) with final 26-man squads:`);
+  console.log(`Updated ${plan.updated.length} nation(s) with final 25/26-player squads:`);
   for (const u of plan.updated) {
     console.log(
       `  ${u.countryCode}  ${u.name.padEnd(24)} ${u.previousCount}->${u.nextCount} players  (${u.matched} matched, ${u.defaulted} defaulted)`
@@ -95,7 +95,7 @@ function printPlan(plan: MergePlan) {
   }
 
   if (plan.skippedPreliminary.length > 0) {
-    console.log(`\nSkipped ${plan.skippedPreliminary.length} preliminary list(s) awaiting cut to 26:`);
+    console.log(`\nSkipped ${plan.skippedPreliminary.length} preliminary list(s) outside accepted 25/26 size:`);
     for (const s of plan.skippedPreliminary) {
       console.log(`  ${s.countryCode}  ${s.name.padEnd(24)} ${s.count} players`);
     }

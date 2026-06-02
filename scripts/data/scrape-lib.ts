@@ -5,7 +5,7 @@ import { exportedTeamsSchema, paths, type ExportedTeam } from "./lib";
 const WIKI_API_URL =
   "https://en.wikipedia.org/w/api.php?action=parse&page=2026_FIFA_World_Cup_squads&prop=wikitext&format=json&formatversion=2";
 
-const FINAL_SQUAD_SIZE = 26;
+const ACCEPTED_FINAL_SQUAD_SIZES = [25, 26] as const;
 
 // Wikipedia uses different display names than this app's DB for two nations.
 export const WIKI_NAME_ALIASES: Record<string, string> = {
@@ -154,9 +154,11 @@ export type MergePlan = {
 export function applyScrapeToTeams(
   teams: ExportedTeam[],
   scrape: ScrapeResult,
-  options: { finalSquadSize?: number } = {}
+  options: { finalSquadSize?: number; acceptedFinalSquadSizes?: readonly number[] } = {}
 ): { teams: ExportedTeam[]; plan: MergePlan } {
-  const finalSquadSize = options.finalSquadSize ?? FINAL_SQUAD_SIZE;
+  const acceptedFinalSquadSizes = options.finalSquadSize
+    ? [options.finalSquadSize]
+    : (options.acceptedFinalSquadSizes ?? ACCEPTED_FINAL_SQUAD_SIZES);
   const plan: MergePlan = {
     updated: [],
     skippedPreliminary: [],
@@ -176,7 +178,7 @@ export function applyScrapeToTeams(
       plan.skippedEmpty.push({ countryCode: team.countryCode, name: team.name });
       return team;
     }
-    if (count !== finalSquadSize) {
+    if (!acceptedFinalSquadSizes.includes(count)) {
       plan.skippedPreliminary.push({ countryCode: team.countryCode, name: team.name, count });
       return team;
     }

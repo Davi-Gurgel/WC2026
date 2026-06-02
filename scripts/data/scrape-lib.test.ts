@@ -52,6 +52,14 @@ ${fakeSquadBlock([
   "FW", "FW", "FW", "FW", "FW", "FW", "FW"
 ])}
 
+===Canada===
+${fakeSquadBlock([
+  "GK", "GK", "GK",
+  "DF", "DF", "DF", "DF", "DF", "DF", "DF", "DF",
+  "MF", "MF", "MF", "MF", "MF", "MF", "MF",
+  "FW", "FW", "FW", "FW", "FW", "FW", "FW"
+])}
+
 ===Brazil===
 ${fakeSquadBlock(Array.from({ length: 40 }, (_, i) => (i < 4 ? "GK" : i < 14 ? "DF" : i < 27 ? "MF" : "FW")))}
 
@@ -65,6 +73,7 @@ Statistical aside, not a nation.
 const NAME_MAP = new Map<string, string>([
   ["Czechia", "CZE"],
   ["Mexico", "MEX"],
+  ["Canada", "CAN"],
   ["Brazil", "BRA"],
   ["South Africa", "RSA"]
 ]);
@@ -72,7 +81,7 @@ const NAME_MAP = new Map<string, string>([
 describe("parseSquadsWikitext", () => {
   it("maps Wikipedia headings to country codes (including aliases)", () => {
     const result = parseSquadsWikitext(SAMPLE_WIKITEXT, NAME_MAP);
-    expect([...result.byCountryCode.keys()].sort()).toEqual(["BRA", "CZE", "MEX", "RSA"]);
+    expect([...result.byCountryCode.keys()].sort()).toEqual(["BRA", "CAN", "CZE", "MEX", "RSA"]);
     // The "Czech Republic" alias resolves to CZE
     expect(result.byCountryCode.get("CZE")?.wikiName).toBe("Czech Republic");
   });
@@ -136,6 +145,13 @@ describe("applyScrapeToTeams", () => {
       players: [{ name: "Existing Keeper", position: "GOALKEEPER", strength: 76 }]
     }),
     makeTeam({
+      countryCode: "CAN",
+      name: "Canada",
+      group: "B",
+      strength: 74,
+      players: [{ name: "Existing Keeper", position: "GOALKEEPER", strength: 76 }]
+    }),
+    makeTeam({
       countryCode: "BRA",
       name: "Brazil",
       group: "C",
@@ -151,11 +167,11 @@ describe("applyScrapeToTeams", () => {
     })
   ];
 
-  it("applies updates only to nations with exactly 26 scraped players", () => {
+  it("applies updates only to nations with accepted 25- or 26-player squads", () => {
     const scrape = parseSquadsWikitext(SAMPLE_WIKITEXT, NAME_MAP);
     const { teams: next, plan } = applyScrapeToTeams(teams, scrape);
 
-    expect(plan.updated.map((u) => u.countryCode)).toEqual(["MEX"]);
+    expect(plan.updated.map((u) => u.countryCode)).toEqual(["MEX", "CAN"]);
     // CZE (5 players) and BRA (40 players) are both off the 26 target -> preliminary
     expect(plan.skippedPreliminary.map((s) => s.countryCode).sort()).toEqual(["BRA", "CZE"]);
     expect(plan.skippedEmpty.map((s) => s.countryCode)).toEqual(["RSA"]);
@@ -163,10 +179,12 @@ describe("applyScrapeToTeams", () => {
 
     const mex = next.find((t) => t.countryCode === "MEX")!;
     expect(mex.players).toHaveLength(26);
+    const can = next.find((t) => t.countryCode === "CAN")!;
+    expect(can.players).toHaveLength(25);
 
     // Existing nations not in the 26-club retain their original players
     const rsa = next.find((t) => t.countryCode === "RSA")!;
-    expect(rsa.players).toEqual(teams[3].players);
+    expect(rsa.players).toEqual(teams.find((t) => t.countryCode === "RSA")!.players);
   });
 
   it("reuses existing strengths for matching names and defaults new players to team strength", () => {
