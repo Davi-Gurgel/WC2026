@@ -9,12 +9,6 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "data:build": "tsx scripts/data/build.ts",
-    "data:export": "tsx scripts/data/export.ts",
-    "data:check": "tsx scripts/data/check.ts",
-    "data:scrape": "tsx scripts/data/scrape-squads.ts",
-    "data:ratings": "tsx scripts/data/apply-ratings.ts",
-    "data:recalc": "tsx scripts/data/recalc-strengths.ts",
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run"
@@ -45,7 +39,6 @@
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4.3.0",
-    "tsx": "^4.22.4",
     "typescript": "5.8.3",
     "vitest": "^4.1.8"
   },

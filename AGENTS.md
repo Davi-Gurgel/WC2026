@@ -22,8 +22,8 @@ through the final, with simulated scorelines, extra time, penalties, and top sco
 The codebase is two largely independent halves:
 1. **Tournament engine** — pure simulation logic in `lib/tournament/`, driven through React
    context, persisted to `localStorage`.
-2. **Data pipeline** — `scripts/data/` turns SQL seed files into the validated
-   `data/national_teams.json` the app consumes.
+2. **Final team data** — `data/national_teams.json` is the committed roster/ratings dataset the
+   app consumes directly.
 
 ## Build, Test, and Development Commands
 
@@ -44,12 +44,10 @@ npx vitest run -t "qualified thirds"
 
 Release / pre-PR gate (see README "Checklist de release"):
 ```bash
-npm run data:check && npm run lint && npm run typecheck && npm test && npm run build
+npm run lint && npm run typecheck && npm test && npm run build
 ```
 
-**Node 24.15+ is required** (`.node-version`, `engines`). The data pipeline uses the built-in
-`node:sqlite` (`DatabaseSync`), which only exists on Node 24+ — older Node will fail the data
-scripts, not just warn.
+Use the Node version declared in `.node-version` / `package.json#engines`.
 
 ## Tournament engine (`lib/tournament/`)
 
@@ -92,22 +90,13 @@ at runtime (exactly 48 teams, 4 per group, unique country codes, ≥1 player eac
 **deep-freezes** the result. Treat the returned teams as immutable. Look teams up via
 `getTeamByCodeOrName` (handles URL-encoded names and code/name matching).
 
-## Data pipeline (`scripts/data/`)
+## Team Data
 
-The source of truth is **`data/sql/*.sql`** (`schema.sql`, `seed_teams.sql`, `seed_players.sql`),
-not the JSON. The JSON is a generated artifact.
-
-| Command | Does |
-| --- | --- |
-| `npm run data:build` | SQL → `data/wc2026.sqlite` via `node:sqlite`, with FK + integrity checks |
-| `npm run data:export` | SQLite → `data/national_teams.json` (deterministic; double-stringify guard) |
-| `npm run data:check` | Builds a temp DB and fails if `national_teams.json` is out of sync with the SQL — **this is the release gate** |
-| `npm run data:scrape` | Scrapes Wikipedia `2026_FIFA_World_Cup_squads`; only overwrites teams that have a full 26-player list, preserving existing data otherwise |
-| `npm run data:ratings -- --csv data/male_players.csv` | Applies CSV ratings to players; falls back to team median for unmatched players |
-| `npm run data:recalc` | Recomputes aggregate team strengths (attack/defense/midfield) from players |
-
-When updating squads, run in order: `scrape → ratings → recalc → check → test`. **Always
-re-apply ratings and recalc after a scrape** — new players otherwise land with default strength.
+`data/national_teams.json` is the final committed dataset. The old scraping, SQL, SQLite, and CSV
+rating pipeline has been removed intentionally. If a roster, position, or strength must change,
+edit the JSON directly and run the release gate. The runtime Zod schema in `lib/teams.ts` validates
+that there are exactly 48 teams, 12 groups of 4, unique country codes, and at least one player per
+team.
 
 ## Coding Style & Naming Conventions
 
