@@ -1,40 +1,145 @@
 <!-- BEGIN:nextjs-agent-rules -->
- 
+
 # Next.js: ALWAYS read docs before coding
- 
+
 Before any Next.js work, find and read the relevant doc in `node_modules/next/dist/docs/`. Your training data is outdated — the docs are the source of truth.
- 
+
 <!-- END:nextjs-agent-rules -->
 
 # Repository Guidelines
 
-## Project Structure & Module Organization
+This is the canonical agent guide for this repository. `CLAUDE.md` imports this file, so Claude
+Code, Cursor, Copilot, and other agents all read the same instructions — **edit this file, not a
+copy.**
 
-This is a Next.js 16, React 19, TypeScript app for a World Cup 2026 simulator. Route segments and page UI live in `app/`, shared UI in `components/`, and reusable primitives in `components/ui/`. Tournament rules, data access, utilities, and shared types live in `lib/`; JSON source data is in `data/`. Static assets belong in `public/`. Tests are colocated as `*.test.ts` or `*.test.tsx`.
+## What this is
+
+A 2026 FIFA World Cup simulator: 48 teams, 12 groups (A–L), full group stage + knockout bracket
+through the final, with simulated scorelines, extra time, penalties, and top scorers. Next.js 16
+(App Router) + React 19 + TypeScript (strict) + Tailwind v4 + Zod v4. UI locale is **pt-BR**
+(`lang="pt-BR"`, phase labels default to pt-BR).
+
+The codebase is two largely independent halves:
+1. **Tournament engine** — pure simulation logic in `lib/tournament/`, driven through React
+   context, persisted to `localStorage`.
+2. **Data pipeline** — `scripts/data/` turns SQL seed files into the validated
+   `data/national_teams.json` the app consumes.
 
 ## Build, Test, and Development Commands
 
-- `npm install`: install dependencies from `package-lock.json`.
-- `npm run dev`: start the local Next.js development server at `http://localhost:3000`.
-- `npm run build`: create a production Next.js build.
-- `npm run lint`: run ESLint with Next core web vitals rules.
-- `npm run typecheck`: run strict TypeScript checks without emitting files.
-- `npm test`: run the Vitest suite once.
+```bash
+npm install          # install from package-lock.json
+npm run dev          # local dev server at http://localhost:3000
+npm run build        # production build
+npm run lint         # ESLint (next core-web-vitals) — the enforced lint gate
+npm run typecheck    # tsc --noEmit, strict
+npm test             # Vitest, run once
+```
 
-Run `npm run lint`, `npm run typecheck`, and `npm test` before opening a PR.
+Run a single test file or filter:
+```bash
+npx vitest run lib/tournament/standings.test.ts
+npx vitest run -t "qualified thirds"
+```
+
+Release / pre-PR gate (see README "Checklist de release"):
+```bash
+npm run data:check && npm run lint && npm run typecheck && npm test && npm run build
+```
+
+**Node 24.15+ is required** (`.node-version`, `engines`). The data pipeline uses the built-in
+`node:sqlite` (`DatabaseSync`), which only exists on Node 24+ — older Node will fail the data
+scripts, not just warn.
+
+## Tournament engine (`lib/tournament/`)
+
+- **`lib/tournament.ts` is a barrel** re-exporting every submodule (`bracket`, `constants`,
+  `matches`, `scorers`, `selectors`, `simulation`, `standings`, `state`). Import from
+  `@/lib/tournament`, not the individual files, in app code.
+- **`TournamentState` is one immutable object** (`lib/types/tournament.ts`) holding all teams,
+  groups, every knockout round, scorers, phase, and result. **All simulation functions are pure:
+  `state in → new state out`** — they never mutate. Keep them that way; the React layer owns all
+  side effects.
+- **Phase flow:** `NOT_STARTED → GROUP_STAGE → ROUND_OF_32 → ROUND_OF_16 → QUARTERFINAL →
+  SEMIFINAL → FINISHED`. After three group match days, `calculateQualifiedThirds` picks the **8
+  best third-placed teams** to fill the Round of 32 (32 = 24 group qualifiers + 8 best thirds).
+- **Scoring model** (`simulation.ts > simulateMatch`): goal chance ≈ `strength * luck / 380`
+  (luck ∈ [0.85, 1.15]), capped at 7 goals/team. Knockout draws → extra time (2 extra events) →
+  penalties at 70% conversion. Scorers are weighted by position (forward-heavy) and player
+  strength. Uses `Math.random()` — simulations are **non-deterministic**, so tests assert
+  invariants (counts, phase transitions, structure), not exact scorelines.
+
+### State management & persistence
+
+- `components/TournamentProvider.tsx` (`"use client"`) is the only stateful wrapper. It exposes
+  `start/reset/simulateGroupDay/simulateAllGroups/simulateKnockoutRound` via `useTournament()`.
+  Pages read state through this hook; they don't call the engine directly.
+- The `(simulator)` route group's layout mounts `TournamentProvider`, so all simulator pages
+  share one tournament.
+- **Persistence is compacted, not raw.** `lib/tournament/storage-codec.ts` strips full `Team`
+  objects down to country codes before writing to `localStorage`, then re-expands them against
+  `getAllTeams()` on load. Don't `JSON.stringify` `TournamentState` directly into storage —
+  always go through the codec. Stored payloads are validated by `storage-guards.ts` /
+  `storage-schema.ts` (`STORAGE_KEY = "wc26-tournament-state-v1"`); anything that fails the guard
+  is discarded, not migrated.
+- Hydration is deliberately deferred to a `setTimeout(0)` (avoids cascading-update warnings) and
+  persistence runs in `requestIdleCallback`. Preserve this timing if you touch the provider.
+
+### Team data loading
+
+`lib/teams.ts > getAllTeams()` parses `data/national_teams.json` through a strict **Zod** schema
+at runtime (exactly 48 teams, 4 per group, unique country codes, ≥1 player each), then caches and
+**deep-freezes** the result. Treat the returned teams as immutable. Look teams up via
+`getTeamByCodeOrName` (handles URL-encoded names and code/name matching).
+
+## Data pipeline (`scripts/data/`)
+
+The source of truth is **`data/sql/*.sql`** (`schema.sql`, `seed_teams.sql`, `seed_players.sql`),
+not the JSON. The JSON is a generated artifact.
+
+| Command | Does |
+| --- | --- |
+| `npm run data:build` | SQL → `data/wc2026.sqlite` via `node:sqlite`, with FK + integrity checks |
+| `npm run data:export` | SQLite → `data/national_teams.json` (deterministic; double-stringify guard) |
+| `npm run data:check` | Builds a temp DB and fails if `national_teams.json` is out of sync with the SQL — **this is the release gate** |
+| `npm run data:scrape` | Scrapes Wikipedia `2026_FIFA_World_Cup_squads`; only overwrites teams that have a full 26-player list, preserving existing data otherwise |
+| `npm run data:ratings -- --csv data/male_players.csv` | Applies CSV ratings to players; falls back to team median for unmatched players |
+| `npm run data:recalc` | Recomputes aggregate team strengths (attack/defense/midfield) from players |
+
+When updating squads, run in order: `scrape → ratings → recalc → check → test`. **Always
+re-apply ratings and recalc after a scrape** — new players otherwise land with default strength.
 
 ## Coding Style & Naming Conventions
 
-Use TypeScript for all app logic. Prefer named exports, PascalCase for React components, camelCase for functions and variables, and uppercase enum-like strings where tournament phases use them. Use the `@/*` path alias, as in `@/lib/tournament`. Keep components small and compose shared presentation elements from `components/ui/`. Styling uses Tailwind CSS classes; keep class lists readable and consistent with nearby components. Prettier with the Tailwind plugin is available; ESLint is the enforced lint gate.
+- **Path alias `@/*`** maps to repo root (e.g. `@/lib/tournament`). Configured in both
+  `tsconfig.json` and `vitest.config.ts` — keep them in sync.
+- Use TypeScript for all app logic. Prefer **named exports**, PascalCase for React components,
+  camelCase for functions/variables, and UPPERCASE enum-like strings for tournament phases and
+  positions.
+- Keep components small and compose shared presentation elements from `components/ui/`.
+- Styling is Tailwind v4 utility classes; keep class lists readable and consistent with nearby
+  components. Prettier with the Tailwind plugin is available, but **ESLint is the enforced gate**,
+  not Prettier.
+- `next.config.mjs` sets a strict CSP and security headers. New external connections (scripts,
+  fonts, `connect-src`) must be added there or they'll be blocked.
 
 ## Testing Guidelines
 
-Vitest is the test runner. Pure tournament logic uses the default `node` environment; React component tests can opt into jsdom with `// @vitest-environment jsdom`. Use Testing Library for component behavior. Add or update colocated tests when changing tournament rules, persistence, routing assumptions, or shared UI behavior.
+Vitest is the test runner. Tests are colocated `*.test.ts(x)`. Pure tournament logic uses the
+default `node` environment; component tests opt into jsdom with a top-of-file
+`// @vitest-environment jsdom` and use Testing Library. Add or update colocated tests when
+changing tournament rules, persistence, routing assumptions, or shared UI behavior. Because the
+simulation is `Math.random`-driven, assert invariants (counts, phase transitions, structure)
+rather than exact scorelines.
 
 ## Commit & Pull Request Guidelines
 
-Recent history uses short conventional-style commits such as `fix: harden tournament hydration` and `chore: tighten local config hygiene`. Follow that pattern: `fix:`, `feat:`, `chore:`, `test:`, or `docs:` plus an imperative summary. Pull requests should include a description, linked issue when applicable, screenshots for UI changes, and verification commands.
+Use short conventional-style commits — `fix:`, `feat:`, `chore:`, `test:`, or `docs:` plus an
+imperative summary (e.g. `fix: harden tournament hydration`). Pull requests should include a
+description, a linked issue when applicable, screenshots for UI changes, and the verification
+commands run.
 
-## Security & Configuration Tips
+## Security & Configuration
 
-Do not commit local environment files, generated `.next/` output, or `node_modules/`. Validate imported JSON data with existing typed helpers and schemas rather than bypassing `lib/` APIs.
+Do not commit local environment files, generated `.next/` output, or `node_modules/`. Validate
+imported JSON data with the existing typed Zod helpers in `lib/` rather than bypassing them.
