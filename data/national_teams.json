@@ -1169,7 +1169,7 @@
       },
       {
         "name": "Alex Sandro",
-        "strength": 86,
+        "strength": 87,
         "position": "DEFENDER"
       },
       {
@@ -1189,7 +1189,7 @@
       },
       {
         "name": "Neymar",
-        "strength": 84,
+        "strength": 90,
         "position": "FORWARD"
       },
       {
@@ -1199,12 +1199,12 @@
       },
       {
         "name": "Weverton",
-        "strength": 85,
+        "strength": 86,
         "position": "GOALKEEPER"
       },
       {
         "name": "Danilo Luiz",
-        "strength": 85,
+        "strength": 86,
         "position": "DEFENDER"
       },
       {
@@ -1214,12 +1214,12 @@
       },
       {
         "name": "Léo Pereira",
-        "strength": 80,
+        "strength": 81,
         "position": "DEFENDER"
       },
       {
         "name": "Douglas Santos",
-        "strength": 86,
+        "strength": 87,
         "position": "DEFENDER"
       },
       {
@@ -1229,7 +1229,7 @@
       },
       {
         "name": "Danilo Santos",
-        "strength": 84,
+        "strength": 85,
         "position": "MIDFIELDER"
       },
       {
@@ -1244,7 +1244,7 @@
       },
       {
         "name": "Luiz Henrique",
-        "strength": 86,
+        "strength": 87,
         "position": "FORWARD"
       },
       {
@@ -1269,12 +1269,12 @@
       },
       {
         "name": "Rayan",
-        "strength": 84,
+        "strength": 85,
         "position": "FORWARD"
       }
     ],
-    "attackStrength": 84,
-    "defenseStrength": 85,
+    "attackStrength": 85,
+    "defenseStrength": 86,
     "midfieldStrength": 82,
     "countryCode": "BRA",
     "confederation": "CONMEBOL",

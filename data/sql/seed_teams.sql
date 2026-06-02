@@ -7,7 +7,7 @@ INSERT INTO teams (country_code, name, confederation, group_letter, strength, at
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('CAN', 'Canada', 'CONCACAF', 'B', 76, 77, 76, 74, 41);
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('BIH', 'Bosnia and Herzegovina', 'UEFA', 'B', 73, 74, 72, 73, 55);
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('QAT', 'Qatar', 'AFC', 'B', 74, 75, 73, 74, 58);
-INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('BRA', 'Brazil', 'CONMEBOL', 'C', 85, 84, 85, 82, 5);
+INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('BRA', 'Brazil', 'CONMEBOL', 'C', 85, 85, 86, 82, 5);
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('MAR', 'Morocco', 'CAF', 'C', 76, 78, 76, 76, 14);
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('SCO', 'Scotland', 'UEFA', 'C', 72, 71, 72, 79, 39);
 INSERT INTO teams (country_code, name, confederation, group_letter, strength, attack_strength, defense_strength, midfield_strength, fifa_ranking) VALUES ('HAI', 'Haiti', 'CONCACAF', 'C', 70, 69, 71, 70, 84);
