@@ -16,7 +16,7 @@ const SECTION_TITLE: React.CSSProperties = {
   fontFamily: "var(--font-archivo-black)",
   fontSize: "18px",
   letterSpacing: "0.04em",
-  color: "#0d0d10",
+  color: "var(--color-wc-ink)",
 };
 
 export default function StatsPage() {
@@ -38,7 +38,7 @@ export default function StatsPage() {
   }, [state]);
 
   return (
-    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-16" style={{ background: "var(--color-wc-cream)" }}>
       <PageHeader eyebrow="ANALYTICS" title="STATISTICS" badge={stats.phase.toUpperCase()} />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -47,8 +47,8 @@ export default function StatsPage() {
             className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"
             style={{
               background: "#fff",
-              border: "3px solid #0d0d10",
-              boxShadow: "8px 8px 0 0 #D52B1E",
+              border: "3px solid var(--color-wc-ink)",
+              boxShadow: "8px 8px 0 0 var(--color-wc-can-red)",
               padding: "22px 24px",
             }}
           >
@@ -64,7 +64,7 @@ export default function StatsPage() {
                     fontFamily: "var(--font-jetbrains-mono)",
                     fontSize: "10px",
                     letterSpacing: "0.24em",
-                    color: "#D52B1E",
+                    color: "var(--color-wc-can-red)",
                     marginBottom: "4px",
                   }}
                 >
@@ -77,7 +77,7 @@ export default function StatsPage() {
                     fontSize: "clamp(28px, 4vw, 40px)",
                     lineHeight: 0.95,
                     letterSpacing: "-0.02em",
-                    color: "#0d0d10",
+                    color: "var(--color-wc-ink)",
                   }}
                 >
                   {state.champion.name.toUpperCase()}
@@ -97,13 +97,13 @@ export default function StatsPage() {
           {/* Top Scorers */}
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }} />
               <h2 style={SECTION_TITLE}>TOP SCORERS</h2>
-              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }} />
             </div>
-            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid #0d0d10" }}>
+            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid var(--color-wc-ink)" }}>
               <table className="w-full text-left">
-                <thead style={{ background: "#0d0d10", color: "#fff" }}>
+                <thead style={{ background: "var(--color-wc-ink)", color: "#fff" }}>
                   <tr
                     style={{
                       fontFamily: "var(--font-jetbrains-mono)",
@@ -122,7 +122,7 @@ export default function StatsPage() {
                     <tr
                       key={`${scorer.playerName}-${scorer.teamName}`}
                       style={{
-                        background: index % 2 === 0 ? "#fff" : "#fefaf0",
+                        background: index % 2 === 0 ? "#fff" : "var(--color-wc-cream)",
                         borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
                       }}
                     >
@@ -131,7 +131,7 @@ export default function StatsPage() {
                         style={{
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "11px",
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                           opacity: 0.55,
                         }}
                       >
@@ -143,7 +143,7 @@ export default function StatsPage() {
                           fontFamily: "var(--font-space-grotesk)",
                           fontSize: "13px",
                           fontWeight: 600,
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                         }}
                       >
                         {scorer.playerName}
@@ -153,7 +153,7 @@ export default function StatsPage() {
                         style={{
                           fontFamily: "var(--font-space-grotesk)",
                           fontSize: "12px",
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                           opacity: 0.7,
                         }}
                       >
@@ -164,7 +164,7 @@ export default function StatsPage() {
                         style={{
                           fontFamily: "var(--font-archivo-black)",
                           fontSize: "16px",
-                          color: "#D52B1E",
+                          color: "var(--color-wc-can-red)",
                           letterSpacing: "-0.02em",
                         }}
                       >
@@ -181,7 +181,7 @@ export default function StatsPage() {
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "10px",
                           letterSpacing: "0.24em",
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                           opacity: 0.45,
                         }}
                       >
@@ -197,13 +197,13 @@ export default function StatsPage() {
           {/* Recent Activity */}
           <div>
             <div className="mb-4 flex items-center gap-3">
-              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }} />
               <h2 style={SECTION_TITLE}>RECENT ACTIVITY</h2>
-              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "#0d0d10" }} />
+              <span aria-hidden="true" style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }} />
             </div>
-            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid #0d0d10" }}>
+            <div className="overflow-x-auto" style={{ background: "#fff", border: "2px solid var(--color-wc-ink)" }}>
               <table className="w-full text-left">
-                <thead style={{ background: "#0d0d10", color: "#fff" }}>
+                <thead style={{ background: "var(--color-wc-ink)", color: "#fff" }}>
                   <tr
                     style={{
                       fontFamily: "var(--font-jetbrains-mono)",
@@ -222,7 +222,7 @@ export default function StatsPage() {
                       <tr
                         key={match.id}
                         style={{
-                          background: index % 2 === 0 ? "#fff" : "#fefaf0",
+                          background: index % 2 === 0 ? "#fff" : "var(--color-wc-cream)",
                           borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
                         }}
                       >
@@ -232,7 +232,7 @@ export default function StatsPage() {
                             fontFamily: "var(--font-space-grotesk)",
                             fontSize: "13px",
                             fontWeight: 600,
-                            color: "#0d0d10",
+                            color: "var(--color-wc-ink)",
                           }}
                         >
                           {match.homeTeam.name}
@@ -242,7 +242,7 @@ export default function StatsPage() {
                           style={{
                             fontFamily: "var(--font-archivo-black)",
                             fontSize: "15px",
-                            color: "#D52B1E",
+                            color: "var(--color-wc-can-red)",
                             letterSpacing: "-0.02em",
                           }}
                         >
@@ -254,7 +254,7 @@ export default function StatsPage() {
                             fontFamily: "var(--font-space-grotesk)",
                             fontSize: "13px",
                             fontWeight: 600,
-                            color: "#0d0d10",
+                            color: "var(--color-wc-ink)",
                           }}
                         >
                           {match.awayTeam.name}
@@ -270,7 +270,7 @@ export default function StatsPage() {
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "10px",
                           letterSpacing: "0.24em",
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                           opacity: 0.45,
                         }}
                       >

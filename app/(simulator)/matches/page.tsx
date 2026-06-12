@@ -39,13 +39,13 @@ export default function MatchesPage() {
   }, [day, phase, state]);
 
   return (
-    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-16" style={{ background: "var(--color-wc-cream)" }}>
       <PageHeader eyebrow="MATCH LOG" title="MATCHES" />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
         <div
           className="mb-7 flex flex-col gap-3 p-3 sm:p-4"
-          style={{ background: "#fff", border: "2px solid #0d0d10" }}
+          style={{ background: "#fff", border: "2px solid var(--color-wc-ink)" }}
         >
           <div className="flex flex-wrap gap-2">
             {filters.map(([f, label]) => {
@@ -61,9 +61,9 @@ export default function MatchesPage() {
                     fontSize: "10px",
                     letterSpacing: "0.18em",
                     padding: "8px 12px",
-                    border: "2px solid #0d0d10",
-                    background: active ? "#0d0d10" : "#fff",
-                    color: active ? "#fff" : "#0d0d10",
+                    border: "2px solid var(--color-wc-ink)",
+                    background: active ? "var(--color-wc-ink)" : "#fff",
+                    color: active ? "#fff" : "var(--color-wc-ink)",
                     cursor: "pointer",
                     transitionDuration: "120ms",
                     whiteSpace: "nowrap",
@@ -88,7 +88,7 @@ export default function MatchesPage() {
                   fontFamily: "var(--font-jetbrains-mono)",
                   fontSize: "10px",
                   letterSpacing: "0.22em",
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   opacity: 0.55,
                 }}
               >
@@ -107,9 +107,9 @@ export default function MatchesPage() {
                     style={{
                       fontFamily: "var(--font-archivo-black)",
                       fontSize: "12px",
-                      border: "2px solid #0d0d10",
-                      background: active ? "#D52B1E" : "#fff",
-                      color: active ? "#fff" : "#0d0d10",
+                      border: "2px solid var(--color-wc-ink)",
+                      background: active ? "var(--color-wc-can-red)" : "#fff",
+                      color: active ? "#fff" : "var(--color-wc-ink)",
                       cursor: "pointer",
                       transitionDuration: "120ms",
                     }}
@@ -127,7 +127,7 @@ export default function MatchesPage() {
             className="flex flex-col items-center justify-center px-6 py-16 text-center"
             style={{
               background: "#fff",
-              border: "2px dashed #0d0d10",
+              border: "2px dashed var(--color-wc-ink)",
             }}
           >
             <div
@@ -135,7 +135,7 @@ export default function MatchesPage() {
                 fontFamily: "var(--font-jetbrains-mono)",
                 fontSize: "10px",
                 letterSpacing: "0.24em",
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.55,
               }}
             >
@@ -147,7 +147,7 @@ export default function MatchesPage() {
                 fontFamily: "var(--font-space-grotesk)",
                 fontSize: "13px",
                 lineHeight: 1.55,
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.55,
               }}
             >

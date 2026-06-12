@@ -22,14 +22,14 @@ export default function GroupsPage() {
     return (
       <main
         className="flex flex-1 items-center justify-center px-6 py-16"
-        style={{ background: "#fefaf0" }}
+        style={{ background: "var(--color-wc-cream)" }}
       >
         <div
           className="w-full max-w-md text-center"
           style={{
             background: "#fff",
-            border: "3px solid #0d0d10",
-            boxShadow: "8px 8px 0 0 #D52B1E",
+            border: "3px solid var(--color-wc-ink)",
+            boxShadow: "8px 8px 0 0 var(--color-wc-can-red)",
             padding: "32px 28px",
           }}
         >
@@ -38,7 +38,7 @@ export default function GroupsPage() {
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "10px",
               letterSpacing: "0.24em",
-              color: "#D52B1E",
+              color: "var(--color-wc-can-red)",
               marginBottom: "12px",
             }}
           >
@@ -50,7 +50,7 @@ export default function GroupsPage() {
               fontSize: "28px",
               lineHeight: 1.05,
               letterSpacing: "-0.02em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
               marginBottom: "12px",
             }}
           >
@@ -61,7 +61,7 @@ export default function GroupsPage() {
               fontFamily: "var(--font-space-grotesk)",
               fontSize: "14px",
               lineHeight: 1.55,
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
               opacity: 0.6,
               marginBottom: "24px",
             }}
@@ -76,7 +76,7 @@ export default function GroupsPage() {
             }}
             className="inline-flex items-center transition-transform hover:-translate-y-0.5 disabled:cursor-not-allowed disabled:opacity-50"
             style={{
-              background: "#0d0d10",
+              background: "var(--color-wc-ink)",
               color: "#fff",
               fontFamily: "var(--font-archivo-black)",
               fontSize: "16px",
@@ -85,7 +85,7 @@ export default function GroupsPage() {
               padding: "14px 28px",
               cursor: "pointer",
               gap: "10px",
-              boxShadow: "6px 6px 0 0 #D52B1E",
+              boxShadow: "6px 6px 0 0 var(--color-wc-can-red)",
               transitionDuration: "120ms",
             }}
           >
@@ -107,7 +107,7 @@ export default function GroupsPage() {
   }
 
   return (
-    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-16" style={{ background: "var(--color-wc-cream)" }}>
       <PageHeader eyebrow="PHASE · 01" title="GROUP STAGE" />
 
       <div className="mx-auto max-w-7xl px-4 pt-6 sm:px-6">
@@ -120,9 +120,9 @@ export default function GroupsPage() {
                   height: 8,
                   background:
                     state.phase === "GROUP_STAGE"
-                      ? "#006847"
+                      ? "var(--color-wc-mex-green)"
                       : phaseDone
-                        ? "#0d0d10"
+                        ? "var(--color-wc-ink)"
                         : "rgba(13,13,16,0.3)",
                 }}
               />
@@ -147,7 +147,7 @@ export default function GroupsPage() {
             className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
             style={{
               background: "#fff",
-              border: "2px solid #0d0d10",
+              border: "2px solid var(--color-wc-ink)",
               padding: "18px 20px",
             }}
           >
@@ -155,14 +155,14 @@ export default function GroupsPage() {
               <span
                 aria-hidden="true"
                 className="mt-1 inline-block shrink-0"
-                style={{ width: 3, height: 28, background: "#006847" }}
+                style={{ width: 3, height: 28, background: "var(--color-wc-mex-green)" }}
               />
               <p
                 style={{
                   fontFamily: "var(--font-space-grotesk)",
                   fontSize: "14px",
                   fontWeight: 600,
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   lineHeight: 1.45,
                 }}
               >
@@ -203,8 +203,8 @@ export default function GroupsPage() {
             className="mb-8 flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between"
             style={{
               background: "#fff",
-              border: "2px solid #0d0d10",
-              boxShadow: "6px 6px 0 0 #006847",
+              border: "2px solid var(--color-wc-ink)",
+              boxShadow: "6px 6px 0 0 var(--color-wc-mex-green)",
               padding: "18px 20px",
             }}
           >
@@ -212,7 +212,7 @@ export default function GroupsPage() {
               <span
                 aria-hidden="true"
                 className="mt-1 inline-block shrink-0"
-                style={{ width: 3, height: 28, background: "#006847" }}
+                style={{ width: 3, height: 28, background: "var(--color-wc-mex-green)" }}
               />
               <div>
                 <div
@@ -220,7 +220,7 @@ export default function GroupsPage() {
                     fontFamily: "var(--font-jetbrains-mono)",
                     fontSize: "10px",
                     letterSpacing: "0.24em",
-                    color: "#006847",
+                    color: "var(--color-wc-mex-green)",
                     marginBottom: "4px",
                   }}
                 >
@@ -231,7 +231,7 @@ export default function GroupsPage() {
                     fontFamily: "var(--font-space-grotesk)",
                     fontSize: "14px",
                     fontWeight: 600,
-                    color: "#0d0d10",
+                    color: "var(--color-wc-ink)",
                   }}
                 >
                   32 qualifiers locked. Bracket is ready.
@@ -241,7 +241,7 @@ export default function GroupsPage() {
             <LinkButton
               href="/bracket"
               variant="primary"
-              style={{ fontSize: "13px", padding: "12px 20px", boxShadow: "4px 4px 0 0 #D52B1E" }}
+              style={{ fontSize: "13px", padding: "12px 20px", boxShadow: "4px 4px 0 0 var(--color-wc-can-red)" }}
             >
               VIEW BRACKET →
             </LinkButton>

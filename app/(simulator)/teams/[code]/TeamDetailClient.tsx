@@ -19,7 +19,7 @@ export function TeamDetailClient({ code, fallbackTeam }: { code: string; fallbac
   const matches = useMemo(() => getMatchesForTeam(state, team.name), [state, team.name]);
 
   return (
-    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-16" style={{ background: "var(--color-wc-cream)" }}>
       <TeamHero team={team} />
 
       <div className="mx-auto grid max-w-7xl gap-6 px-4 py-8 sm:px-6 lg:grid-cols-[1.15fr_0.85fr]">

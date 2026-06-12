@@ -22,7 +22,7 @@ function StatCard({ n, label }: { n: string; label: string }) {
   return (
     <div
       className="festival-stats-card bg-white text-center transition-transform ease-out hover:-translate-y-0.5"
-      style={{ border: "2px solid #0d0d10", padding: "16px 14px", transitionDuration: "120ms" }}
+      style={{ border: "2px solid var(--color-wc-ink)", padding: "16px 14px", transitionDuration: "120ms" }}
     >
       <div
         className="festival-stats-card-num"
@@ -30,7 +30,7 @@ function StatCard({ n, label }: { n: string; label: string }) {
           fontFamily: "var(--font-archivo-black)",
           fontSize: "clamp(58px, 5vw, 78px)",
           lineHeight: 0.9,
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
           letterSpacing: "-0.04em",
         }}
       >
@@ -42,7 +42,7 @@ function StatCard({ n, label }: { n: string; label: string }) {
           fontFamily: "var(--font-jetbrains-mono)",
           fontSize: "11px",
           letterSpacing: "0.22em",
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
           opacity: 0.55,
           marginTop: "8px",
         }}
@@ -58,13 +58,13 @@ function Ticker({ teams }: { teams: string[] }) {
   return (
     <div
       className="festival-ticker relative flex items-center overflow-hidden"
-      style={{ background: "#0d0d10", gridColumn: "1 / 4", gridRow: "3" }}
+      style={{ background: "var(--color-wc-ink)", gridColumn: "1 / 4", gridRow: "3" }}
     >
       {/* Left badge */}
       <div
         className="festival-ticker-badge flex flex-shrink-0 items-center self-stretch z-10"
         style={{
-          background: "#D52B1E",
+          background: "var(--color-wc-can-red)",
           color: "#fff",
           padding: "0 16px",
           fontFamily: "var(--font-archivo-black)",
@@ -141,7 +141,7 @@ export default function HomePage() {
       {/* ── 1. Mexico block ─────────────────────────────────────────────── */}
       <div
         className="festival-host relative overflow-hidden text-white"
-        style={{ background: "#006847", padding: "22px", gridColumn: "1", gridRow: "1" }}
+        style={{ background: "var(--color-wc-mex-green)", padding: "22px", gridColumn: "1", gridRow: "1" }}
       >
         <div
           className="festival-host-meta"
@@ -198,8 +198,8 @@ export default function HomePage() {
       <div
         className="festival-title relative overflow-hidden flex flex-col justify-between gap-5"
         style={{
-          background: "#fefaf0",
-          border: "3px solid #0d0d10",
+          background: "var(--color-wc-cream)",
+          border: "3px solid var(--color-wc-ink)",
           padding: "32px 36px",
           gridColumn: "2",
           gridRow: "1 / 3",
@@ -209,7 +209,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2.5">
           <div
             style={{
-              background: "#D52B1E",
+              background: "var(--color-wc-can-red)",
               color: "#fff",
               padding: "5px 10px",
               fontFamily: "var(--font-archivo-black)",
@@ -225,7 +225,7 @@ export default function HomePage() {
               fontSize: "10px",
               letterSpacing: "0.24em",
               opacity: 0.6,
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             FINAL · JUL 19 · METLIFE
@@ -241,7 +241,7 @@ export default function HomePage() {
               fontSize: "clamp(64px, 9vw, 116px)",
               lineHeight: 0.82,
               letterSpacing: "-0.04em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             WORLD
@@ -266,7 +266,7 @@ export default function HomePage() {
               fontSize: "clamp(88px, 13vw, 170px)",
               lineHeight: 0.8,
               letterSpacing: "-0.05em",
-              color: "#D52B1E",
+              color: "var(--color-wc-can-red)",
               marginTop: "-2px",
             }}
           >
@@ -275,25 +275,25 @@ export default function HomePage() {
 
           {/* SIMULATOR lockup */}
           <div className="flex items-center gap-2.5" style={{ marginTop: "8px" }}>
-            <div style={{ height: "6px", flex: 1, background: "#0d0d10" }} />
+            <div style={{ height: "6px", flex: 1, background: "var(--color-wc-ink)" }} />
             <div
               className="festival-title-sub"
               style={{
                 fontFamily: "var(--font-archivo-black)",
                 fontSize: "clamp(20px, 2.5vw, 34px)",
                 letterSpacing: "0.32em",
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 whiteSpace: "nowrap",
               }}
             >
               SIMULATOR
             </div>
-            <div style={{ height: "6px", flex: 1, background: "#0d0d10" }} />
+            <div style={{ height: "6px", flex: 1, background: "var(--color-wc-ink)" }} />
           </div>
 
           {/* Rotating fact */}
           <div className="festival-title-fact flex items-center gap-3" style={{ marginTop: "12px" }}>
-            <div style={{ width: "3px", alignSelf: "stretch", background: "#D52B1E", flexShrink: 0 }} />
+            <div style={{ width: "3px", alignSelf: "stretch", background: "var(--color-wc-can-red)", flexShrink: 0 }} />
             <p
               style={{
                 fontFamily: "var(--font-space-grotesk)",
@@ -301,7 +301,7 @@ export default function HomePage() {
                 fontSize: "12px",
                 lineHeight: 1.45,
                 letterSpacing: "0.01em",
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.75,
               }}
             >
@@ -322,7 +322,7 @@ export default function HomePage() {
               disabled={!hydrated}
               className="festival-cta inline-flex w-full items-center justify-center transition-transform ease-out hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed sm:w-auto sm:justify-start"
               style={{
-                background: "#0d0d10",
+                background: "var(--color-wc-ink)",
                 color: "#fff",
                 fontFamily: "var(--font-archivo-black)",
                 fontSize: "22px",
@@ -331,7 +331,7 @@ export default function HomePage() {
                 padding: "20px 40px",
                 cursor: "pointer",
                 gap: "14px",
-                boxShadow: "8px 8px 0 0 #D52B1E",
+                boxShadow: "8px 8px 0 0 var(--color-wc-can-red)",
                 transitionDuration: "120ms",
               }}
             >
@@ -361,9 +361,9 @@ export default function HomePage() {
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
                   background: "#fff",
-                  border: "2px solid #0d0d10",
+                  border: "2px solid var(--color-wc-ink)",
                   padding: "14px 22px",
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   transitionDuration: "120ms",
                 }}
               >
@@ -376,9 +376,9 @@ export default function HomePage() {
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
                   background: "#fff",
-                  border: "2px solid #0d0d10",
+                  border: "2px solid var(--color-wc-ink)",
                   padding: "14px 22px",
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   transitionDuration: "120ms",
                 }}
               >
@@ -393,10 +393,10 @@ export default function HomePage() {
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "16px",
                   background: "#fff",
-                  border: "2px solid #0d0d10",
+                  border: "2px solid var(--color-wc-ink)",
                   padding: "14px 22px",
-                  color: "#D52B1E",
-                  boxShadow: "4px 4px 0 0 #D52B1E",
+                  color: "var(--color-wc-can-red)",
+                  boxShadow: "4px 4px 0 0 var(--color-wc-can-red)",
                   cursor: "pointer",
                   transitionDuration: "120ms",
                 }}
@@ -411,7 +411,7 @@ export default function HomePage() {
       {/* ── 3. Canada block ─────────────────────────────────────────────── */}
       <div
         className="festival-host relative overflow-hidden text-white"
-        style={{ background: "#D52B1E", padding: "22px", gridColumn: "3", gridRow: "1" }}
+        style={{ background: "var(--color-wc-can-red)", padding: "22px", gridColumn: "3", gridRow: "1" }}
       >
         <div
           className="festival-host-meta text-right"
@@ -526,8 +526,8 @@ export default function HomePage() {
       <div
         className="festival-stats flex flex-col items-center justify-center"
         style={{
-          background: "#fefaf0",
-          border: "3px solid #0d0d10",
+          background: "var(--color-wc-cream)",
+          border: "3px solid var(--color-wc-ink)",
           padding: "26px",
           gridColumn: "3",
           gridRow: "2",
@@ -540,7 +540,7 @@ export default function HomePage() {
             fontSize: "10px",
             letterSpacing: "0.24em",
             opacity: 0.6,
-            color: "#0d0d10",
+            color: "var(--color-wc-ink)",
             marginBottom: "18px",
           }}
         >
@@ -570,7 +570,7 @@ export default function HomePage() {
         >
           <div
             className="w-full max-w-md bg-white p-6 text-left"
-            style={{ border: "3px solid #0d0d10", boxShadow: "8px 8px 0 0 #D52B1E" }}
+            style={{ border: "3px solid var(--color-wc-ink)", boxShadow: "8px 8px 0 0 var(--color-wc-can-red)" }}
           >
             <div className="mb-5 flex items-start justify-between gap-4">
               <div>
@@ -580,7 +580,7 @@ export default function HomePage() {
                     fontSize: "10px",
                     letterSpacing: "0.24em",
                     marginBottom: "8px",
-                    color: "#D52B1E",
+                    color: "var(--color-wc-can-red)",
                   }}
                 >
                   DESTRUCTIVE ACTION
@@ -591,7 +591,7 @@ export default function HomePage() {
                     fontFamily: "var(--font-archivo-black)",
                     fontSize: "28px",
                     lineHeight: 1.1,
-                    color: "#0d0d10",
+                    color: "var(--color-wc-ink)",
                   }}
                 >
                   RESTART TOURNAMENT?
@@ -602,7 +602,7 @@ export default function HomePage() {
                 aria-label="Cancel restart"
                 onClick={() => setShowRestartConfirm(false)}
                 className="transition-colors hover:opacity-60"
-                style={{ color: "#0d0d10" }}
+                style={{ color: "var(--color-wc-ink)" }}
               >
                 <X className="size-5" />
               </button>
@@ -613,7 +613,7 @@ export default function HomePage() {
                 fontFamily: "var(--font-space-grotesk)",
                 fontSize: "14px",
                 lineHeight: 1.6,
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.7,
               }}
             >
@@ -630,8 +630,8 @@ export default function HomePage() {
                   fontFamily: "var(--font-archivo-black)",
                   fontSize: "14px",
                   letterSpacing: "0.08em",
-                  color: "#0d0d10",
-                  border: "2px solid #0d0d10",
+                  color: "var(--color-wc-ink)",
+                  border: "2px solid var(--color-wc-ink)",
                   background: "#fff",
                 }}
               >
@@ -647,8 +647,8 @@ export default function HomePage() {
                   fontSize: "14px",
                   letterSpacing: "0.08em",
                   color: "#fff",
-                  background: "#D52B1E",
-                  border: "2px solid #D52B1E",
+                  background: "var(--color-wc-can-red)",
+                  border: "2px solid var(--color-wc-can-red)",
                 }}
               >
                 RESTART NOW
