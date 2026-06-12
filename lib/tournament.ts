@@ -1,6 +1,7 @@
 export * from "@/lib/tournament/bracket";
 export * from "@/lib/tournament/constants";
 export * from "@/lib/tournament/matches";
+export * from "@/lib/tournament/rng";
 export * from "@/lib/tournament/scorers";
 export * from "@/lib/tournament/selectors";
 export * from "@/lib/tournament/simulation";

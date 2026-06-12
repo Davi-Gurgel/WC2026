@@ -1,6 +1,7 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { getAllTeams } from "@/lib/teams";
 import { getLoser, getWinner } from "@/lib/tournament/matches";
+import { mulberry32 } from "@/lib/tournament/rng";
 import { getAllGroupMatches } from "@/lib/tournament/selectors";
 import { simulateAllGroupMatchDays, simulateCurrentGroupMatchDay, simulateCurrentKnockoutRound, simulatePenalties } from "@/lib/tournament/simulation";
 import { calculateQualifiedThirds } from "@/lib/tournament/standings";
@@ -37,6 +38,13 @@ describe("tournament rules", () => {
     expect(state.r32Matches).toHaveLength(16);
     expect(state.r32Matches.map((match) => match.matchNumber)).toEqual([...Array.from({ length: 16 }, (_, index) => index + 73)]);
     expect(calculateQualifiedThirds(state.groups)).toHaveLength(8);
+  });
+
+  it("same seed produces identical simulations", () => {
+    const first = simulateAllGroupMatchDays(initializeTournament(getAllTeams()), mulberry32(7));
+    const second = simulateAllGroupMatchDays(initializeTournament(getAllTeams()), mulberry32(7));
+
+    expect(JSON.stringify(first.groups)).toBe(JSON.stringify(second.groups));
   });
 
   it("advances knockout phases to the champion", () => {
@@ -101,18 +109,13 @@ describe("tournament rules", () => {
   });
 
   it("adds top scorer goals when matches are simulated", () => {
-    vi.spyOn(Math, "random").mockReturnValue(0.01);
-    try {
-      const state = simulateCurrentGroupMatchDay(initializeTournament(getAllTeams()));
-      const totalScorerGoals = state.topScorers.reduce((sum, scorer) => sum + scorer.goals, 0);
-      const totalMatchGoals = getAllGroupMatches(state)
-        .filter((match) => match.played)
-        .reduce((sum, match) => sum + match.homeScore + match.awayScore, 0);
+    const state = simulateCurrentGroupMatchDay(initializeTournament(getAllTeams()), mulberry32(42));
+    const totalScorerGoals = state.topScorers.reduce((sum, scorer) => sum + scorer.goals, 0);
+    const totalMatchGoals = getAllGroupMatches(state)
+      .filter((match) => match.played)
+      .reduce((sum, match) => sum + match.homeScore + match.awayScore, 0);
 
-      expect(totalScorerGoals).toBe(totalMatchGoals);
-      expect(totalScorerGoals).toBeGreaterThan(0);
-    } finally {
-      vi.restoreAllMocks();
-    }
+    expect(totalScorerGoals).toBe(totalMatchGoals);
+    expect(totalScorerGoals).toBeGreaterThan(0);
   });
 });
