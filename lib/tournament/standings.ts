@@ -37,17 +37,21 @@ export function computeStandings(teams: Team[], matches: Match[]): TeamGroupStat
     }
   }
 
-  return [...stats.values()].sort((a, b) => {
-    return (
-      b.points - a.points ||
-      b.goalDifference - a.goalDifference ||
-      b.goalsFor - a.goalsFor ||
-      compareHeadToHead(a, b, matches, "points") ||
-      compareHeadToHead(a, b, matches, "gd") ||
-      compareHeadToHead(a, b, matches, "gs") ||
-      (rank.get(a.teamName) ?? 999) - (rank.get(b.teamName) ?? 999)
-    );
-  });
+  const overall = [...stats.values()].sort(
+    (a, b) => b.points - a.points || b.goalDifference - a.goalDifference || b.goalsFor - a.goalsFor
+  );
+
+  const result: TeamGroupStats[] = [];
+  let cluster: TeamGroupStats[] = [];
+  for (const row of overall) {
+    if (cluster.length && !isOverallTied(cluster[0], row)) {
+      result.push(...orderTiedTeams(cluster, matches, rank));
+      cluster = [];
+    }
+    cluster.push(row);
+  }
+  if (cluster.length) result.push(...orderTiedTeams(cluster, matches, rank));
+  return result;
 }
 
 export function calculateQualifiedThirds(groups: WorldCupGroup[]): Team[] {
@@ -85,23 +89,57 @@ function addResult(stats: TeamGroupStats, goalsFor: number, goalsAgainst: number
   }
 }
 
-function compareHeadToHead(a: TeamGroupStats, b: TeamGroupStats, matches: Match[], criterion: "points" | "gd" | "gs"): number {
-  const h2h = matches.find(
-    (match) =>
-      match.played &&
-      ((match.homeTeam.name === a.teamName && match.awayTeam.name === b.teamName) ||
-        (match.homeTeam.name === b.teamName && match.awayTeam.name === a.teamName))
-  );
-  if (!h2h) return 0;
+function isOverallTied(a: TeamGroupStats, b: TeamGroupStats): boolean {
+  return a.points === b.points && a.goalDifference === b.goalDifference && a.goalsFor === b.goalsFor;
+}
 
-  const aHome = h2h.homeTeam.name === a.teamName;
-  const aGoals = aHome ? h2h.homeScore : h2h.awayScore;
-  const bGoals = aHome ? h2h.awayScore : h2h.homeScore;
-  if (criterion === "points") {
-    const aPts = aGoals > bGoals ? 3 : aGoals === bGoals ? 1 : 0;
-    const bPts = bGoals > aGoals ? 3 : bGoals === aGoals ? 1 : 0;
-    return bPts - aPts;
+/**
+ * FIFA tiebreaker for teams still tied on overall points/GD/GF: build a mini-table from
+ * only the matches played among the tied teams (points, then GD, then goals scored in
+ * those matches), then fall back to `fifaRanking`.
+ *
+ * Known simplification: FIFA recursively re-applies the criteria to any subset that
+ * remains tied after the mini-table; this implementation applies the mini-table once and
+ * relies on `fifaRanking` as the deterministic final fallback (substituting for
+ * fair-play points and drawing of lots, which this simulator does not model).
+ */
+function orderTiedTeams(cluster: TeamGroupStats[], matches: Match[], rank: Map<string, number>): TeamGroupStats[] {
+  if (cluster.length === 1) return cluster;
+
+  const tiedNames = new Set(cluster.map((row) => row.teamName));
+  const mini = new Map<string, { points: number; gd: number; gf: number }>(
+    cluster.map((row) => [row.teamName, { points: 0, gd: 0, gf: 0 }])
+  );
+
+  for (const match of matches) {
+    if (!match.played || !tiedNames.has(match.homeTeam.name) || !tiedNames.has(match.awayTeam.name)) continue;
+
+    const home = mini.get(match.homeTeam.name)!;
+    const away = mini.get(match.awayTeam.name)!;
+
+    home.gf += match.homeScore;
+    home.gd += match.homeScore - match.awayScore;
+    away.gf += match.awayScore;
+    away.gd += match.awayScore - match.homeScore;
+
+    if (match.homeScore > match.awayScore) {
+      home.points += 3;
+    } else if (match.awayScore > match.homeScore) {
+      away.points += 3;
+    } else {
+      home.points += 1;
+      away.points += 1;
+    }
   }
-  if (criterion === "gd") return bGoals - aGoals;
-  return bGoals - aGoals;
+
+  return [...cluster].sort((a, b) => {
+    const ma = mini.get(a.teamName)!;
+    const mb = mini.get(b.teamName)!;
+    return (
+      mb.points - ma.points ||
+      mb.gd - ma.gd ||
+      mb.gf - ma.gf ||
+      (rank.get(a.teamName) ?? 999) - (rank.get(b.teamName) ?? 999)
+    );
+  });
 }
