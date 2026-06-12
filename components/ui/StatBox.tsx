@@ -12,7 +12,7 @@ export function StatBox({
   return (
     <div
       className={cn("bg-white px-3 py-3 sm:px-4 sm:py-4", className)}
-      style={{ border: "2px solid #0d0d10" }}
+      style={{ border: "2px solid var(--color-wc-ink)" }}
     >
       <div
         style={{
@@ -20,7 +20,7 @@ export function StatBox({
           fontSize: "clamp(32px, 5vw, 48px)",
           lineHeight: 0.9,
           letterSpacing: "-0.04em",
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
         }}
       >
         {value}
@@ -30,7 +30,7 @@ export function StatBox({
           fontFamily: "var(--font-jetbrains-mono)",
           fontSize: "10px",
           letterSpacing: "0.22em",
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
           opacity: 0.55,
           marginTop: "4px",
           textTransform: "uppercase",

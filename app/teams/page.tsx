@@ -22,7 +22,7 @@ export default function TeamsPage() {
   }
 
   return (
-    <main className="flex-1 pb-16" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-16" style={{ background: "var(--color-wc-cream)" }}>
       <PageHeader eyebrow="DATABASE" title="TEAMS" badge={`${all.length} NATIONS · 12 GROUPS`} />
 
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
@@ -36,14 +36,14 @@ export default function TeamsPage() {
                 <div className="mb-4 flex items-center gap-3">
                   <span
                     aria-hidden="true"
-                    style={{ height: 4, flex: 1, background: "#0d0d10" }}
+                    style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }}
                   />
                   <h2
                     style={{
                       fontFamily: "var(--font-archivo-black)",
                       fontSize: "16px",
                       letterSpacing: "0.22em",
-                      color: "#0d0d10",
+                      color: "var(--color-wc-ink)",
                       whiteSpace: "nowrap",
                     }}
                   >
@@ -51,7 +51,7 @@ export default function TeamsPage() {
                   </h2>
                   <span
                     aria-hidden="true"
-                    style={{ height: 4, flex: 1, background: "#0d0d10" }}
+                    style={{ height: 4, flex: 1, background: "var(--color-wc-ink)" }}
                   />
                 </div>
 
@@ -62,14 +62,14 @@ export default function TeamsPage() {
                       href={`/teams/${team.countryCode}`}
                       className="group flex flex-col bg-white transition-transform hover:-translate-y-0.5"
                       style={{
-                        border: "2px solid #0d0d10",
+                        border: "2px solid var(--color-wc-ink)",
                         transitionDuration: "120ms",
                       }}
                     >
                       <div
                         className="flex items-center justify-between gap-3"
                         style={{
-                          background: "#0d0d10",
+                          background: "var(--color-wc-ink)",
                           color: "#fff",
                           padding: "8px 12px",
                         }}
@@ -107,7 +107,7 @@ export default function TeamsPage() {
                             fontFamily: "var(--font-archivo-black)",
                             fontSize: "16px",
                             letterSpacing: "-0.01em",
-                            color: "#0d0d10",
+                            color: "var(--color-wc-ink)",
                             lineHeight: 1.1,
                           }}
                         >
@@ -131,7 +131,7 @@ export default function TeamsPage() {
                               fontFamily: "var(--font-jetbrains-mono)",
                               fontSize: "9px",
                               letterSpacing: "0.22em",
-                              color: "#0d0d10",
+                              color: "var(--color-wc-ink)",
                               opacity: 0.5,
                             }}
                           >
@@ -142,7 +142,7 @@ export default function TeamsPage() {
                               fontFamily: "var(--font-archivo-black)",
                               fontSize: "18px",
                               letterSpacing: "-0.02em",
-                              color: "#0d0d10",
+                              color: "var(--color-wc-ink)",
                               lineHeight: 1,
                             }}
                           >
@@ -155,7 +155,7 @@ export default function TeamsPage() {
                               fontFamily: "var(--font-jetbrains-mono)",
                               fontSize: "9px",
                               letterSpacing: "0.22em",
-                              color: "#0d0d10",
+                              color: "var(--color-wc-ink)",
                               opacity: 0.5,
                             }}
                           >
@@ -166,7 +166,7 @@ export default function TeamsPage() {
                               fontFamily: "var(--font-archivo-black)",
                               fontSize: "13px",
                               letterSpacing: "0.04em",
-                              color: "#D52B1E",
+                              color: "var(--color-wc-can-red)",
                               lineHeight: 1.15,
                             }}
                           >

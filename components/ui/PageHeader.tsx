@@ -8,7 +8,7 @@ const EYEBROW: React.CSSProperties = {
   fontFamily: "var(--font-jetbrains-mono)",
   fontSize: "10px",
   letterSpacing: "0.24em",
-  color: "#0d0d10",
+  color: "var(--color-wc-ink)",
   opacity: 0.55
 };
 
@@ -17,7 +17,7 @@ const TITLE: React.CSSProperties = {
   fontSize: "clamp(36px, 5vw, 56px)",
   lineHeight: 1,
   letterSpacing: "-0.03em",
-  color: "#0d0d10"
+  color: "var(--color-wc-ink)"
 };
 
 export const BADGE_STYLE: React.CSSProperties = {
@@ -27,16 +27,16 @@ export const BADGE_STYLE: React.CSSProperties = {
   fontSize: "10px",
   letterSpacing: "0.22em",
   padding: "5px 10px",
-  border: "1px solid #0d0d10",
-  background: "#fefaf0",
-  color: "#0d0d10"
+  border: "1px solid var(--color-wc-ink)",
+  background: "var(--color-wc-cream)",
+  color: "var(--color-wc-ink)"
 };
 
 export function PageHeader({ eyebrow, title, badge }: PageHeaderProps) {
   return (
     <header
       className="px-4 py-7 sm:px-6 sm:py-8"
-      style={{ background: "#fefaf0", borderBottom: "3px solid #0d0d10" }}
+      style={{ background: "var(--color-wc-cream)", borderBottom: "3px solid var(--color-wc-ink)" }}
     >
       <div className="mx-auto flex max-w-7xl flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>

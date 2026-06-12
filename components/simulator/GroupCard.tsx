@@ -9,12 +9,12 @@ export const GroupCard = memo(function GroupCard({ group }: { group: WorldCupGro
   return (
     <article
       className="content-auto flex min-w-0 flex-col bg-white"
-      style={{ border: "2px solid #0d0d10" }}
+      style={{ border: "2px solid var(--color-wc-ink)" }}
     >
       <header
         className="flex items-center justify-between gap-2 px-3 py-2 sm:px-3.5 sm:py-2.5"
         style={{
-          background: "#0d0d10",
+          background: "var(--color-wc-ink)",
           color: "#fff",
         }}
       >
@@ -55,12 +55,12 @@ export function GroupLegend() {
         fontFamily: "var(--font-jetbrains-mono)",
         fontSize: "10px",
         letterSpacing: "0.22em",
-        color: "#0d0d10",
+        color: "var(--color-wc-ink)",
         opacity: 0.65,
       }}
     >
-      <Legend color="#006847" label="ADVANCING (TOP 2)" />
-      <Legend color="#0d0d10" label="3RD PLACE" />
+      <Legend color="var(--color-wc-mex-green)" label="ADVANCING (TOP 2)" />
+      <Legend color="var(--color-wc-ink)" label="3RD PLACE" />
       <Legend color="#e5e5e5" label="ELIMINATED" />
     </section>
   );
@@ -73,12 +73,12 @@ function GroupTable({ group }: { group: WorldCupGroup }) {
         <thead>
           <tr
             style={{
-              background: "#fefaf0",
-              borderBottom: "2px solid #0d0d10",
+              background: "var(--color-wc-cream)",
+              borderBottom: "2px solid var(--color-wc-ink)",
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "10px",
               letterSpacing: "0.18em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             <th className="w-7 px-1.5 py-1.5 font-normal opacity-50">#</th>
@@ -88,7 +88,7 @@ function GroupTable({ group }: { group: WorldCupGroup }) {
             <th className="hidden w-5 px-1 py-1.5 text-right font-normal opacity-60 sm:table-cell">D</th>
             <th className="hidden w-5 px-1 py-1.5 text-right font-normal opacity-60 sm:table-cell">L</th>
             <th className="w-7 px-1 py-1.5 text-right font-normal opacity-50">GD</th>
-            <th className="w-8 px-1.5 py-1.5 text-right" style={{ color: "#D52B1E" }}>PTS</th>
+            <th className="w-8 px-1.5 py-1.5 text-right" style={{ color: "var(--color-wc-can-red)" }}>PTS</th>
           </tr>
         </thead>
         <tbody>
@@ -121,14 +121,14 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
             <span
               aria-hidden="true"
               className="inline-block h-2 w-2 shrink-0"
-              style={{ background: "#006847" }}
+              style={{ background: "var(--color-wc-mex-green)" }}
             />
           )}
           {!advancing && thirdPlace && (
             <span
               aria-hidden="true"
               className="inline-block h-2 w-2 shrink-0"
-              style={{ background: "#0d0d10" }}
+              style={{ background: "var(--color-wc-ink)" }}
             />
           )}
           {!advancing && !thirdPlace && (
@@ -142,7 +142,7 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
             style={{
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "11px",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
               opacity: 0.55,
             }}
           >
@@ -159,7 +159,7 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
               fontFamily: "var(--font-archivo-black)",
               fontSize: "12px",
               letterSpacing: "0.04em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             {countryCode}
@@ -186,7 +186,7 @@ function GroupTableRow({ group, team, index }: { group: WorldCupGroup; team: Tea
         style={{
           fontFamily: "var(--font-archivo-black)",
           fontSize: "14px",
-          color: "#D52B1E",
+          color: "var(--color-wc-can-red)",
         }}
       >
         {team.points}
@@ -199,7 +199,7 @@ function cellStyle(): React.CSSProperties {
   return {
     fontFamily: "var(--font-jetbrains-mono)",
     fontSize: "11px",
-    color: "#0d0d10",
+    color: "var(--color-wc-ink)",
     opacity: 0.75,
   };
 }
@@ -209,8 +209,8 @@ function MatchLog({ group }: { group: WorldCupGroup }) {
     <div
       className="mt-auto"
       style={{
-        background: "#fefaf0",
-        borderTop: "2px solid #0d0d10",
+        background: "var(--color-wc-cream)",
+        borderTop: "2px solid var(--color-wc-ink)",
         padding: "10px 12px",
       }}
     >
@@ -219,7 +219,7 @@ function MatchLog({ group }: { group: WorldCupGroup }) {
           fontFamily: "var(--font-jetbrains-mono)",
           fontSize: "9px",
           letterSpacing: "0.22em",
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
           opacity: 0.55,
           marginBottom: "6px",
         }}
@@ -234,7 +234,7 @@ function MatchLog({ group }: { group: WorldCupGroup }) {
             style={{
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "10px",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
               opacity: match.played ? 0.85 : 0.4,
             }}
           >
@@ -246,7 +246,7 @@ function MatchLog({ group }: { group: WorldCupGroup }) {
               style={{
                 fontFamily: "var(--font-archivo-black)",
                 fontSize: "11px",
-                color: match.played ? "#0d0d10" : "rgba(13,13,16,0.4)",
+                color: match.played ? "var(--color-wc-ink)" : "rgba(13,13,16,0.4)",
                 letterSpacing: "0.04em",
               }}
             >

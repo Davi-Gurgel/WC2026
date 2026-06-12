@@ -19,7 +19,7 @@ type ConnectorPath = {
 
 const SIDE_STROKE = {
   left: "#002868",
-  right: "#006847",
+  right: "var(--color-wc-mex-green)",
 } satisfies Record<BracketSide, string>;
 
 export default function BracketPage() {
@@ -181,7 +181,7 @@ export default function BracketPage() {
   }, [groupStageComplete, updateConnectorGeometry, state]);
 
   return (
-    <main className="flex-1 pb-24" style={{ background: "#fefaf0" }}>
+    <main className="flex-1 pb-24" style={{ background: "var(--color-wc-cream)" }}>
       <PageHeader eyebrow="PHASE · 02" title="KNOCKOUT STAGE" badge={phaseLabel(state.phase).toUpperCase()} />
 
       <div className="mx-auto max-w-[104rem] px-4 py-8 sm:px-6">
@@ -190,8 +190,8 @@ export default function BracketPage() {
             className="mx-auto w-full max-w-md text-center"
             style={{
               background: "#fff",
-              border: "3px solid #0d0d10",
-              boxShadow: "8px 8px 0 0 #D52B1E",
+              border: "3px solid var(--color-wc-ink)",
+              boxShadow: "8px 8px 0 0 var(--color-wc-can-red)",
               padding: "32px 28px",
             }}
           >
@@ -200,7 +200,7 @@ export default function BracketPage() {
                 fontFamily: "var(--font-jetbrains-mono)",
                 fontSize: "10px",
                 letterSpacing: "0.24em",
-                color: "#D52B1E",
+                color: "var(--color-wc-can-red)",
                 marginBottom: "12px",
               }}
             >
@@ -212,7 +212,7 @@ export default function BracketPage() {
                 fontSize: "26px",
                 lineHeight: 1.05,
                 letterSpacing: "-0.02em",
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 marginBottom: "12px",
               }}
             >
@@ -223,7 +223,7 @@ export default function BracketPage() {
                 fontFamily: "var(--font-space-grotesk)",
                 fontSize: "14px",
                 lineHeight: 1.55,
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.6,
                 marginBottom: "22px",
               }}
@@ -233,7 +233,7 @@ export default function BracketPage() {
             <LinkButton
               href="/groups"
               variant="primary"
-              style={{ boxShadow: "4px 4px 0 0 #D52B1E" }}
+              style={{ boxShadow: "4px 4px 0 0 var(--color-wc-can-red)" }}
             >
               RETURN TO GROUPS
             </LinkButton>
@@ -247,8 +247,8 @@ export default function BracketPage() {
                 className="champion-card mx-auto mb-12 flex max-w-2xl flex-col items-center text-center"
                 style={{
                   background: "#fff",
-                  border: "3px solid #0d0d10",
-                  boxShadow: "8px 8px 0 0 #D52B1E",
+                  border: "3px solid var(--color-wc-ink)",
+                  boxShadow: "8px 8px 0 0 var(--color-wc-can-red)",
                   padding: "32px 28px",
                 }}
               >
@@ -257,7 +257,7 @@ export default function BracketPage() {
                     fontFamily: "var(--font-jetbrains-mono)",
                     fontSize: "10px",
                     letterSpacing: "0.3em",
-                    color: "#D52B1E",
+                    color: "var(--color-wc-can-red)",
                     marginBottom: "10px",
                   }}
                 >
@@ -270,7 +270,7 @@ export default function BracketPage() {
                     fontSize: "clamp(36px, 6vw, 64px)",
                     lineHeight: 0.9,
                     letterSpacing: "-0.04em",
-                    color: "#0d0d10",
+                    color: "var(--color-wc-ink)",
                   }}
                 >
                   {state.champion.name.toUpperCase()}
@@ -297,7 +297,7 @@ export default function BracketPage() {
                       <path
                         d={connector.path}
                         fill="none"
-                        stroke="#fefaf0"
+                        stroke="var(--color-wc-cream)"
                         strokeWidth={5}
                         strokeLinecap="square"
                         strokeLinejoin="miter"
@@ -335,8 +335,8 @@ export default function BracketPage() {
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "11px",
                           letterSpacing: "0.3em",
-                          color: "#D52B1E",
-                          borderBottom: "2px solid #D52B1E",
+                          color: "var(--color-wc-can-red)",
+                          borderBottom: "2px solid var(--color-wc-can-red)",
                           paddingBottom: "6px",
                         }}
                       >
@@ -355,7 +355,7 @@ export default function BracketPage() {
                           fontFamily: "var(--font-jetbrains-mono)",
                           fontSize: "10px",
                           letterSpacing: "0.24em",
-                          color: "#0d0d10",
+                          color: "var(--color-wc-ink)",
                           opacity: 0.45,
                         }}
                       >
@@ -396,7 +396,7 @@ export default function BracketPage() {
                   <span
                     aria-hidden="true"
                     className="inline-block animate-pulse"
-                    style={{ width: 8, height: 8, background: "#D52B1E" }}
+                    style={{ width: 8, height: 8, background: "var(--color-wc-can-red)" }}
                   />
                   SIMULATE {nextRoundLabel.toUpperCase()}
                 </Button>
@@ -492,7 +492,7 @@ const EmptyMatchSlot = memo(function EmptyMatchSlot({
       }}
       className="relative z-10 my-2 w-full"
       style={{
-        background: "#fefaf0",
+        background: "var(--color-wc-cream)",
         border: "2px dashed rgba(13,13,16,0.25)",
       }}
     >
@@ -582,15 +582,15 @@ const BracketMatch = memo(function BracketMatch({
       )}
       style={{
         background: "#fff",
-        border: final ? "2px solid #D52B1E" : "2px solid #0d0d10",
-        boxShadow: final ? "4px 4px 0 0 #D52B1E" : "none",
+        border: final ? "2px solid var(--color-wc-can-red)" : "2px solid var(--color-wc-ink)",
+        boxShadow: final ? "4px 4px 0 0 var(--color-wc-can-red)" : "none",
         transitionDuration: "120ms",
       }}
     >
       <div
         className="flex justify-between gap-2"
         style={{
-          background: final ? "#D52B1E" : "#0d0d10",
+          background: final ? "var(--color-wc-can-red)" : "var(--color-wc-ink)",
           color: "#fff",
           padding: "4px 8px",
           fontFamily: "var(--font-jetbrains-mono)",
@@ -662,7 +662,7 @@ const BracketTeam = memo(function BracketTeam({
       className={cn("flex items-center gap-2 transition-opacity", loser && "opacity-40")}
       style={{
         padding: "6px 8px",
-        background: winner ? (final ? "#fefaf0" : "#fff") : "#fff",
+        background: winner ? (final ? "var(--color-wc-cream)" : "#fff") : "#fff",
       }}
     >
       <Flag countryCode={team.countryCode} label={team.name} className="shrink-0 text-base" />
@@ -672,7 +672,7 @@ const BracketTeam = memo(function BracketTeam({
           fontFamily: "var(--font-archivo-black)",
           fontSize: "12px",
           letterSpacing: "0.04em",
-          color: winner ? "#0d0d10" : "rgba(13,13,16,0.7)",
+          color: winner ? "var(--color-wc-ink)" : "rgba(13,13,16,0.7)",
         }}
       >
         {team.countryCode}
@@ -683,7 +683,7 @@ const BracketTeam = memo(function BracketTeam({
           fontFamily: "var(--font-archivo-black)",
           fontSize: "14px",
           letterSpacing: "-0.02em",
-          color: winner ? (final ? "#D52B1E" : "#0d0d10") : "rgba(13,13,16,0.4)",
+          color: winner ? (final ? "var(--color-wc-can-red)" : "var(--color-wc-ink)") : "rgba(13,13,16,0.4)",
         }}
       >
         {played ? score : "-"}
