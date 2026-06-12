@@ -112,7 +112,8 @@ export function simulatePenalties(rng: Rng = Math.random): [number, number] {
     suddenDeath += 1;
   }
   if (home === away) {
-    home += 1;
+    if (rng() < 0.5) home += 1;
+    else away += 1;
   }
   return [home, away];
 }

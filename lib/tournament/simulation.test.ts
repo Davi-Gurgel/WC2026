@@ -223,14 +223,36 @@ describe("simulatePenalties - scripted rng branches", () => {
     expect(away).toBe(5);
   });
 
-  it("falls back to a home win after the 20-round deadlock", () => {
-    // Both teams score on every kick: 5-5 after regulation, then both score
-    // on every sudden-death attempt for all 20 rounds (perpetual tie).
-    // Deadlock fallback currently always favors home — changed by plan 004.
-    const rng = scripted(new Array(2 + 2 * 20).fill(0.1));
+  it("decides the 20-round deadlock with a coin flip favoring home", () => {
+    // Both teams score on every kick: 5-5 after regulation (10 draws), then
+    // both score on every sudden-death attempt for all 20 rounds (40 more
+    // draws) -> perpetual 5-5 tie. The 51st draw is the deadlock coin flip:
+    // < 0.5 awards home.
+    const values = new Array(10 + 2 * 20).fill(0.1);
+    values.push(0.1);
+    const rng = scripted(values);
 
     const [home, away] = simulatePenalties(rng);
 
     expect(home).toBe(away + 1);
+  });
+
+  it("decides the 20-round deadlock with a coin flip favoring away", () => {
+    // Same perpetual tie through regulation and sudden death, but the 51st
+    // draw is >= 0.5, so the coin flip awards away instead.
+    const values = new Array(10 + 2 * 20).fill(0.1);
+    values.push(0.9);
+    const rng = scripted(values);
+
+    const [home, away] = simulatePenalties(rng);
+
+    expect(away).toBe(home + 1);
+  });
+
+  it("never returns a tie across many seeded runs", () => {
+    for (let seed = 0; seed < 200; seed += 1) {
+      const [home, away] = simulatePenalties(mulberry32(seed));
+      expect(home).not.toBe(away);
+    }
   });
 });
