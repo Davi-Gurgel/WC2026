@@ -1,6 +1,37 @@
 import type { KnockoutRound, Match, Team, WorldCupGroup } from "@/lib/types/tournament";
 import { buildKnockoutMatch, getLoser, getWinner } from "@/lib/tournament/matches";
 
+const THIRD_SLOT_GROUPS = ["E", "I", "A", "L", "D", "G", "B", "K"] as const;
+
+/**
+ * Assigns ranked third-place teams to bracket slots so no team faces its own
+ * group winner. Prefers rank order; a depth-first search resolves conflicts.
+ * Simplification vs FIFA's published allocation annex, which fixes pairings
+ * per combination of qualified groups.
+ */
+export function assignThirdsToSlots(
+  qualified3rd: Team[],
+  slotGroups: readonly string[] = THIRD_SLOT_GROUPS
+): Team[] {
+  const assignment: Team[] = [];
+  const used = new Array<boolean>(qualified3rd.length).fill(false);
+
+  const place = (slot: number): boolean => {
+    if (slot === slotGroups.length) return true;
+    for (let i = 0; i < qualified3rd.length; i += 1) {
+      if (used[i] || qualified3rd[i].group.toUpperCase() === slotGroups[slot]) continue;
+      used[i] = true;
+      assignment[slot] = qualified3rd[i];
+      if (place(slot + 1)) return true;
+      used[i] = false;
+    }
+    return false;
+  };
+
+  if (!place(0)) throw new Error("No valid third-place allocation exists");
+  return assignment;
+}
+
 export function generateR32Bracket(groups: WorldCupGroup[], qualified3rd: Team[]): Match[] {
   const winners = new Map<string, Team>();
   const runners = new Map<string, Team>();
@@ -11,13 +42,15 @@ export function generateR32Bracket(groups: WorldCupGroup[], qualified3rd: Team[]
     if (second) runners.set(group.letter, second);
   }
 
+  const slottedThirds = assignThirdsToSlots(qualified3rd);
+
   const team = (map: Map<string, Team>, key: string) => {
     const value = map.get(key);
     if (!value) throw new Error(`Missing team for group ${key}`);
     return value;
   };
   const third = (index: number) => {
-    const value = qualified3rd[index];
+    const value = slottedThirds[index];
     if (!value) throw new Error(`Missing third-place qualifier ${index + 1}`);
     return value;
   };
