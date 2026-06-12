@@ -16,26 +16,26 @@ type LinkButtonProps = AnchorHTMLAttributes<HTMLAnchorElement> & {
 
 const VARIANT_STYLE: Record<ButtonVariant, React.CSSProperties> = {
   primary: {
-    background: "#0d0d10",
+    background: "var(--color-wc-ink)",
     color: "#fff",
     border: "none",
-    boxShadow: "6px 6px 0 0 #D52B1E",
+    boxShadow: "6px 6px 0 0 var(--color-wc-can-red)",
   },
   secondary: {
     background: "#fff",
-    color: "#0d0d10",
-    border: "2px solid #0d0d10",
+    color: "var(--color-wc-ink)",
+    border: "2px solid var(--color-wc-ink)",
   },
   danger: {
     background: "#fff",
-    color: "#D52B1E",
-    border: "2px solid #0d0d10",
-    boxShadow: "4px 4px 0 0 #D52B1E",
+    color: "var(--color-wc-can-red)",
+    border: "2px solid var(--color-wc-ink)",
+    boxShadow: "4px 4px 0 0 var(--color-wc-can-red)",
   },
   ghost: {
     background: "transparent",
-    color: "#0d0d10",
-    border: "2px solid #0d0d10",
+    color: "var(--color-wc-ink)",
+    border: "2px solid var(--color-wc-ink)",
   },
 };
 

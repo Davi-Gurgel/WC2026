@@ -33,7 +33,7 @@ export function Nav() {
   const [open, setOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50" style={{ background: "#0d0d10" }}>
+    <nav className="sticky top-0 z-50" style={{ background: "var(--color-wc-ink)" }}>
       <div className="flex h-12 items-center justify-between px-4 sm:px-6">
         <Link
           href="/"
@@ -43,7 +43,7 @@ export function Nav() {
         >
           <div
             className="flex items-center justify-center flex-shrink-0"
-            style={{ width: 22, height: 22, background: "#D52B1E" }}
+            style={{ width: 22, height: 22, background: "var(--color-wc-can-red)" }}
           >
             <svg viewBox="0 0 24 24" width={12} height={12} aria-hidden="true">
               <path
@@ -70,7 +70,7 @@ export function Nav() {
             "absolute inset-x-0 top-12 flex flex-col px-6 py-4 lg:static lg:flex lg:flex-row lg:items-center lg:gap-[22px] lg:p-0",
             open ? "flex" : "hidden"
           )}
-          style={{ background: open ? "#0d0d10" : undefined }}
+          style={{ background: open ? "var(--color-wc-ink)" : undefined }}
         >
           {links.map((link) => {
             const active =
@@ -85,7 +85,7 @@ export function Nav() {
                 className="py-2 uppercase transition-colors lg:py-0"
                 style={{
                   ...GROTESK,
-                  color: active ? "#D52B1E" : "rgba(255,255,255,0.6)",
+                  color: active ? "var(--color-wc-can-red)" : "rgba(255,255,255,0.6)",
                 }}
               >
                 {link.label}

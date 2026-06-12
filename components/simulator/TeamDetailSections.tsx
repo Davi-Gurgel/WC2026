@@ -11,8 +11,8 @@ export function TeamHero({ team }: { team: Team }) {
     <header
       className="relative overflow-hidden"
       style={{
-        background: "#fefaf0",
-        borderBottom: "3px solid #0d0d10",
+        background: "var(--color-wc-cream)",
+        borderBottom: "3px solid var(--color-wc-ink)",
         padding: "28px 24px",
       }}
     >
@@ -29,7 +29,7 @@ export function TeamHero({ team }: { team: Team }) {
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "10px",
               letterSpacing: "0.24em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
               opacity: 0.55,
             }}
           >
@@ -42,13 +42,13 @@ export function TeamHero({ team }: { team: Team }) {
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "10px",
               letterSpacing: "0.22em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             <Flag countryCode={team.countryCode} label={team.name} className="text-xl" />
             <span
               className="px-2 py-1"
-              style={{ background: "#D52B1E", color: "#fff" }}
+              style={{ background: "var(--color-wc-can-red)", color: "#fff" }}
             >
               GROUP {team.group}
             </span>
@@ -61,7 +61,7 @@ export function TeamHero({ team }: { team: Team }) {
               fontSize: "clamp(40px, 7vw, 80px)",
               lineHeight: 0.85,
               letterSpacing: "-0.04em",
-              color: "#0d0d10",
+              color: "var(--color-wc-ink)",
             }}
           >
             {team.name.toUpperCase()}
@@ -83,10 +83,10 @@ export function TeamSquadSection({ team }: { team: Team }) {
   const groupedPlayers = groupPlayersByPosition(team.players);
 
   return (
-    <section className="bg-white" style={{ border: "2px solid #0d0d10" }}>
+    <section className="bg-white" style={{ border: "2px solid var(--color-wc-ink)" }}>
       <div
         className="flex items-center justify-between"
-        style={{ background: "#0d0d10", color: "#fff", padding: "12px 16px" }}
+        style={{ background: "var(--color-wc-ink)", color: "#fff", padding: "12px 16px" }}
       >
         <h2
           style={{
@@ -109,7 +109,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
         </span>
       </div>
 
-      <div className="grid gap-px md:grid-cols-2" style={{ background: "#0d0d10" }}>
+      <div className="grid gap-px md:grid-cols-2" style={{ background: "var(--color-wc-ink)" }}>
         {groupedPlayers.map(([position, players]) => (
           <article key={position} className="bg-white p-4">
             <div
@@ -124,7 +124,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
                   fontFamily: "var(--font-jetbrains-mono)",
                   fontSize: "10px",
                   letterSpacing: "0.24em",
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   opacity: 0.65,
                 }}
               >
@@ -134,7 +134,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
                 style={{
                   fontFamily: "var(--font-jetbrains-mono)",
                   fontSize: "10px",
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                   opacity: 0.4,
                 }}
               >
@@ -148,7 +148,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
                   className="flex items-center justify-between gap-3 transition-transform hover:-translate-y-0.5"
                   style={{
                     border: "1px solid rgba(13,13,16,0.2)",
-                    background: "#fefaf0",
+                    background: "var(--color-wc-cream)",
                     padding: "8px 12px",
                     transitionDuration: "120ms",
                   }}
@@ -159,7 +159,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
                       fontFamily: "var(--font-space-grotesk)",
                       fontSize: "13px",
                       fontWeight: 600,
-                      color: "#0d0d10",
+                      color: "var(--color-wc-ink)",
                     }}
                   >
                     {player.name}
@@ -169,7 +169,7 @@ export function TeamSquadSection({ team }: { team: Team }) {
                     style={{
                       fontFamily: "var(--font-archivo-black)",
                       fontSize: "14px",
-                      color: "#D52B1E",
+                      color: "var(--color-wc-can-red)",
                       letterSpacing: "-0.02em",
                     }}
                   >
@@ -187,10 +187,10 @@ export function TeamSquadSection({ team }: { team: Team }) {
 
 export function TeamTelemetry({ matches }: { matches: Match[] }) {
   return (
-    <section className="bg-white" style={{ border: "2px solid #0d0d10" }}>
+    <section className="bg-white" style={{ border: "2px solid var(--color-wc-ink)" }}>
       <div
         className="flex items-center justify-between"
-        style={{ background: "#0d0d10", color: "#fff", padding: "12px 16px" }}
+        style={{ background: "var(--color-wc-ink)", color: "#fff", padding: "12px 16px" }}
       >
         <h2
           style={{
@@ -222,7 +222,7 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
               !match.played && "opacity-50"
             )}
             style={{
-              background: index % 2 === 0 ? "#fff" : "#fefaf0",
+              background: index % 2 === 0 ? "#fff" : "var(--color-wc-cream)",
               borderTop: index === 0 ? "none" : "1px solid rgba(13,13,16,0.1)",
             }}
           >
@@ -233,7 +233,7 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
                   fontFamily: "var(--font-space-grotesk)",
                   fontSize: "12px",
                   fontWeight: 600,
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                 }}
               >
                 {match.homeTeam.name}
@@ -249,7 +249,7 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
               style={{
                 fontFamily: "var(--font-archivo-black)",
                 fontSize: "16px",
-                color: match.played ? "#D52B1E" : "rgba(13,13,16,0.35)",
+                color: match.played ? "var(--color-wc-can-red)" : "rgba(13,13,16,0.35)",
                 letterSpacing: "-0.02em",
               }}
             >
@@ -267,7 +267,7 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
                   fontFamily: "var(--font-space-grotesk)",
                   fontSize: "12px",
                   fontWeight: 600,
-                  color: "#0d0d10",
+                  color: "var(--color-wc-ink)",
                 }}
               >
                 {match.awayTeam.name}
@@ -288,7 +288,7 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
                 fontFamily: "var(--font-jetbrains-mono)",
                 fontSize: "10px",
                 letterSpacing: "0.24em",
-                color: "#0d0d10",
+                color: "var(--color-wc-ink)",
                 opacity: 0.55,
               }}
             >
@@ -302,8 +302,8 @@ export function TeamTelemetry({ matches }: { matches: Match[] }) {
                 fontSize: "13px",
                 letterSpacing: "0.04em",
                 background: "#fff",
-                color: "#0d0d10",
-                border: "2px solid #0d0d10",
+                color: "var(--color-wc-ink)",
+                border: "2px solid var(--color-wc-ink)",
                 padding: "10px 18px",
                 transitionDuration: "120ms",
               }}
@@ -321,10 +321,10 @@ export function TeamMetricGrid({ team }: { team: Team }) {
   return (
     <section
       className="grid grid-cols-3 gap-px"
-      style={{ background: "#0d0d10", border: "2px solid #0d0d10" }}
+      style={{ background: "var(--color-wc-ink)", border: "2px solid var(--color-wc-ink)" }}
     >
-      <Metric label="ATT" value={team.attackStrength} accent="#D52B1E" />
-      <Metric label="MID" value={team.midfieldStrength} accent="#006847" />
+      <Metric label="ATT" value={team.attackStrength} accent="var(--color-wc-can-red)" />
+      <Metric label="MID" value={team.midfieldStrength} accent="var(--color-wc-mex-green)" />
       <Metric label="DEF" value={team.defenseStrength} accent="#002868" />
     </section>
   );
@@ -352,7 +352,7 @@ function Metric({ label, value, accent }: { label: string; value: number; accent
           fontFamily: "var(--font-archivo-black)",
           fontSize: "36px",
           letterSpacing: "-0.04em",
-          color: "#0d0d10",
+          color: "var(--color-wc-ink)",
           lineHeight: 0.9,
         }}
       >

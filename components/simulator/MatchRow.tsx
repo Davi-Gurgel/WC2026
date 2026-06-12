@@ -16,7 +16,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
         "px-4 py-3 sm:px-6 sm:py-4",
         !match.played && "opacity-60"
       )}
-      style={{ border: "2px solid #0d0d10", transitionDuration: "120ms" }}
+      style={{ border: "2px solid var(--color-wc-ink)", transitionDuration: "120ms" }}
     >
       {/* Home */}
       <div className="flex min-w-0 items-center justify-end gap-2 text-right sm:gap-3">
@@ -26,7 +26,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
             fontFamily: "var(--font-archivo-black)",
             fontSize: "13px",
             letterSpacing: "0.02em",
-            color: "#0d0d10",
+            color: "var(--color-wc-ink)",
           }}
         >
           {match.homeTeam.name}
@@ -45,7 +45,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
             fontFamily: "var(--font-jetbrains-mono)",
             fontSize: "9px",
             letterSpacing: "0.22em",
-            color: "#0d0d10",
+            color: "var(--color-wc-ink)",
             opacity: 0.55,
           }}
         >
@@ -56,7 +56,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
             fontFamily: "var(--font-archivo-black)",
             fontSize: "22px",
             letterSpacing: "-0.02em",
-            color: match.played ? "#D52B1E" : "rgba(13,13,16,0.35)",
+            color: match.played ? "var(--color-wc-can-red)" : "rgba(13,13,16,0.35)",
             lineHeight: 1,
           }}
         >
@@ -68,7 +68,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
               fontFamily: "var(--font-jetbrains-mono)",
               fontSize: "9px",
               letterSpacing: "0.18em",
-              color: "#D52B1E",
+              color: "var(--color-wc-can-red)",
               opacity: 0.85,
             }}
           >
@@ -90,7 +90,7 @@ export const MatchRow = memo(function MatchRow({ match }: { match: Match }) {
             fontFamily: "var(--font-archivo-black)",
             fontSize: "13px",
             letterSpacing: "0.02em",
-            color: "#0d0d10",
+            color: "var(--color-wc-ink)",
           }}
         >
           {match.awayTeam.name}
