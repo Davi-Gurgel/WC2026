@@ -1,5 +1,5 @@
 import type { Match, Player, Scorer, Team, TournamentState } from "@/lib/types/tournament";
-import { generateNextRound, generateR32Bracket, generateThirdAndFinal } from "@/lib/tournament/bracket";
+import { advanceBracket, bracketFinal, createBracket, currentRound, isBracketComplete } from "@/lib/tournament/bracket";
 import { getLoser, getWinner } from "@/lib/tournament/matches";
 import type { Rng } from "@/lib/tournament/rng";
 import { scorerMapToTopScorers, topScorersToMap } from "@/lib/tournament/scorers";
@@ -35,7 +35,7 @@ export function simulateCurrentGroupMatchDay(state: TournamentState, rng: Rng = 
     nextState = {
       ...nextState,
       qualified3rd,
-      r32Matches: generateR32Bracket(groups, qualified3rd),
+      bracket: createBracket(groups, qualified3rd),
       phase: "ROUND_OF_32"
     };
   }
@@ -54,44 +54,21 @@ export function simulateAllGroupMatchDays(state: TournamentState, rng: Rng = Mat
 }
 
 export function simulateCurrentKnockoutRound(state: TournamentState, rng: Rng = Math.random): TournamentState {
+  if (!currentRound(state.bracket)) return state;
+
   const scorerMap = topScorersToMap(state.topScorers);
+  const bracket = advanceBracket(state.bracket, (match, draw) => simulateMatch(match, scorerMap, true, draw), rng);
+  const finalMatch = bracketFinal(bracket);
+  const finished = isBracketComplete(bracket);
 
-  if (state.phase === "ROUND_OF_32") {
-    const r32Matches = simulateRound(state.r32Matches, scorerMap, rng);
-    return { ...state, r32Matches, r16Matches: generateNextRound(r32Matches, 89, "ROUND_OF_16"), phase: "ROUND_OF_16", topScorers: scorerMapToTopScorers(scorerMap) };
-  }
-
-  if (state.phase === "ROUND_OF_16") {
-    const r16Matches = simulateRound(state.r16Matches, scorerMap, rng);
-    return { ...state, r16Matches, quarterFinals: generateNextRound(r16Matches, 97, "QUARTERFINAL"), phase: "QUARTERFINAL", topScorers: scorerMapToTopScorers(scorerMap) };
-  }
-
-  if (state.phase === "QUARTERFINAL") {
-    const quarterFinals = simulateRound(state.quarterFinals, scorerMap, rng);
-    return { ...state, quarterFinals, semiFinals: generateNextRound(quarterFinals, 101, "SEMIFINAL"), phase: "SEMIFINAL", topScorers: scorerMapToTopScorers(scorerMap) };
-  }
-
-  if (state.phase === "SEMIFINAL") {
-    const semiFinals = simulateRound(state.semiFinals, scorerMap, rng);
-    const [thirdPlaceMatch, finalMatch] = generateThirdAndFinal(semiFinals);
-    return { ...state, semiFinals, thirdPlaceMatch, finalMatch, phase: "FINAL", topScorers: scorerMapToTopScorers(scorerMap) };
-  }
-
-  if (state.phase === "FINAL") {
-    const thirdPlaceMatch = state.thirdPlaceMatch?.played ? state.thirdPlaceMatch : state.thirdPlaceMatch ? simulateMatch(state.thirdPlaceMatch, scorerMap, true, rng) : null;
-    const finalMatch = state.finalMatch?.played ? state.finalMatch : state.finalMatch ? simulateMatch(state.finalMatch, scorerMap, true, rng) : null;
-    return {
-      ...state,
-      thirdPlaceMatch,
-      finalMatch,
-      phase: finalMatch?.played ? "FINISHED" : state.phase,
-      champion: finalMatch?.played ? getWinner(finalMatch) : state.champion,
-      runnerUp: finalMatch?.played ? getLoser(finalMatch) : state.runnerUp,
-      topScorers: scorerMapToTopScorers(scorerMap)
-    };
-  }
-
-  return state;
+  return {
+    ...state,
+    bracket,
+    phase: finished ? "FINISHED" : currentRound(bracket)?.round ?? state.phase,
+    champion: finished && finalMatch ? getWinner(finalMatch) : state.champion,
+    runnerUp: finished && finalMatch ? getLoser(finalMatch) : state.runnerUp,
+    topScorers: scorerMapToTopScorers(scorerMap)
+  };
 }
 
 export function simulatePenalties(rng: Rng = Math.random): [number, number] {
@@ -116,10 +93,6 @@ export function simulatePenalties(rng: Rng = Math.random): [number, number] {
     else away += 1;
   }
   return [home, away];
-}
-
-function simulateRound(matches: Match[], scorerMap: Map<string, Scorer>, rng: Rng): Match[] {
-  return matches.map((match) => (match.played ? match : simulateMatch(match, scorerMap, true, rng)));
 }
 
 function simulateMatch(match: Match, scorerMap: Map<string, Scorer>, knockout: boolean, rng: Rng): Match {

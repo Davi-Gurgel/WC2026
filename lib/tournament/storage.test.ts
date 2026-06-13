@@ -38,7 +38,7 @@ describe("loadStoredTournamentState", () => {
 describe("persistTournamentState", () => {
   it("stores a compact representation of the state", () => {
     const storage = createMockStorage();
-    const state = { active: false, groups: [], allTeams: [], phase: "NOT_STARTED" as const, currentGroupMatchDay: 0, r32Matches: [], r16Matches: [], quarterFinals: [], semiFinals: [], topScorers: [], thirdPlaceMatch: null, finalMatch: null, champion: null, runnerUp: null, qualified3rd: [] };
+    const state = { active: false, groups: [], allTeams: [], phase: "NOT_STARTED" as const, currentGroupMatchDay: 0, bracket: { rounds: [], thirdPlace: null }, topScorers: [], champion: null, runnerUp: null, qualified3rd: [] };
     persistTournamentState(state, storage);
     expect(storage.getItem(STORAGE_KEY)).not.toBeNull();
   });

@@ -93,12 +93,8 @@ describe("initializeTournament", () => {
     expect(state.phase).toBe("GROUP_STAGE");
     expect(state.currentGroupMatchDay).toBe(1);
     expect(state.active).toBe(true);
-    expect(state.r32Matches).toEqual([]);
-    expect(state.r16Matches).toEqual([]);
-    expect(state.quarterFinals).toEqual([]);
-    expect(state.semiFinals).toEqual([]);
-    expect(state.thirdPlaceMatch).toBeNull();
-    expect(state.finalMatch).toBeNull();
+    expect(state.bracket.rounds).toEqual([]);
+    expect(state.bracket.thirdPlace).toBeNull();
     expect(state.champion).toBeNull();
     expect(state.runnerUp).toBeNull();
   });

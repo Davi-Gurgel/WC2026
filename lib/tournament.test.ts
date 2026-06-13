@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { getAllTeams } from "@/lib/teams";
+import { bracketFinal, roundMatches } from "@/lib/tournament/bracket";
 import { getLoser, getWinner } from "@/lib/tournament/matches";
 import { mulberry32 } from "@/lib/tournament/rng";
 import { getAllGroupMatches } from "@/lib/tournament/selectors";
@@ -35,8 +36,8 @@ describe("tournament rules", () => {
     const state = simulateAllGroupMatchDays(initializeTournament(getAllTeams()));
 
     expect(state.phase).toBe("ROUND_OF_32");
-    expect(state.r32Matches).toHaveLength(16);
-    expect(state.r32Matches.map((match) => match.matchNumber)).toEqual([...Array.from({ length: 16 }, (_, index) => index + 73)]);
+    expect(roundMatches(state.bracket, "ROUND_OF_32")).toHaveLength(16);
+    expect(roundMatches(state.bracket, "ROUND_OF_32").map((match) => match.matchNumber)).toEqual([...Array.from({ length: 16 }, (_, index) => index + 73)]);
     expect(calculateQualifiedThirds(state.groups)).toHaveLength(8);
   });
 
@@ -52,24 +53,24 @@ describe("tournament rules", () => {
 
     state = simulateCurrentKnockoutRound(state);
     expect(state.phase).toBe("ROUND_OF_16");
-    expect(state.r16Matches).toHaveLength(8);
+    expect(roundMatches(state.bracket, "ROUND_OF_16")).toHaveLength(8);
 
     state = simulateCurrentKnockoutRound(state);
     expect(state.phase).toBe("QUARTERFINAL");
-    expect(state.quarterFinals).toHaveLength(4);
+    expect(roundMatches(state.bracket, "QUARTERFINAL")).toHaveLength(4);
 
     state = simulateCurrentKnockoutRound(state);
     expect(state.phase).toBe("SEMIFINAL");
-    expect(state.semiFinals).toHaveLength(2);
+    expect(roundMatches(state.bracket, "SEMIFINAL")).toHaveLength(2);
 
     state = simulateCurrentKnockoutRound(state);
     expect(state.phase).toBe("FINAL");
-    expect(state.thirdPlaceMatch?.matchNumber).toBe(103);
-    expect(state.finalMatch?.matchNumber).toBe(104);
+    expect(state.bracket.thirdPlace?.matchNumber).toBe(103);
+    expect(bracketFinal(state.bracket)?.matchNumber).toBe(104);
 
     state = simulateCurrentKnockoutRound(state);
     expect(state.phase).toBe("FINISHED");
-    expect(state.finalMatch?.played).toBe(true);
+    expect(bracketFinal(state.bracket)?.played).toBe(true);
     expect(state.champion).toBeTruthy();
     expect(state.runnerUp).toBeTruthy();
   });

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { roundMatches } from "@/lib/tournament/bracket";
 import { expandCompactTournamentState, toStoredTournamentState } from "@/lib/tournament/storage-codec";
 import { isStoredTournamentState } from "@/lib/tournament/storage-guards";
 import { STORAGE_VERSION } from "@/lib/tournament/storage-schema";
@@ -17,7 +18,7 @@ describe("storage codec round-trip", () => {
     expect(restored.active).toBe(original.active);
     expect(restored.currentGroupMatchDay).toBe(original.currentGroupMatchDay);
     expect(restored.groups).toHaveLength(original.groups.length);
-    expect(restored.r32Matches).toHaveLength(original.r32Matches.length);
+    expect(roundMatches(restored.bracket, "ROUND_OF_32")).toHaveLength(roundMatches(original.bracket, "ROUND_OF_32").length);
     expect(restored.champion?.countryCode).toBe(original.champion?.countryCode);
     expect(restored.qualified3rd).toHaveLength(original.qualified3rd.length);
   });
@@ -47,7 +48,7 @@ describe("storage codec round-trip", () => {
   });
 
   it("handles NOT_STARTED state with empty data", () => {
-    const original = { ...initializeTournament(getAllTeams()), active: false, groups: [], allTeams: [], phase: "NOT_STARTED" as const, currentGroupMatchDay: 0, r32Matches: [], r16Matches: [], quarterFinals: [], semiFinals: [], topScorers: [], thirdPlaceMatch: null, finalMatch: null, champion: null, runnerUp: null, qualified3rd: [] };
+    const original = { ...initializeTournament(getAllTeams()), active: false, groups: [], allTeams: [], phase: "NOT_STARTED" as const, currentGroupMatchDay: 0, bracket: { rounds: [], thirdPlace: null }, topScorers: [], champion: null, runnerUp: null, qualified3rd: [] };
     const stored = toStoredTournamentState(original);
     const restored = expandCompactTournamentState(stored.state, getAllTeams());
 
@@ -64,9 +65,9 @@ describe("storage codec round-trip", () => {
     const stored = toStoredTournamentState(state);
     const restored = expandCompactTournamentState(stored.state, getAllTeams());
 
-    expect(restored.r32Matches).toHaveLength(state.r32Matches.length);
-    expect(restored.r16Matches).toHaveLength(state.r16Matches.length);
-    expect(restored.quarterFinals).toHaveLength(state.quarterFinals.length);
+    expect(roundMatches(restored.bracket, "ROUND_OF_32")).toHaveLength(roundMatches(state.bracket, "ROUND_OF_32").length);
+    expect(roundMatches(restored.bracket, "ROUND_OF_16")).toHaveLength(roundMatches(state.bracket, "ROUND_OF_16").length);
+    expect(roundMatches(restored.bracket, "QUARTERFINAL")).toHaveLength(roundMatches(state.bracket, "QUARTERFINAL").length);
   });
 });
 

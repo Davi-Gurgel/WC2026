@@ -1,7 +1,7 @@
-import type { KnockoutRound, Scorer, TournamentPhase } from "@/lib/types/tournament";
+import type { BracketRound, KnockoutRound, Scorer, TournamentPhase } from "@/lib/types/tournament";
 
 export const STORAGE_KEY = "wc26-tournament-state-v1";
-export const STORAGE_VERSION = 3;
+export const STORAGE_VERSION = 4;
 
 export type StoredTournamentState = StoredCompactTournamentState;
 
@@ -13,18 +13,19 @@ export type StoredCompactTournamentState = {
 export type CompactTournamentState = {
   groups: CompactGroup[];
   topScorers: Scorer[];
-  r32Matches: CompactMatch[];
-  r16Matches: CompactMatch[];
-  quarterFinals: CompactMatch[];
-  semiFinals: CompactMatch[];
-  thirdPlaceMatch: CompactMatch | null;
-  finalMatch: CompactMatch | null;
+  rounds: CompactKnockoutRound[];
+  thirdPlace: CompactMatch | null;
   phase: TournamentPhase;
   currentGroupMatchDay: number;
   active: boolean;
   championCode: string | null;
   runnerUpCode: string | null;
   qualified3rdCodes: string[];
+};
+
+export type CompactKnockoutRound = {
+  round: BracketRound;
+  matches: CompactMatch[];
 };
 
 export type CompactGroup = {

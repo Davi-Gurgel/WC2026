@@ -1,4 +1,5 @@
 import type { Match, Team, TournamentState, WorldCupGroup } from "@/lib/types/tournament";
+import { createEmptyBracket } from "@/lib/tournament/bracket";
 import { GROUP_LETTERS } from "@/lib/tournament/constants";
 import { buildGroupMatch } from "@/lib/tournament/matches";
 import { computeStandings } from "@/lib/tournament/standings";
@@ -8,12 +9,7 @@ export function createEmptyTournamentState(): TournamentState {
     allTeams: [],
     groups: [],
     topScorers: [],
-    r32Matches: [],
-    r16Matches: [],
-    quarterFinals: [],
-    semiFinals: [],
-    thirdPlaceMatch: null,
-    finalMatch: null,
+    bracket: createEmptyBracket(),
     phase: "NOT_STARTED",
     currentGroupMatchDay: 0,
     active: false,

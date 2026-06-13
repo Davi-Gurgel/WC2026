@@ -12,12 +12,11 @@ export function toStoredTournamentState(state: TournamentState): StoredCompactTo
         matches: group.matches.map(compactMatch)
       })),
       topScorers: state.topScorers,
-      r32Matches: state.r32Matches.map(compactMatch),
-      r16Matches: state.r16Matches.map(compactMatch),
-      quarterFinals: state.quarterFinals.map(compactMatch),
-      semiFinals: state.semiFinals.map(compactMatch),
-      thirdPlaceMatch: state.thirdPlaceMatch ? compactMatch(state.thirdPlaceMatch) : null,
-      finalMatch: state.finalMatch ? compactMatch(state.finalMatch) : null,
+      rounds: state.bracket.rounds.map((entry) => ({
+        round: entry.round,
+        matches: entry.matches.map(compactMatch)
+      })),
+      thirdPlace: state.bracket.thirdPlace ? compactMatch(state.bracket.thirdPlace) : null,
       phase: state.phase,
       currentGroupMatchDay: state.currentGroupMatchDay,
       active: state.active,
@@ -52,12 +51,13 @@ export function expandCompactTournamentState(compact: CompactTournamentState, te
     allTeams: compact.active || compact.groups.length ? teams : [],
     groups,
     topScorers: compact.topScorers,
-    r32Matches: compact.r32Matches.map((match) => expandCompactMatch(match, teamFromCode)),
-    r16Matches: compact.r16Matches.map((match) => expandCompactMatch(match, teamFromCode)),
-    quarterFinals: compact.quarterFinals.map((match) => expandCompactMatch(match, teamFromCode)),
-    semiFinals: compact.semiFinals.map((match) => expandCompactMatch(match, teamFromCode)),
-    thirdPlaceMatch: compact.thirdPlaceMatch ? expandCompactMatch(compact.thirdPlaceMatch, teamFromCode) : null,
-    finalMatch: compact.finalMatch ? expandCompactMatch(compact.finalMatch, teamFromCode) : null,
+    bracket: {
+      rounds: compact.rounds.map((entry) => ({
+        round: entry.round,
+        matches: entry.matches.map((match) => expandCompactMatch(match, teamFromCode))
+      })),
+      thirdPlace: compact.thirdPlace ? expandCompactMatch(compact.thirdPlace, teamFromCode) : null
+    },
     phase: compact.phase,
     currentGroupMatchDay: compact.currentGroupMatchDay,
     active: compact.active,
