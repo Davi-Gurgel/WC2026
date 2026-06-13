@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import { useTournament } from "@/components/TournamentProvider";
 import { MatchRow } from "@/components/simulator/MatchRow";
-import { getGroupMatchesForDay } from "@/lib/tournament";
+import { getGroupMatchesForDay, roundMatches, bracketFinal } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 import { PageHeader } from "@/components/ui/PageHeader";
@@ -29,11 +29,11 @@ export default function MatchesPage() {
   const matches = useMemo(() => {
     const byPhase: Record<MatchFilter, Match[]> = {
       GROUP: getGroupMatchesForDay(state, day),
-      R32: state.r32Matches,
-      R16: state.r16Matches,
-      QF: state.quarterFinals,
-      SF: state.semiFinals,
-      FINAL: [state.thirdPlaceMatch, state.finalMatch].filter(Boolean) as Match[],
+      R32: roundMatches(state.bracket, "ROUND_OF_32"),
+      R16: roundMatches(state.bracket, "ROUND_OF_16"),
+      QF: roundMatches(state.bracket, "QUARTERFINAL"),
+      SF: roundMatches(state.bracket, "SEMIFINAL"),
+      FINAL: [state.bracket.thirdPlace, bracketFinal(state.bracket)].filter(Boolean) as Match[],
     };
     return byPhase[phase];
   }, [day, phase, state]);

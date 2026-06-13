@@ -5,7 +5,7 @@ import { Flag } from "@/components/Flag";
 import { useTournament } from "@/components/TournamentProvider";
 import { BracketSide, MatchRect, getConnectorPath, getFinalConnectorPath } from "@/components/simulator/bracket-geometry";
 import { useChampionCelebration } from "@/components/simulator/useChampionCelebration";
-import { phaseLabel, getWinner, isTournamentCompleted } from "@/lib/tournament";
+import { phaseLabel, getWinner, isTournamentCompleted, roundMatches, bracketFinal } from "@/lib/tournament";
 import type { Match } from "@/lib/types/tournament";
 import { cn } from "@/lib/utils";
 import { Button, LinkButton } from "@/components/ui/Button";
@@ -31,23 +31,26 @@ export default function BracketPage() {
   const [connectorPaths, setConnectorPaths] = useState<ConnectorPath[]>([]);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
   useChampionCelebration(championId, championRef);
-  const bracketSides = useMemo(
-    () => ({
+  const bracketSides = useMemo(() => {
+    const r32 = roundMatches(state.bracket, "ROUND_OF_32");
+    const r16 = roundMatches(state.bracket, "ROUND_OF_16");
+    const qf = roundMatches(state.bracket, "QUARTERFINAL");
+    const sf = roundMatches(state.bracket, "SEMIFINAL");
+    return {
       left: [
-        ["Round of 32", splitMatches(state.r32Matches).left],
-        ["Round of 16", splitMatches(state.r16Matches).left],
-        ["Quarter-finals", splitMatches(state.quarterFinals).left],
-        ["Semi-finals", splitMatches(state.semiFinals).left],
+        ["Round of 32", splitMatches(r32).left],
+        ["Round of 16", splitMatches(r16).left],
+        ["Quarter-finals", splitMatches(qf).left],
+        ["Semi-finals", splitMatches(sf).left],
       ] satisfies BracketRound[],
       right: [
-        ["Semi-finals", splitMatches(state.semiFinals).right],
-        ["Quarter-finals", splitMatches(state.quarterFinals).right],
-        ["Round of 16", splitMatches(state.r16Matches).right],
-        ["Round of 32", splitMatches(state.r32Matches).right],
+        ["Semi-finals", splitMatches(sf).right],
+        ["Quarter-finals", splitMatches(qf).right],
+        ["Round of 16", splitMatches(r16).right],
+        ["Round of 32", splitMatches(r32).right],
       ] satisfies BracketRound[],
-    }),
-    [state.r32Matches, state.r16Matches, state.quarterFinals, state.semiFinals]
-  );
+    };
+  }, [state.bracket]);
   const groupStageComplete = state.phase !== "GROUP_STAGE" && state.phase !== "NOT_STARTED";
   const nextRoundLabel = phaseLabel(state.phase);
   const registerMatchRef = useCallback((matchId: string, node: HTMLElement | null) => {
@@ -342,8 +345,8 @@ export default function BracketPage() {
                       >
                         FINAL
                       </div>
-                      {state.finalMatch ? (
-                        <BracketMatch match={state.finalMatch} final slotId="final" onMatchRef={registerMatchRef} />
+                      {bracketFinal(state.bracket) ? (
+                        <BracketMatch match={bracketFinal(state.bracket)!} final slotId="final" onMatchRef={registerMatchRef} />
                       ) : (
                         <EmptyMatchSlot slotId="final" onMatchRef={registerMatchRef} />
                       )}
@@ -361,8 +364,8 @@ export default function BracketPage() {
                       >
                         THIRD PLACE
                       </div>
-                      {state.thirdPlaceMatch ? (
-                        <BracketMatch match={state.thirdPlaceMatch} compact slotId="third-place" onMatchRef={registerMatchRef} />
+                      {state.bracket.thirdPlace ? (
+                        <BracketMatch match={state.bracket.thirdPlace} compact slotId="third-place" onMatchRef={registerMatchRef} />
                       ) : (
                         <EmptyMatchSlot slotId="third-place" onMatchRef={registerMatchRef} />
                       )}

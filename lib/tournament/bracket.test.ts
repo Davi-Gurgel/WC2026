@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { assignThirdsToSlots, generateNextRound, generateR32Bracket, generateThirdAndFinal } from "@/lib/tournament/bracket";
+import { assignThirdsToSlots, generateNextRound, generateR32Bracket, generateThirdAndFinal, roundMatches } from "@/lib/tournament/bracket";
 import { getAllTeams } from "@/lib/teams";
 import { simulateAllGroupMatchDays, simulateCurrentKnockoutRound } from "@/lib/tournament/simulation";
 import { initializeTournament } from "@/lib/tournament/state";
@@ -47,7 +47,7 @@ describe("generateR32Bracket", () => {
 describe("generateNextRound", () => {
   it("generates half as many matches from the previous round winners", () => {
     const state = simulateAllGroupMatchDays(initializeTournament(getAllTeams()));
-    const r32 = simulateCurrentKnockoutRound(state).r32Matches;
+    const r32 = roundMatches(simulateCurrentKnockoutRound(state).bracket, "ROUND_OF_32");
     const r16 = generateNextRound(r32, 89, "ROUND_OF_16");
 
     expect(r16).toHaveLength(8);
@@ -57,7 +57,7 @@ describe("generateNextRound", () => {
 
   it("assigns correct match numbers starting from the given index", () => {
     const state = simulateAllGroupMatchDays(initializeTournament(getAllTeams()));
-    const r32 = simulateCurrentKnockoutRound(state).r32Matches;
+    const r32 = roundMatches(simulateCurrentKnockoutRound(state).bracket, "ROUND_OF_32");
     const r16 = generateNextRound(r32, 89, "ROUND_OF_16");
 
     const matchNumbers = r16.map((match) => match.matchNumber);
@@ -73,7 +73,7 @@ describe("generateThirdAndFinal", () => {
     state = simulateCurrentKnockoutRound(state);
     const semiFinalState = simulateCurrentKnockoutRound(state);
 
-    const [thirdPlace, finalMatch] = generateThirdAndFinal(semiFinalState.semiFinals);
+    const [thirdPlace, finalMatch] = generateThirdAndFinal(roundMatches(semiFinalState.bracket, "SEMIFINAL"));
 
     expect(thirdPlace).toBeDefined();
     expect(finalMatch).toBeDefined();
@@ -123,7 +123,7 @@ describe("Round of 32 third-place slotting (integration)", () => {
     for (let seed = 1; seed <= 25; seed += 1) {
       const state = simulateAllGroupMatchDays(initializeTournament(getAllTeams()), mulberry32(seed));
 
-      for (const match of state.r32Matches) {
+      for (const match of roundMatches(state.bracket, "ROUND_OF_32")) {
         expect(match.homeTeam.group).not.toBe(match.awayTeam.group);
       }
     }

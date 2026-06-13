@@ -85,16 +85,30 @@ export type Scorer = {
   goals: number;
 };
 
+/** A round in the winners' chain — every knockout round except the third-place playoff. */
+export type BracketRound = Exclude<KnockoutRound, "THIRD_PLACE">;
+
+/** One stage of the knockout bracket and its matches as a unit. */
+export type KnockoutRoundData = {
+  round: BracketRound;
+  matches: Match[];
+};
+
+/**
+ * The whole single-elimination structure after the group stage: the ordered
+ * winners' rounds (ROUND_OF_32 → FINAL) plus the third-place playoff, which is
+ * a sibling of the final, never a link in the rounds chain.
+ */
+export type Bracket = {
+  rounds: KnockoutRoundData[];
+  thirdPlace: Match | null;
+};
+
 export type TournamentState = {
   allTeams: Team[];
   groups: WorldCupGroup[];
   topScorers: Scorer[];
-  r32Matches: Match[];
-  r16Matches: Match[];
-  quarterFinals: Match[];
-  semiFinals: Match[];
-  thirdPlaceMatch: Match | null;
-  finalMatch: Match | null;
+  bracket: Bracket;
   phase: TournamentPhase;
   currentGroupMatchDay: number;
   active: boolean;

@@ -6,6 +6,7 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { STORAGE_KEY, TournamentProvider, useTournament } from "@/components/TournamentProvider";
 import { getAllTeams } from "@/lib/teams";
 import { toStoredTournamentState } from "@/lib/tournament/storage-codec";
+import { STORAGE_VERSION } from "@/lib/tournament/storage-schema";
 import { initializeTournament } from "@/lib/tournament/state";
 
 describe("TournamentProvider flow", () => {
@@ -69,7 +70,7 @@ describe("TournamentProvider flow", () => {
         state?: { allTeams?: unknown; groups?: Array<{ matches: Array<{ h: string; a: string }> }> };
       };
 
-      expect(parsed.version).toBe(3);
+      expect(parsed.version).toBe(STORAGE_VERSION);
       expect(parsed.state?.allTeams).toBeUndefined();
       expect(parsed.state?.groups?.[0]?.matches[0]).toMatchObject({ h: "MEX", a: "KOR" });
       expect(stored?.length ?? Number.POSITIVE_INFINITY).toBeLessThan(50_000);

@@ -1,4 +1,5 @@
 import type { Match, Team, TournamentState } from "@/lib/types/tournament";
+import { allKnockoutMatches, bracketFinal, knockoutMatchesForTeam } from "@/lib/tournament/bracket";
 import { phaseLabel } from "@/lib/tournament/constants";
 
 export function getAllGroupMatches(state: TournamentState): Match[] {
@@ -10,14 +11,7 @@ export function getGroupMatchesForDay(state: TournamentState, day: number): Matc
 }
 
 function getAllKnockoutMatches(state: TournamentState): Match[] {
-  return [
-    ...state.r32Matches,
-    ...state.r16Matches,
-    ...state.quarterFinals,
-    ...state.semiFinals,
-    ...(state.thirdPlaceMatch ? [state.thirdPlaceMatch] : []),
-    ...(state.finalMatch ? [state.finalMatch] : [])
-  ];
+  return allKnockoutMatches(state.bracket);
 }
 
 export function findTeamByCodeOrName(state: TournamentState, codeOrName: string): Team | undefined {
@@ -34,12 +28,7 @@ export function getMatchesForTeam(state: TournamentState, teamName: string): Mat
   for (const group of state.groups) {
     collectTeamMatches(group.matches, teamName, matches);
   }
-  collectTeamMatches(state.r32Matches, teamName, matches);
-  collectTeamMatches(state.r16Matches, teamName, matches);
-  collectTeamMatches(state.quarterFinals, teamName, matches);
-  collectTeamMatches(state.semiFinals, teamName, matches);
-  if (state.thirdPlaceMatch) collectTeamMatches([state.thirdPlaceMatch], teamName, matches);
-  if (state.finalMatch) collectTeamMatches([state.finalMatch], teamName, matches);
+  matches.push(...knockoutMatchesForTeam(state.bracket, teamName));
 
   return matches;
 }
@@ -68,7 +57,7 @@ export function collectTournamentMatches(state: TournamentState): TournamentMatc
 }
 
 export function isTournamentCompleted(state: TournamentState): boolean {
-  return state.phase === "FINISHED" && Boolean(state.finalMatch?.played);
+  return state.phase === "FINISHED" && Boolean(bracketFinal(state.bracket)?.played);
 }
 
 export type TournamentStats = {

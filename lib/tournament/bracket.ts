@@ -1,7 +1,21 @@
-import type { KnockoutRound, Match, Team, WorldCupGroup } from "@/lib/types/tournament";
+import type { Bracket, BracketRound, KnockoutRound, KnockoutRoundData, Match, Team, WorldCupGroup } from "@/lib/types/tournament";
 import { buildKnockoutMatch, getLoser, getWinner } from "@/lib/tournament/matches";
+import type { Rng } from "@/lib/tournament/rng";
 
 const THIRD_SLOT_GROUPS = ["E", "I", "A", "L", "D", "G", "B", "K"] as const;
+
+/** The winners' rounds in order. THIRD_PLACE is deliberately absent — it is a sibling of the final. */
+const KNOCKOUT_PROGRESSION: BracketRound[] = ["ROUND_OF_32", "ROUND_OF_16", "QUARTERFINAL", "SEMIFINAL", "FINAL"];
+
+/** FIFA match numbers for the first match of each knockout round. */
+const ROUND_FIRST_MATCH_NUMBER: Record<KnockoutRound, number> = {
+  ROUND_OF_32: 73,
+  ROUND_OF_16: 89,
+  QUARTERFINAL: 97,
+  SEMIFINAL: 101,
+  THIRD_PLACE: 103,
+  FINAL: 104
+};
 
 /**
  * Assigns ranked third-place teams to bracket slots so no team faces its own
@@ -93,7 +107,93 @@ export function generateThirdAndFinal(semiFinals: Match[]): [Match | null, Match
   const firstWinner = getWinner(semiFinals[0]);
   const secondWinner = getWinner(semiFinals[1]);
   return [
-    firstLoser && secondLoser ? buildKnockoutMatch(firstLoser, secondLoser, 103, "THIRD_PLACE") : null,
-    firstWinner && secondWinner ? buildKnockoutMatch(firstWinner, secondWinner, 104, "FINAL") : null
+    firstLoser && secondLoser ? buildKnockoutMatch(firstLoser, secondLoser, ROUND_FIRST_MATCH_NUMBER.THIRD_PLACE, "THIRD_PLACE") : null,
+    firstWinner && secondWinner ? buildKnockoutMatch(firstWinner, secondWinner, ROUND_FIRST_MATCH_NUMBER.FINAL, "FINAL") : null
   ];
+}
+
+// ── Bracket: the deep module over the knockout rounds ────────────────────────
+
+/** Simulates one match. Injected so the bracket stays independent of the scoring model. */
+export type SimulateKnockoutMatch = (match: Match, rng: Rng) => Match;
+
+export function createEmptyBracket(): Bracket {
+  return { rounds: [], thirdPlace: null };
+}
+
+/** Seeds the Round of 32 from group results; the rest of the bracket is advanced from it. */
+export function createBracket(groups: WorldCupGroup[], qualified3rd: Team[]): Bracket {
+  return {
+    rounds: [{ round: "ROUND_OF_32", matches: generateR32Bracket(groups, qualified3rd) }],
+    thirdPlace: null
+  };
+}
+
+/** Matches of a single round (THIRD_PLACE resolves to the playoff). */
+export function roundMatches(bracket: Bracket, round: KnockoutRound): Match[] {
+  if (round === "THIRD_PLACE") return bracket.thirdPlace ? [bracket.thirdPlace] : [];
+  return bracket.rounds.find((entry) => entry.round === round)?.matches ?? [];
+}
+
+export function bracketFinal(bracket: Bracket): Match | null {
+  return roundMatches(bracket, "FINAL")[0] ?? null;
+}
+
+/** The first round still holding an unplayed match, or null when nothing is pending. */
+export function currentRound(bracket: Bracket): KnockoutRoundData | null {
+  return bracket.rounds.find((entry) => entry.matches.some((match) => !match.played)) ?? null;
+}
+
+export function isBracketComplete(bracket: Bracket): boolean {
+  return bracketFinal(bracket)?.played ?? false;
+}
+
+export function allKnockoutMatches(bracket: Bracket): Match[] {
+  return [
+    ...bracket.rounds.flatMap((entry) => entry.matches),
+    ...(bracket.thirdPlace ? [bracket.thirdPlace] : [])
+  ];
+}
+
+export function knockoutMatchesForTeam(bracket: Bracket, teamName: string): Match[] {
+  return allKnockoutMatches(bracket).filter(
+    (match) => match.homeTeam.name === teamName || match.awayTeam.name === teamName
+  );
+}
+
+/**
+ * Plays the current round's unplayed matches and grows the bracket: appends the
+ * next round, or — once the semi-finals are decided — spawns the final and the
+ * third-place playoff together. Returns the bracket unchanged when nothing is pending.
+ */
+export function advanceBracket(bracket: Bracket, simulate: SimulateKnockoutMatch, rng: Rng): Bracket {
+  const current = currentRound(bracket);
+  if (!current) return bracket;
+
+  const playMatch = (match: Match) => (match.played ? match : simulate(match, rng));
+
+  if (current.round === "FINAL") {
+    // Decide the third-place playoff before the final to keep RNG draw order stable.
+    const thirdPlace = bracket.thirdPlace && !bracket.thirdPlace.played ? simulate(bracket.thirdPlace, rng) : bracket.thirdPlace;
+    return { rounds: withRound(bracket.rounds, "FINAL", current.matches.map(playMatch)), thirdPlace };
+  }
+
+  const playedMatches = current.matches.map(playMatch);
+  const rounds = withRound(bracket.rounds, current.round, playedMatches);
+
+  if (current.round === "SEMIFINAL") {
+    const [thirdPlace, final] = generateThirdAndFinal(playedMatches);
+    return {
+      rounds: final ? [...rounds, { round: "FINAL", matches: [final] }] : rounds,
+      thirdPlace
+    };
+  }
+
+  const nextRound = KNOCKOUT_PROGRESSION[KNOCKOUT_PROGRESSION.indexOf(current.round) + 1];
+  const nextMatches = generateNextRound(playedMatches, ROUND_FIRST_MATCH_NUMBER[nextRound], nextRound);
+  return { rounds: [...rounds, { round: nextRound, matches: nextMatches }], thirdPlace: bracket.thirdPlace };
+}
+
+function withRound(rounds: KnockoutRoundData[], round: KnockoutRound, matches: Match[]): KnockoutRoundData[] {
+  return rounds.map((entry) => (entry.round === round ? { ...entry, matches } : entry));
 }

@@ -9,17 +9,11 @@ import {
   simulatePenalties
 } from "@/lib/tournament/simulation";
 import { createEmptyTournamentState, initializeTournament } from "@/lib/tournament/state";
+import { allKnockoutMatches as bracketKnockoutMatches } from "@/lib/tournament/bracket";
 import type { Match, Team, TournamentState } from "@/lib/types/tournament";
 
 function allKnockoutMatches(state: TournamentState): Match[] {
-  return [
-    ...state.r32Matches,
-    ...state.r16Matches,
-    ...state.quarterFinals,
-    ...state.semiFinals,
-    ...(state.thirdPlaceMatch ? [state.thirdPlaceMatch] : []),
-    ...(state.finalMatch ? [state.finalMatch] : [])
-  ];
+  return bracketKnockoutMatches(state.bracket);
 }
 
 function simulateToFinished(state: TournamentState, rng: Rng): TournamentState {

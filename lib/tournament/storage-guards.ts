@@ -1,6 +1,6 @@
 import { isArrayOf, isFiniteNumber, isKnockoutRound, isNullable, isRecord, isScorer, isString, isTournamentPhase } from "@/lib/tournament/guards";
 import { STORAGE_VERSION } from "@/lib/tournament/storage-schema";
-import type { CompactGroup, CompactMatch, CompactTournamentState, StoredCompactTournamentState, StoredTournamentState } from "@/lib/tournament/storage-schema";
+import type { CompactGroup, CompactKnockoutRound, CompactMatch, CompactTournamentState, StoredCompactTournamentState, StoredTournamentState } from "@/lib/tournament/storage-schema";
 
 export function isStoredTournamentState(value: unknown): value is StoredTournamentState {
   return isStoredCompactTournamentState(value);
@@ -19,12 +19,8 @@ function isCompactTournamentState(value: unknown): value is CompactTournamentSta
   return (
     isArrayOf(value.groups, isCompactGroup) &&
     isArrayOf(value.topScorers, isScorer) &&
-    isArrayOf(value.r32Matches, isCompactMatch) &&
-    isArrayOf(value.r16Matches, isCompactMatch) &&
-    isArrayOf(value.quarterFinals, isCompactMatch) &&
-    isArrayOf(value.semiFinals, isCompactMatch) &&
-    isNullable(value.thirdPlaceMatch, isCompactMatch) &&
-    isNullable(value.finalMatch, isCompactMatch) &&
+    isArrayOf(value.rounds, isCompactKnockoutRound) &&
+    isNullable(value.thirdPlace, isCompactMatch) &&
     isTournamentPhase(value.phase) &&
     isFiniteNumber(value.currentGroupMatchDay) &&
     typeof value.active === "boolean" &&
@@ -36,6 +32,10 @@ function isCompactTournamentState(value: unknown): value is CompactTournamentSta
 
 function isCompactGroup(value: unknown): value is CompactGroup {
   return isRecord(value) && isString(value.letter) && isArrayOf(value.matches, isCompactMatch);
+}
+
+function isCompactKnockoutRound(value: unknown): value is CompactKnockoutRound {
+  return isRecord(value) && isKnockoutRound(value.round) && isArrayOf(value.matches, isCompactMatch);
 }
 
 function isCompactMatch(value: unknown): value is CompactMatch {
